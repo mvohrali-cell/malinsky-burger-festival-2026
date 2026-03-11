@@ -3,18 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Malínský Burgerfestival 2026</title>
-    <!-- React & Babel pro běh bez buildu -->
+    <title>Malínský Burger festival 2026</title>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .text-shadow-glow { text-shadow: 0 0 30px rgba(255, 102, 0, 0.7); }
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
         .animate-bounce { animation: bounce 2s infinite ease-in-out; }
         html { scroll-behavior: smooth; }
+        .qr-placeholder { background: repeating-conic-gradient(#333 0% 25%, #222 0% 50%) 50% / 20px 20px; }
+        .mobile-menu-overlay { z-index: 9999 !important; background-color: #0a0a0a !important; }
+        .logo-placeholder { border: 1px dashed #444; }
     </style>
 </head>
 <body>
@@ -23,7 +24,6 @@
     <script type="text/babel">
         const { useState, useEffect } = React;
 
-        // Vlastní komponenty pro ikony (SVG) pro eliminaci chyb s externími knihovnami
         const Icon = ({ name, size = 24, className = "" }) => {
             const icons = {
                 Utensils: <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2M7 2v20M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7" />,
@@ -33,33 +33,25 @@
                 Heart: <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />,
                 Clock: <><circle cx="12" cy="12" r="10" /><path d="M12 6v6l4 2" /></>,
                 MapPin: <><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" /><circle cx="12" cy="10" r="3" /></>,
-                ChevronRight: <path d="m9 18 6-6-6-6" />,
                 Menu: <><line x1="4" x2="20" y1="12" y2="12" /><line x1="4" x2="20" y1="6" y2="6" /><line x1="4" x2="20" y1="18" y2="18" /></>,
                 X: <><line x1="18" x2="6" y1="6" y2="18" /><line x1="6" x2="18" y1="6" y2="18" /></>,
                 Beer: <path d="M17 11h1a3 3 0 0 1 0 6h-1M5 21h12M5 3h12M5 3v18M17 3v18" />,
                 Dumbbell: <path d="M6.5 6.5h11M6.5 17.5h11M18 21v-2a3 3 0 0 0-3-3H9a3 3 0 0 0-3 3v2M18 3v2a3 3 0 0 1-3 3H9a3 3 0 0 1-3-3V3" />,
-                Map: <><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21" /><line x1="9" x2="9" y1="3" y2="18" /><line x1="15" x2="15" y1="6" y2="21" /></>
+                Facebook: <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />,
+                Instagram: <><rect x="2" y="2" width="20" height="20" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" /></>,
+                QrCode: <><rect x="3" y="3" width="18" height="18" rx="2" /><path d="M7 7h2v2H7zm8 0h2v2h-2zm0 8h2v2h-2zm-8 0h2v2H7z" /></>,
+                ChevronRight: <path d="m9 18 6-6-6-6" />,
             };
 
             return (
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width={size}
-                    height={size}
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className={className}
-                >
+                <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
                     {icons[name] || null}
                 </svg>
             );
         };
 
         const App = () => {
+            const [activeTab, setActiveTab] = useState('home');
             const [isMenuOpen, setIsMenuOpen] = useState(false);
             const [scrolled, setScrolled] = useState(false);
 
@@ -69,15 +61,18 @@
                 return () => window.removeEventListener('scroll', handleScroll);
             }, []);
 
-            const program = [
-                { time: "10:00", title: "Otevření areálu", desc: "Start gastro zóny a street food specialit" },
-                { time: "11:00", title: "Armwrestling Challenger", desc: "Zahájení soubojů v sokolovně" },
-                { time: "13:00", title: "Rodinná zóna", desc: "Start Cinema zóny a tvořivých dílen" },
-                { time: "15:00", title: "Live Music", desc: "DJ Michal Rossignol & Saxo" },
-                { time: "16:00", title: "Soutěž v pití tupláků", desc: "Souboj na čas o věcné ceny" },
-                { time: "17:00", title: "Finále OPEN", desc: "Velkolepé finále na venkovním pódiu" },
-                { time: "18:30", title: "Burgerchampion 2026", desc: "Vyhlášení nejlepšího burgeru" },
-                { time: "20:00", title: "Afterparty", desc: "DJ Peet V, Semyrka & Landchi" },
+            const partners = [
+                { name: "Obec Nový Malín", role: "Hlavní partner" }, 
+                { name: "SK Buildings", role: "Partner (Domy)" },
+                { name: "Sefran", role: "Partner" },
+                { name: "Oramont", role: "Partner" },
+                { name: "Via Delicia", role: "Partner" }, 
+                { name: "KIA", role: "Generální partner" }, 
+                { name: "ČAWA", role: "Sportovní záštita" }, 
+                { name: "Děti dětem", role: "Iniciativa" },
+                { name: "Ochrana dřevo", role: "Partner" },
+                { name: "Lité podlahy Hoško", role: "Partner" },
+                { name: "Obchůdek s kvítím", role: "Partner" }
             ];
 
             const vendors = [
@@ -87,179 +82,318 @@
                 { name: "Balikejk", type: "Street Food", desc: "Unikátní dobroty." },
                 { name: "Malínské smažené kuře", type: "Street Food", desc: "Křupavé kousky podle lokální receptury." },
                 { name: "Jílek Caffé", type: "Nápojář / Káva", desc: "Výběrová káva a ledové osvěžení." },
-                { name: "Dos Amigos", type: "Mexická kuchyně", desc: "Pálivé tacos a quesadillas." },
+                { name: "Dos Amigos", type: "Mexická kuchyně", desc: "Tacos a quesadillas." },
                 { name: "Křup", type: "Street Food", desc: "Legendární bramborové spirálky." },
                 { name: "Pivovar Kobza", type: "Nápojář / Pivo", desc: "Řemeslné pivo z rodinného pivovaru." },
                 { name: "Pivovar Holba", type: "Nápojář / Pivo", desc: "Ryze horské pivo z Jeseníků." },
                 { name: "Chill zóna s barem", type: "Nápojář / Drinky", desc: "Míchané drinky a pohoda." },
             ];
 
-            const partners = [
-                { name: "Obec Nový Malín", role: "Hlavní partner" }, 
-                { name: "KIA", role: "Generální partner" }, 
-                { name: "ČAWA", role: "Sportovní záštita" }, 
-                { name: "Děti dětem", role: "Iniciativa" },
-                { name: "Ochrana dřevo", role: "Partner" }, 
-                { name: "Lité podlahy Hoško", role: "Partner" }, 
-                { name: "SK Buildings", role: "Partner" },
-                { name: "Via Delicia", role: "Partner" }, 
-                { name: "Sefran", role: "Partner" }, 
-                { name: "Obchůdek s kvítím", role: "Partner" }
-            ];
+            const pakaDetail = {
+                title: "Armwrestling Challenger 2026",
+                organizer: "ČAWA (Česká asociace armwrestlingu)",
+                entryFee: "300 Kč (registrace předem) / 400 Kč na místě",
+                categories: [
+                    "Junioři (do 18 let) - bez rozdílu vah",
+                    "Ženy - bez rozdílu vah",
+                    "Muži do 80kg, do 90kg, do 100kg, nad 100kg",
+                    "Kategorie OPEN - Absolutní vítěz festivalu"
+                ],
+                prizes: "Originální medaile, věcné ceny, Prize Money pro OPEN."
+            };
 
             const parking = [
                 "Podél cesty u sokolovny",
-                "Parkoviště u OÚ",
+                "U zdravotního střediska",
+                "U obecního úřadu (OÚ)",
                 "Parkoviště U Rychty",
-                "Parkoviště u hřbitova",
-                "Parkoviště u školy NM"
+                "U hřbitova",
+                "U základní školy NM"
             ];
 
-            return (
-                <div className="min-h-screen bg-neutral-900 text-white font-sans selection:bg-orange-500">
-                    {/* Navigace */}
-                    <nav className={`fixed w-full z-50 transition-all ${scrolled ? 'bg-black/95 py-3 shadow-2xl' : 'bg-transparent py-6'}`}>
-                        <div className="container mx-auto px-6 flex justify-between items-center">
-                            <div className="text-xl md:text-2xl font-black italic tracking-tighter">
-                                MALÍNSKÝ <span className="text-orange-500 underline decoration-2 underline-offset-4 tracking-tighter">BURGERFEST</span>
+            const Navigation = () => (
+                <nav className={`fixed w-full z-50 transition-all ${scrolled ? 'bg-black py-3 shadow-2xl border-b border-orange-500/30' : 'bg-transparent py-6'}`}>
+                    <div className="container mx-auto px-4 md:px-6 flex justify-between items-center">
+                        <div className="flex items-center gap-4">
+                            {/* Prostor pro Logo */}
+                            <div 
+                                className="w-10 h-10 md:w-12 md:h-12 bg-neutral-800 rounded-lg flex items-center justify-center logo-placeholder cursor-pointer overflow-hidden shadow-inner"
+                                onClick={() => { setActiveTab('home'); window.scrollTo(0,0); }}
+                            >
+                                <span className="text-[8px] text-neutral-500 font-bold uppercase text-center leading-none">Vložit<br/>Logo</span>
+                                {/* Pro skutečné logo použijte: <img src="URL_LOGA" className="w-full h-full object-contain" /> */}
                             </div>
-                            <div className="hidden lg:flex space-x-6 font-bold uppercase text-[10px] tracking-widest text-neutral-300">
-                                <a href="#stankari" className="hover:text-orange-500 transition border-b-2 border-transparent hover:border-orange-500">Stánkaři</a>
-                                <a href="#sport" className="hover:text-orange-500 transition text-orange-400">Armwrestling</a>
-                                <a href="#program" className="hover:text-orange-500 transition">Program</a>
-                                <a href="#parkovani" className="hover:text-orange-500 transition">Parkování</a>
+                            <div 
+                                className="text-lg md:text-2xl font-black italic tracking-tighter cursor-pointer select-none"
+                                onClick={() => { setActiveTab('home'); window.scrollTo(0,0); }}
+                            >
+                                MALÍNSKÝ BURGER <span className="text-orange-500 underline decoration-2 underline-offset-4 tracking-tighter uppercase">Festival 2026</span>
                             </div>
-                            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="lg:hidden text-orange-500">
-                                {isMenuOpen ? <Icon name="X" size={28} /> : <Icon name="Menu" size={28} />}
-                            </button>
                         </div>
-                    </nav>
+                        <div className="hidden lg:flex space-x-6 items-center font-bold uppercase text-[11px] tracking-widest text-neutral-300">
+                            <button onClick={() => setActiveTab('home')} className={`hover:text-orange-500 transition ${activeTab === 'home' ? 'text-orange-500 border-b-2 border-orange-500' : ''}`}>Domů</button>
+                            <button onClick={() => setActiveTab('paka')} className={`hover:text-orange-500 transition ${activeTab === 'paka' ? 'text-orange-500 border-b-2 border-orange-500' : ''}`}>Páka (Detail)</button>
+                            <a href="#stankari" className="hover:text-orange-500 transition">Stánkaři</a>
+                            <a href="#partneri" className="hover:text-orange-500 transition">Sponzoři</a>
+                            <div className="flex gap-3 border-l border-neutral-700 pl-6 ml-2">
+                                <a href="#" className="hover:text-orange-500 transition"><Icon name="Facebook" size={18} /></a>
+                                <a href="#" className="hover:text-orange-500 transition"><Icon name="Instagram" size={18} /></a>
+                            </div>
+                        </div>
+                        <button onClick={() => setIsMenuOpen(true)} className="lg:hidden text-orange-500 p-2">
+                            <Icon name="Menu" size={32} />
+                        </button>
+                    </div>
+                </nav>
+            );
 
-                    {/* Hero Sekce */}
+            const HomeView = () => (
+                <>
                     <header className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
                         <div className="absolute inset-0 bg-black/70 z-10"></div>
-                        <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&q=80&w=1920" className="absolute inset-0 w-full h-full object-cover" alt="Burgerfest pozadí" />
-                        <div className="relative z-20 text-center px-6 max-w-4xl pt-12">
-                            <div className="inline-block px-5 py-2 mb-8 border-2 border-orange-500 rounded-full text-orange-500 font-black uppercase tracking-widest text-xs animate-pulse bg-black/20 backdrop-blur-sm shadow-[0_0_15px_rgba(255,102,0,0.4)]">
-                                5. Ročník v Novém Malíně
+                        <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&q=80&w=1920" className="absolute inset-0 w-full h-full object-cover" alt="Festival background" />
+                        <div className="relative z-20 text-center px-4 max-w-4xl">
+                            <div className="inline-block px-4 py-1.5 mb-6 border-2 border-orange-500 rounded-full text-orange-500 font-black uppercase tracking-widest text-[10px] md:text-xs animate-pulse bg-black/40 backdrop-blur-sm shadow-[0_0_15px_rgba(255,102,0,0.3)]">
+                                Oslavte s námi naše 5. výročí!
                             </div>
-                            <h1 className="text-5xl md:text-8xl font-black uppercase mb-6 leading-[0.9] tracking-tighter">
-                                BURGER<br /><span className="text-orange-500 text-shadow-glow italic">& PÁKA</span>
+                            <h1 className="text-4xl md:text-8xl font-black uppercase mb-6 leading-tight tracking-tighter">
+                                BURGER FESTIVAL<br /><span className="text-orange-500 text-shadow-glow italic">MALÍN 2026</span>
                             </h1>
                             <div className="flex flex-col md:flex-row gap-4 justify-center items-center font-bold">
-                                <div className="flex items-center gap-3 bg-white text-black px-8 py-4 rounded-xl shadow-2xl hover:scale-105 transition-transform">
-                                    <Icon name="MapPin" className="text-orange-600" size={20} />
-                                    <span className="uppercase tracking-tight text-sm">Sokolovna Nový Malín</span>
+                                <div className="w-full md:w-auto flex items-center justify-center gap-3 bg-white text-black px-6 py-3.5 rounded-xl shadow-2xl transition hover:bg-neutral-100">
+                                    <Icon name="MapPin" className="text-orange-600" size={18} />
+                                    <span className="uppercase text-xs md:text-sm">Sokolovna Nový Malín</span>
                                 </div>
-                                <div className="flex items-center gap-3 bg-orange-600 px-8 py-4 rounded-xl shadow-2xl border border-orange-400 hover:scale-105 transition-transform">
-                                    <Icon name="Clock" size={20} />
-                                    <span className="uppercase tracking-tight text-sm">27. Června 2026</span>
+                                <div className="w-full md:w-auto flex items-center justify-center gap-3 bg-orange-600 px-6 py-3.5 rounded-xl shadow-2xl border border-orange-400">
+                                    <Icon name="Clock" size={18} />
+                                    <span className="uppercase text-xs md:text-sm tracking-wide">27. Června 2026</span>
                                 </div>
                             </div>
-                            <div className="mt-12 text-orange-500 font-black text-xl uppercase opacity-90 tracking-[0.3em]">Vstup pro všechny Zdarma</div>
+                            {/* PŘÍMÝ PROKLIK NA PÁKU */}
+                            <button 
+                                onClick={() => { setActiveTab('paka'); window.scrollTo(0,0); }} 
+                                className="mt-8 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white border border-white/20 transition-all font-black uppercase tracking-widest flex items-center gap-3 mx-auto px-8 py-4 rounded-2xl text-sm group shadow-xl"
+                            >
+                                TURNAJ V PÁCE - INFO & REGISTRACE <Icon name="ChevronRight" size={18} className="group-hover:translate-x-1 transition text-orange-500" />
+                            </button>
                         </div>
                     </header>
 
-                    {/* Armwrestling Sekce */}
-                    <section id="sport" className="py-24 bg-neutral-900 border-b border-orange-500/20">
-                        <div className="container mx-auto px-6">
-                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                                <div className="border-l-8 border-orange-600 pl-8">
-                                    <div className="inline-flex items-center gap-2 text-orange-500 font-black uppercase tracking-widest text-[10px] mb-4">
-                                        <Icon name="Trophy" size={16} />
-                                        <span>Hlavní tahák festivalu</span>
-                                    </div>
-                                    <h2 className="text-4xl md:text-6xl font-black uppercase mb-6 italic leading-none text-white">
-                                        Armwrestling <br /><span className="text-orange-500 text-shadow-glow">Challenger 2026</span>
-                                    </h2>
-                                    <p className="text-neutral-400 text-lg mb-8 italic leading-relaxed">Oficiální turnaj v páce pod hlavičkou ČAWA. Profesionální zápasy v sokolovně a velké OPEN finále přímo na venkovním pódiu!</p>
-                                    <div className="bg-orange-600 p-5 rounded-xl inline-block shadow-xl border border-orange-400">
-                                        <p className="text-sm font-black text-white uppercase tracking-widest">Finále OPEN na pódiu v 17:00</p>
-                                    </div>
+                    <section className="py-20 bg-neutral-900 border-b border-orange-500/10">
+                        <div className="container mx-auto px-4 text-center">
+                            <h2 className="text-3xl md:text-5xl font-black uppercase mb-12 tracking-tighter italic">5 let skvělých <span className="text-orange-500">zážitků</span></h2>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                <div className="p-8 bg-neutral-800 rounded-2xl border border-neutral-700 shadow-lg">
+                                    <div className="text-orange-500 mb-4 flex justify-center"><Icon name="Utensils" size={40} /></div>
+                                    <h3 className="text-xl font-bold uppercase mb-2 text-white text-shadow-glow">Gastro scéna</h3>
+                                    <p className="text-neutral-400 text-sm italic font-light">Ti nejlepší burgeroví mistři a souboj o Burgerchampiona 2026.</p>
                                 </div>
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div className="aspect-square bg-neutral-800 rounded-3xl flex flex-col items-center justify-center p-6 border border-neutral-700 hover:border-orange-500 transition-all text-center">
-                                        <Icon name="Trophy" className="text-orange-500 mb-4" size={32} />
-                                        <h5 className="font-black uppercase text-[10px] tracking-widest leading-tight">Challenger ČAWA</h5>
-                                    </div>
-                                    <div className="aspect-square bg-neutral-800 rounded-3xl flex flex-col items-center justify-center p-6 border border-neutral-700 hover:border-orange-500 transition-all text-center">
-                                        <Icon name="Dumbbell" className="text-orange-500 mb-4" size={32} />
-                                        <h5 className="font-black uppercase text-[10px] tracking-widest leading-tight">Profi souboje</h5>
-                                    </div>
+                                
+                                {/* INTERAKTIVNÍ KARTA PÁKA */}
+                                <div 
+                                    className="p-8 bg-neutral-800 rounded-2xl border-2 border-orange-500 lg:scale-105 shadow-2xl cursor-pointer hover:bg-neutral-700 transition-all group"
+                                    onClick={() => { setActiveTab('paka'); window.scrollTo(0,0); }}
+                                >
+                                    <div className="text-orange-500 mb-4 flex justify-center animate-bounce"><Icon name="Trophy" size={40} /></div>
+                                    <h3 className="text-xl font-bold uppercase mb-2 text-orange-500 text-shadow-glow">Páka pod ČAWA</h3>
+                                    <p className="text-neutral-100 text-sm italic mb-4">Světový sport v Malíně. Kategorie pro všechny věky i váhy.</p>
+                                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-orange-400 underline decoration-orange-500/50 group-hover:text-white transition">Zobrazit detail turnaje →</span>
+                                </div>
+
+                                <div className="p-8 bg-neutral-800 rounded-2xl border border-neutral-700 shadow-lg">
+                                    <div className="text-orange-500 mb-4 flex justify-center"><Icon name="Heart" size={40} /></div>
+                                    <h3 className="text-xl font-bold uppercase mb-2 text-white text-shadow-glow">Děti dětem</h3>
+                                    <p className="text-neutral-400 text-sm italic font-light">Iniciativa, která za 5 let darovala již 80 000 Kč.</p>
                                 </div>
                             </div>
                         </div>
                     </section>
+                </>
+            );
 
-                    {/* Stánkaři */}
-                    <section id="stankari" className="py-24 bg-neutral-950">
-                        <div className="container mx-auto px-6">
-                            <div className="text-center mb-16">
-                                <h2 className="text-4xl font-black uppercase tracking-tighter italic text-white">Gastro <span className="text-orange-500">Mistři</span></h2>
-                                <p className="text-neutral-500 text-sm mt-2 italic">Ti nejlepší, kteří v Malíně uspokojí vaše chutě.</p>
-                            </div>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                                {vendors.map((v, i) => (
-                                    <div key={i} className="bg-neutral-900 p-6 rounded-2xl border border-neutral-800 hover:border-orange-500/30 transition shadow-lg group text-white">
-                                        <div className="text-orange-500 font-bold text-[9px] uppercase tracking-widest mb-1 group-hover:text-orange-400">Festivalový stánek</div>
-                                        <h4 className="text-lg font-black text-white tracking-tight">{v.name}</h4>
-                                        <p className="text-neutral-500 text-xs italic mt-1 leading-relaxed font-light">{v.desc}</p>
+            const PakaView = () => (
+                <div className="pt-24 min-h-screen bg-neutral-950">
+                    <div className="container mx-auto px-4 md:px-6 py-12 max-w-5xl">
+                        <button onClick={() => { setActiveTab('home'); window.scrollTo(0,0); }} className="mb-6 flex items-center gap-2 text-neutral-500 hover:text-orange-500 transition font-bold uppercase text-[10px]">
+                            <Icon name="ChevronRight" size={14} className="rotate-180" /> Zpět na úvod
+                        </button>
+                        
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                            <div className="lg:col-span-1">
+                                <div className="bg-neutral-900 border-2 border-orange-500 p-8 rounded-3xl text-center lg:sticky lg:top-28 shadow-2xl">
+                                    <h3 className="text-xl font-black uppercase mb-6 leading-tight text-white">Registrace do <br/><span className="text-orange-500 italic text-shadow-glow">turnaje v páce</span></h3>
+                                    <div className="qr-placeholder aspect-square w-48 mx-auto mb-6 rounded-2xl border-4 border-white flex items-center justify-center p-4">
+                                        <div className="bg-white p-2 rounded-lg">
+                                            <Icon name="QrCode" size={100} className="text-black" />
+                                        </div>
                                     </div>
-                                ))}
+                                    <p className="text-[10px] text-neutral-400 mb-6 italic leading-relaxed">Naskenuj QR kód mobilem a přihlas se online. Šetříš čas i peníze!</p>
+                                    <button className="w-full bg-orange-600 hover:bg-orange-500 text-white font-black py-4 rounded-xl shadow-xl transition-all uppercase tracking-widest text-xs flex items-center justify-center gap-2">
+                                        PŘIHLÁSIT SE ONLINE <Icon name="ChevronRight" size={16} />
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div className="lg:col-span-2 space-y-12 text-white">
+                                <div>
+                                    <div className="inline-block px-3 py-1 bg-orange-600/20 text-orange-500 rounded-lg text-[10px] font-black uppercase tracking-widest mb-4">Oficiální turnaj</div>
+                                    <h2 className="text-4xl md:text-6xl font-black uppercase italic leading-none mb-6 text-shadow-glow underline decoration-orange-500">Armwrestling <span className="text-orange-500">Challenger</span></h2>
+                                    <p className="text-neutral-400 text-lg leading-relaxed font-light italic mb-8">
+                                        Turnaj pod hlavičkou <strong>{pakaDetail.organizer}</strong>. Profesionálně zastřešený turnaj určený pro registrované závodníky i širokou veřejnost.
+                                    </p>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        <div className="p-6 bg-neutral-900 border border-neutral-800 rounded-2xl shadow-xl">
+                                            <h4 className="text-orange-500 font-black uppercase text-xs mb-2 italic">Startovné</h4>
+                                            <p className="text-white font-bold">{pakaDetail.entryFee}</p>
+                                        </div>
+                                        <div className="p-6 bg-neutral-900 border border-neutral-800 rounded-2xl shadow-xl">
+                                            <h4 className="text-orange-500 font-black uppercase text-xs mb-2 italic">Ceny pro vítěze</h4>
+                                            <p className="text-white text-[11px] leading-relaxed italic">{pakaDetail.prizes}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h3 className="text-2xl font-black uppercase mb-6 flex items-center gap-3 italic">
+                                        <div className="w-8 h-1 bg-orange-500"></div> Váhové kategorie
+                                    </h3>
+                                    <ul className="space-y-2">
+                                        {pakaDetail.categories.map((cat, i) => (
+                                            <li key={i} className="flex items-center gap-4 p-4 bg-neutral-900/50 rounded-xl border border-neutral-800 hover:bg-neutral-800 transition shadow-sm">
+                                                <div className="w-6 h-6 rounded-full bg-orange-500 flex items-center justify-center text-[10px] font-black text-white shrink-0 shadow-lg italic">{i+1}</div>
+                                                <span className="text-sm font-semibold tracking-wide text-neutral-200 uppercase">{cat}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+
+                                <div className="pb-10">
+                                    <h3 className="text-2xl font-black uppercase mb-6 flex items-center gap-3 italic">
+                                        <div className="w-8 h-1 bg-orange-500"></div> Harmonogram turnaje
+                                    </h3>
+                                    <div className="space-y-1">
+                                        <div className="flex gap-6 p-4 border-b border-neutral-800 bg-neutral-900/30">
+                                            <span className="text-orange-500 font-black min-w-[60px]">10:00</span>
+                                            <span className="text-sm font-bold uppercase tracking-tight">Prezentace a vážení</span>
+                                        </div>
+                                        <div className="flex gap-6 p-4 border-b border-neutral-800 bg-neutral-900/30">
+                                            <span className="text-orange-500 font-black min-w-[60px]">11:00</span>
+                                            <span className="text-sm font-bold uppercase tracking-tight italic">Zahájení eliminací v sokolovně</span>
+                                        </div>
+                                        <div className="flex gap-6 p-4 bg-orange-500/10 rounded-b-xl border border-orange-500/20">
+                                            <span className="text-orange-500 font-black min-w-[60px]">17:00</span>
+                                            <span className="text-sm font-black uppercase text-orange-400 tracking-wider animate-pulse">Velké OPEN finále na pódiu</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </section>
+                    </div>
+                </div>
+            );
 
-                    {/* Parkování */}
-                    <section id="parkovani" className="py-24 bg-neutral-900">
-                        <div className="container mx-auto px-6 text-white">
-                            <h2 className="text-4xl font-black uppercase mb-12 text-center tracking-tighter text-white">Kde <span className="text-orange-500">Zaparkovat?</span></h2>
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
+            return (
+                <div className="min-h-screen bg-neutral-950 text-white selection:bg-orange-500 overflow-x-hidden">
+                    <Navigation />
+                    
+                    <main className="relative">
+                        {activeTab === 'home' ? <HomeView /> : <PakaView />}
+                    </main>
+
+                    {activeTab === 'home' && (
+                        <section id="stankari" className="py-24 bg-neutral-900 border-y border-neutral-800">
+                            <div className="container mx-auto px-4">
+                                <div className="text-center mb-16">
+                                    <h2 className="text-3xl md:text-5xl font-black uppercase italic text-white leading-tight">Naši <span className="text-orange-500 text-shadow-glow">Mistři Grilu</span></h2>
+                                    <p className="text-neutral-500 text-sm mt-2 italic font-light">Ti nejlepší burgeroví specialisté na jednom místě.</p>
+                                </div>
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                    {vendors.map((v, i) => (
+                                        <div key={i} className="bg-neutral-950 p-5 rounded-2xl border border-neutral-800 hover:border-orange-500/30 transition shadow-lg group">
+                                            <div className="text-orange-500 font-bold text-[8px] uppercase tracking-[0.2em] mb-1 group-hover:text-orange-400">Festivalový Stánek</div>
+                                            <h4 className="text-sm md:text-base font-black text-white leading-tight mb-2 uppercase tracking-tight">{v.name}</h4>
+                                            <p className="text-neutral-500 text-[10px] italic leading-relaxed font-light line-clamp-3">{v.desc}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </section>
+                    )}
+
+                    <section id="parkovani" className="py-24 bg-neutral-950">
+                        <div className="container mx-auto px-4">
+                            <h2 className="text-3xl font-black uppercase mb-12 text-center tracking-tighter italic">Kde <span className="text-orange-500">Zaparkovat?</span></h2>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 max-w-5xl mx-auto">
                                 {parking.map((p, i) => (
-                                    <div key={i} className="bg-neutral-950 p-5 rounded-xl border border-neutral-800 flex items-center gap-4 hover:border-orange-500/20 transition text-white">
-                                        <div className="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center text-[10px] font-black shadow-lg text-white">P</div>
-                                        <span className="font-bold text-sm tracking-wide text-neutral-300 uppercase">{p}</span>
+                                    <div key={i} className="bg-neutral-900 p-4 rounded-xl border border-neutral-800 flex items-center gap-4 hover:border-orange-500/20 transition-all group shadow-sm">
+                                        <div className="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center text-[10px] font-black shadow-lg text-white shrink-0 group-hover:scale-110 transition-transform italic">P</div>
+                                        <span className="font-bold text-[10px] md:text-xs tracking-wider text-neutral-300 uppercase leading-none">{p}</span>
                                     </div>
                                 ))}
                             </div>
                         </div>
                     </section>
 
-                    {/* Iniciativa */}
-                    <section className="py-20 bg-orange-600 text-center text-white relative overflow-hidden">
-                        <div className="absolute right-0 bottom-0 opacity-10 transform translate-x-1/4 translate-y-1/4 scale-150"><Icon name="Heart" size={200} /></div>
-                        <div className="container mx-auto px-6 relative z-10 text-white">
-                            <h3 className="text-4xl font-black uppercase tracking-tighter mb-4 leading-none text-white">Iniciativa Děti dětem</h3>
-                            <p className="text-xl font-bold opacity-90 mb-8 italic text-white">Společně jsme za 5 ročníků darovali již 80 000 Kč.</p>
-                            <div className="inline-block bg-black/20 px-10 py-5 rounded-xl border-2 border-white/20 backdrop-blur-sm shadow-2xl text-white">
-                                <div className="flex flex-col items-center text-white">
-                                    <Icon name="Ticket" className="mb-2" />
-                                    <span className="text-2xl font-black uppercase tracking-[0.2em] italic text-white">Tombola o 250 výher</span>
-                                </div>
+                    <section id="partneri" className="py-24 bg-neutral-900 border-t border-neutral-800">
+                        <div className="container mx-auto px-4 text-center">
+                            <h2 className="text-2xl font-black uppercase mb-12 text-white italic tracking-widest">Naši <span className="text-orange-500">Sponzoři</span></h2>
+                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+                                {partners.map((p, i) => (
+                                    <div key={i} className="bg-neutral-950 p-4 border border-neutral-800 rounded-xl flex flex-col items-center justify-center text-center shadow-md hover:border-orange-500/10 transition-all opacity-80 hover:opacity-100">
+                                        <span className="text-[10px] font-black uppercase tracking-tighter leading-tight text-stone-200">{p.name}</span>
+                                        <span className="text-[8px] uppercase tracking-widest text-neutral-600 mt-1.5 font-bold italic">{p.role}</span>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </section>
 
-                    <footer className="bg-black py-16 text-center border-t border-neutral-800 text-white">
-                        <div className="text-xl font-black italic tracking-tighter mb-4 uppercase text-stone-200">
-                            Obec <span className="text-orange-500">Nový Malín</span> 2026
+                    {activeTab === 'home' && (
+                        <section className="py-20 bg-orange-600 text-center text-white relative overflow-hidden">
+                            <div className="absolute right-0 bottom-0 opacity-10 transform translate-x-1/4 translate-y-1/4 scale-150"><Icon name="Heart" size={200} /></div>
+                            <div className="container mx-auto px-6 relative z-10 text-white">
+                                <h3 className="text-4xl font-black uppercase tracking-tighter mb-4 leading-none text-white italic text-shadow-glow">Iniciativa Děti dětem</h3>
+                                <p className="text-xl font-bold opacity-90 mb-8 italic">Slavíme 5 let a opět pomáháme dobrou věcí!</p>
+                                <div className="inline-block bg-black/20 px-10 py-6 rounded-xl border-2 border-white/20 backdrop-blur-sm shadow-2xl">
+                                    <div className="flex flex-col items-center">
+                                        <Icon name="Ticket" className="mb-2" size={32} />
+                                        <span className="text-xl md:text-2xl font-black uppercase tracking-[0.15em] italic text-white leading-none text-center">Obří tombola</span>
+                                        <span className="text-xs uppercase tracking-widest font-black mt-2 bg-white text-orange-600 px-3 py-1 rounded">250 okamžitých výher</span>
+                                    </div>
+                                </div>
+                                <p className="mt-8 text-[11px] font-black opacity-80 uppercase tracking-[0.3em]">Celkem darováno: 80 000 Kč</p>
+                            </div>
+                        </section>
+                    )}
+
+                    <footer className="bg-black py-16 text-center border-t border-neutral-800">
+                        <div className="text-xl font-black italic tracking-tighter mb-6 uppercase text-stone-200">
+                            Obec <span className="text-orange-500 underline decoration-1 underline-offset-8">Nový Malín</span> 2026
                         </div>
-                        <div className="opacity-40 text-[9px] font-black uppercase tracking-[0.5em] space-y-2 text-white">
-                            <p>© 2026 Malínský Burgerfestival. Moderuje Petr Kamlar.</p>
-                            <p className="text-neutral-600">Tam, kde byste to nečekali</p>
+                        <div className="flex justify-center gap-8 mb-10">
+                            <a href="#" className="text-neutral-400 hover:text-orange-500 transition-all hover:scale-110 shadow-sm"><Icon name="Facebook" size={28} /></a>
+                            <a href="#" className="text-neutral-400 hover:text-orange-500 transition-all hover:scale-110 shadow-sm"><Icon name="Instagram" size={28} /></a>
+                        </div>
+                        <div className="opacity-40 text-[9px] font-black uppercase tracking-[0.5em] space-y-2">
+                            <p>© 2026 Malínský Burger festival 2026. Moderuje Petr Kamlar.</p>
+                            <p className="text-neutral-600 font-bold italic">Vstup Zdarma</p>
                         </div>
                     </footer>
 
-                    {/* Mobilní Menu */}
                     {isMenuOpen && (
-                        <div className="fixed inset-0 z-[60] bg-black/98 p-10 flex flex-col items-center justify-center space-y-8 text-2xl font-black uppercase italic animate-in fade-in duration-300 text-white">
-                            <button onClick={() => setIsMenuOpen(false)} className="absolute top-6 right-6 text-orange-500"><Icon name="X" size={44} /></button>
-                            <a href="#stankari" onClick={() => setIsMenuOpen(false)} className="hover:text-orange-500 transition text-white">Stánkaři</a>
-                            <a href="#sport" onClick={() => setIsMenuOpen(false)} className="text-orange-500 underline decoration-2 underline-offset-8">Armwrestling</a>
-                            <a href="#program" onClick={() => setIsMenuOpen(false)} className="hover:text-orange-500 transition text-white">Program</a>
-                            <a href="#parkovani" onClick={() => setIsMenuOpen(false)} className="hover:text-orange-500 transition text-white">Parkování</a>
-                            <div className="pt-8 border-t border-neutral-800 w-full text-center">
-                                <div className="text-[10px] not-italic text-neutral-600 tracking-[0.3em] text-white">27.06.2026 | Sokolovna</div>
+                        <div className="mobile-menu-overlay fixed inset-0 p-10 flex flex-col items-center justify-center space-y-8 animate-in fade-in duration-300">
+                            <button onClick={() => setIsMenuOpen(false)} className="absolute top-6 right-6 text-orange-500 p-2">
+                                <Icon name="X" size={44} />
+                            </button>
+                            <div className="text-orange-500 font-black text-xs uppercase tracking-widest border-b border-orange-500/20 pb-2 mb-4 italic">5. Jubilejní Ročník</div>
+                            <button onClick={() => { setActiveTab('home'); setIsMenuOpen(false); window.scrollTo(0,0); }} className={`text-2xl font-black uppercase italic transition ${activeTab === 'home' ? 'text-orange-500 scale-110' : 'text-white'}`}>Domů</button>
+                            <button onClick={() => { setActiveTab('paka'); setIsMenuOpen(false); window.scrollTo(0,0); }} className={`text-2xl font-black uppercase italic transition ${activeTab === 'paka' ? 'text-orange-500 scale-110' : 'text-white'}`}>Páka (Turnaj)</button>
+                            <a href="#stankari" onClick={() => setIsMenuOpen(false)} className="text-2xl font-black uppercase italic text-white">Stánkaři</a>
+                            <a href="#parkovani" onClick={() => setIsMenuOpen(false)} className="text-2xl font-black uppercase italic text-white">Parkování</a>
+                            <a href="#partneri" onClick={() => setIsMenuOpen(false)} className="text-2xl font-black uppercase italic text-white">Sponzoři</a>
+                            <div className="flex gap-10 mt-10 pt-10 border-t border-neutral-800 w-full justify-center">
+                                <a href="#" className="text-white hover:text-orange-500"><Icon name="Facebook" size={40} /></a>
+                                <a href="#" className="text-white hover:text-orange-500"><Icon name="Instagram" size={40} /></a>
                             </div>
                         </div>
                     )}
