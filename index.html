@@ -59,6 +59,9 @@
             const [scrolled, setScrolled] = useState(false);
             const [formStatus, setFormStatus] = useState(null);
 
+            const fbLink = "https://www.facebook.com/malinskyburgerfest";
+            const igLink = "https://www.instagram.com/malinsky_burger_festival";
+
             useEffect(() => {
                 const handleScroll = () => setScrolled(window.scrollY > 50);
                 window.addEventListener('scroll', handleScroll);
@@ -126,6 +129,9 @@
                             <a href="#piti" className="hover:text-orange-500 transition">Nápoje</a>
                             <a href="#parkovani" className="hover:text-orange-500 transition">Parkování</a>
                             <a href="#kontakt" className="hover:text-orange-500 transition">Kontakt</a>
+                            <div className="flex items-center gap-3 border-l border-neutral-700 pl-6 h-6">
+                                <a href={fbLink} target="_blank" className="hover:text-orange-500 transition"><Icon name="Facebook" size={16} /></a>
+                            </div>
                             <button onClick={() => setActiveTab('paka')} className="px-4 py-2 border border-orange-500 rounded-lg hover:bg-orange-500 hover:text-white transition">Páka</button>
                         </div>
                         <button onClick={() => setIsMenuOpen(true)} className="lg:hidden text-orange-500 p-2">
@@ -247,11 +253,11 @@
                                         </div>
                                         <div className="flex items-center gap-6 group">
                                             <div className="w-12 h-12 bg-neutral-900 rounded-xl flex items-center justify-center text-orange-500 border border-neutral-800 group-hover:border-orange-500 transition-colors">
-                                                <Icon name="MapPin" size={20} />
+                                                <Icon name="Facebook" size={20} />
                                             </div>
                                             <div>
-                                                <p className="text-[10px] uppercase font-black text-neutral-600 tracking-widest">Kde nás najdete</p>
-                                                <p className="font-bold text-white italic underline decoration-orange-500/30">Sokolovna Nový Malín, 788 03</p>
+                                                <p className="text-[10px] uppercase font-black text-neutral-600 tracking-widest">Sociální sítě</p>
+                                                <a href={fbLink} target="_blank" className="font-bold text-white italic underline decoration-orange-500/30">fb.com/malinskyburgerfest</a>
                                             </div>
                                         </div>
                                     </div>
@@ -394,8 +400,8 @@
                             Nový <span className="text-orange-500 underline decoration-[4px] underline-offset-[10px]">Malín</span> 2026
                         </div>
                         <div className="flex justify-center gap-10 mb-16">
-                            <a href="#" className="w-12 h-12 bg-neutral-900 rounded-2xl flex items-center justify-center hover:bg-orange-600 hover:text-white transition-all transform hover:rotate-12 shadow-xl border border-neutral-800 hover:border-orange-400"><Icon name="Facebook" size={24} /></a>
-                            <a href="#" className="w-12 h-12 bg-neutral-900 rounded-2xl flex items-center justify-center hover:bg-orange-600 hover:text-white transition-all transform hover:-rotate-12 shadow-xl border border-neutral-800 hover:border-orange-400"><Icon name="Instagram" size={24} /></a>
+                            <a href={fbLink} target="_blank" className="w-12 h-12 bg-neutral-900 rounded-2xl flex items-center justify-center hover:bg-orange-600 hover:text-white transition-all transform hover:rotate-12 shadow-xl border border-neutral-800 hover:border-orange-400"><Icon name="Facebook" size={24} /></a>
+                            <a href={igLink} target="_blank" className="w-12 h-12 bg-neutral-900 rounded-2xl flex items-center justify-center hover:bg-orange-600 hover:text-white transition-all transform hover:-rotate-12 shadow-xl border border-neutral-800 hover:border-orange-400"><Icon name="Instagram" size={24} /></a>
                         </div>
                         <div className="space-y-2 opacity-30">
                             <p className="text-[9px] uppercase font-black tracking-[0.4em] text-neutral-500">© 2026 Malínský Burger Festival | Pořádá Obec Nový Malín</p>
@@ -411,6 +417,10 @@
                             <a href="#piti" onClick={() => setIsMenuOpen(false)} className="text-3xl font-black uppercase italic text-white">Nápoje</a>
                             <button onClick={() => { setActiveTab('paka'); setIsMenuOpen(false); }} className="text-3xl font-black uppercase italic text-orange-500">Turnaj Páka</button>
                             <a href="#kontakt" onClick={() => setIsMenuOpen(false)} className="text-3xl font-black uppercase italic text-white">Kontakt</a>
+                            <div className="flex gap-8 mt-4">
+                                <a href={fbLink} target="_blank" className="text-white hover:text-orange-500 transition"><Icon name="Facebook" size={32} /></a>
+                                <a href={igLink} target="_blank" className="text-white hover:text-orange-500 transition"><Icon name="Instagram" size={32} /></a>
+                            </div>
                         </div>
                     )}
                 </div>
