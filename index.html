@@ -95,15 +95,15 @@
             ];
 
             const partners = [
-                { name: "Obec Nový Malín", role: "Hlavní partner", url: "https://www.novymalin.cz/" }, 
-                { name: "KIA Kašpar Rapotín", role: "Generální partner", url: "https://www.kiakaspar.cz/" }, 
-                { name: "SK Buildings", role: "Partner (Domy)", url: "https://www.skbuildings.cz/" },
-                { name: "Oramont", role: "Partner", url: "https://www.oramont.cz/" },
+                { name: "Obec Nový Malín", role: "Generální partner", url: "https://www.novymalin.cz/" }, 
+                { name: "KIA Kašpar Rapotín", role: "Partner", url: "https://www.kiakaspar.cz/" }, 
+                { name: "SK Buildings", role: "Partner", url: "https://www.skbuildings.cz/" },
+                { name: "Oramont System s.r.o.", role: "Partner", url: "https://www.oramont.cz/" },
                 { name: "NFCtron", role: "Cashless podpora", url: "https://www.nfctron.com/cs" },
                 { name: "Lité podlahy Hoško", role: "Partner", url: "https://www.litepodlahyhosko.cz/" },
                 { name: "Smartstep Šumperk", role: "Partner", url: "https://www.smartstep.cz/" },
                 { name: "Tespo", role: "Partner", url: "https://www.tespo-sumperk.cz/" },
-                { name: "Statek Winter", role: "Pusté Žibřidovice", url: "https://www.statekwinter.cz/" },
+                { name: "Statek Winter", role: "Partner", url: "https://www.statekwinter.cz/" },
                 { name: "Via Delicia", role: "Partner", url: "https://www.viadelicia.cz/" }, 
                 { name: "ČAWA", role: "Sportovní záštita", url: "http://www.armwrestling.cz/" }, 
                 { name: "Děti dětem", role: "Iniciativa", url: "http://www.detidetem.com/" }
@@ -346,7 +346,7 @@
                                 {partners.map((p, i) => (
                                     <a key={i} href={p.url} target="_blank" className="bg-neutral-900/20 p-8 rounded-3xl border border-neutral-800 flex flex-col items-center justify-center hover:bg-neutral-900 transition-all group relative overflow-hidden">
                                         <div className="absolute top-0 left-0 w-1 h-full bg-orange-500 transform -translate-x-full group-hover:translate-x-0 transition-transform"></div>
-                                        <span className="text-sm md:text-base font-black uppercase tracking-tighter text-stone-200 group-hover:text-orange-500 transition-colors leading-tight">{p.name}</span>
+                                        <span className="text-sm md:text-base font-black uppercase tracking-tighter text-stone-200 group-hover:text-orange-500 transition-colors leading-tight text-center">{p.name}</span>
                                         <span className="text-[8px] uppercase tracking-[0.2em] text-neutral-600 mt-2 font-bold italic">{p.role}</span>
                                     </a>
                                 ))}
@@ -452,8 +452,6 @@
                         <div className="space-y-4 max-w-2xl mx-auto px-4">
                             <div className="flex flex-col md:flex-row justify-center items-center gap-4 text-[12px] md:text-[13px] uppercase font-black tracking-[0.2em]">
                                 <span className="text-neutral-200 italic">© 2026 Malínský Burger Festival</span>
-                                <span className="hidden md:inline text-orange-500">|</span>
-                                <span className="text-neutral-200 italic">Pořádá Obec Nový Malín</span>
                             </div>
                             <div className="h-px w-24 bg-orange-500 mx-auto opacity-50 my-4"></div>
                             <div className="flex flex-col md:flex-row justify-center items-center gap-4 text-[12px] md:text-[13px] uppercase font-black tracking-[0.2em]">
