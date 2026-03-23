@@ -76,15 +76,14 @@
             };
 
             const foodVendors = [
-                { name: "Cakir´s", desc: "Prémiové burgery s nádechem orientu.", url: "#" },
+                { name: "Cakir´s", desc: "Vymazlené burgery s dlouholetou tradicí a láskou ke gastronomii.", url: "#" },
                 { name: "U Dřeváka", desc: "Poctivá klasika z grilu.", url: "#" },
                 { name: "Smashing Machine", desc: "Mistři smash burgerů.", url: "#" },
-                { name: "Balikejk", desc: "Unikátní Street food.", url: "#" },
+                { name: "Balikejk", desc: "Autentická indonéská restaurace a exotický street food.", url: "#" },
                 { name: "Malínské smažené kuře", desc: "Křupavé kousky podle lokální receptury.", url: "#" },
                 { name: "Dos Amigos", desc: "Tacos a quesadillas v mexickém stylu.", url: "#" },
-                { name: "Křup", desc: "Šťavnaté burgery a legendární křupavé kuře.", url: "#" },
                 { name: "The Pitmaster's Soul", desc: "Pravé BBQ: Šťavnatá žebírka a křídla v tradičním USA stylu.", url: "#" },
-                { name: "Badass American Hot Dog", desc: "Pořádné Hot dogy s hromadou doplňků inspirované New Yorkem.", url: "#" },
+                { name: "Badass American Hot Dog", desc: "Prémiové hot dogy s bohatou oblohou a domácími recepturami.", url: "#" },
                 { name: "Underground Meat Lab", desc: "Bistro ve sklepě: Burgery se zauzeným jazykem, morkem a Bacon Boom speciál.", url: "#" }
             ];
 
@@ -143,12 +142,19 @@
 
             const HomeView = () => (
                 <>
-                    <header className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+                    <header className="relative min-h-[95vh] flex items-center justify-center overflow-hidden">
                         <div className="absolute inset-0 bg-black/70 z-10"></div>
                         <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&q=80&w=1920" className="absolute inset-0 w-full h-full object-cover" alt="Hero" />
-                        <div className="relative z-20 text-center px-4 max-w-4xl">
-                            <div className="inline-block px-4 py-1.5 border-2 border-orange-500 text-orange-500 text-[10px] font-black uppercase tracking-[0.3em] mb-8 rounded-full bg-black/50 backdrop-blur-sm animate-pulse">
-                                5. Jubilejní ročník
+                        
+                        {/* Upravený horní padding (pt-24 md:pt-32), aby se zamezilo překryvu s logem */}
+                        <div className="relative z-20 text-center px-4 max-w-4xl pt-24 md:pt-32">
+                            <div className="flex flex-wrap justify-center gap-4 mb-8">
+                                <div className="inline-block px-4 py-1.5 border-2 border-orange-500 text-orange-500 text-[10px] font-black uppercase tracking-[0.3em] rounded-full bg-black/60 backdrop-blur-sm animate-pulse">
+                                    5. Jubilejní ročník
+                                </div>
+                                <div className="inline-block px-4 py-1.5 border-2 border-white text-white text-[10px] font-black uppercase tracking-[0.3em] rounded-full bg-orange-600/60 backdrop-blur-sm">
+                                    Vstup Zdarma
+                                </div>
                             </div>
                             <h1 className="text-4xl md:text-7xl font-black uppercase mb-4 leading-tight tracking-tighter text-white text-shadow-glow">
                                 MALÍNSKÝ<br /><span className="text-orange-500 italic">BURGER FESTIVAL</span>
@@ -196,7 +202,8 @@
                                 {foodVendors.map((v, i) => (
                                     <div key={i} className="clickable-card bg-neutral-900 p-8 rounded-[2.5rem] border border-neutral-800 flex flex-col justify-between group">
                                         <div>
-                                            <div className="text-orange-500/20 font-black text-5xl mb-6 italic group-hover:text-orange-500 transition-colors">#{i+1}</div>
+                                            {/* Zvýšený kontrast čísel (z opacity 50 na 70) */}
+                                            <div className="text-orange-500/70 font-black text-5xl mb-6 italic group-hover:text-orange-500 transition-colors">#{i+1}</div>
                                             <h4 className="text-xl font-black text-white mb-4 uppercase italic tracking-tight leading-tight group-hover:text-orange-500 transition-colors">{v.name}</h4>
                                             <p className="text-neutral-400 text-sm leading-relaxed italic mb-8">{v.desc}</p>
                                         </div>
@@ -403,9 +410,18 @@
                             <a href={fbLink} target="_blank" className="w-12 h-12 bg-neutral-900 rounded-2xl flex items-center justify-center hover:bg-orange-600 hover:text-white transition-all transform hover:rotate-12 shadow-xl border border-neutral-800 hover:border-orange-400"><Icon name="Facebook" size={24} /></a>
                             <a href={igLink} target="_blank" className="w-12 h-12 bg-neutral-900 rounded-2xl flex items-center justify-center hover:bg-orange-600 hover:text-white transition-all transform hover:-rotate-12 shadow-xl border border-neutral-800 hover:border-orange-400"><Icon name="Instagram" size={24} /></a>
                         </div>
-                        <div className="space-y-2 opacity-30">
-                            <p className="text-[9px] uppercase font-black tracking-[0.4em] text-neutral-500">© 2026 Malínský Burger Festival | Pořádá Obec Nový Malín</p>
-                            <p className="text-[9px] uppercase font-black tracking-[0.4em] text-neutral-500 italic">Moderuje: Petr Kamlar | Vstup na akci zdarma</p>
+                        <div className="space-y-4 max-w-2xl mx-auto px-4">
+                            <div className="flex flex-col md:flex-row justify-center items-center gap-4 text-[12px] md:text-[13px] uppercase font-black tracking-[0.2em]">
+                                <span className="text-neutral-200 italic">© 2026 Malínský Burger Festival</span>
+                                <span className="hidden md:inline text-orange-500">|</span>
+                                <span className="text-neutral-200 italic">Pořádá Obec Nový Malín</span>
+                            </div>
+                            <div className="h-px w-24 bg-orange-500 mx-auto opacity-50 my-4"></div>
+                            <div className="flex flex-col md:flex-row justify-center items-center gap-4 text-[12px] md:text-[13px] uppercase font-black tracking-[0.2em]">
+                                <span className="text-orange-500 italic underline decoration-2 underline-offset-4">Vstup na akci zdarma</span>
+                                <span className="hidden md:inline text-neutral-600">|</span>
+                                <span className="text-neutral-400 italic">Moderuje: Petr Kamlar</span>
+                            </div>
                         </div>
                     </footer>
 
