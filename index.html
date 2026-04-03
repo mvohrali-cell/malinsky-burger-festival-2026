@@ -386,6 +386,17 @@
                             </div>
                         </div>
                     </footer>
+
+                    {isMenuOpen && (
+                        <div className="mobile-menu-overlay fixed inset-0 flex flex-col items-center justify-center space-y-8 p-10 animate-in slide-in-from-right">
+                            <button onClick={() => setIsMenuOpen(false)} className="absolute top-6 right-6 text-orange-500"><Icon name="X" size={48} /></button>
+                            <button onClick={() => { goToHome(); setIsMenuOpen(false); }} className="text-3xl font-black uppercase italic text-white">Domů</button>
+                            <a href="#info" onClick={() => setIsMenuOpen(false)} className="text-3xl font-black uppercase italic text-white">O Festivalu</a>
+                            <a href="#jidlo" onClick={() => setIsMenuOpen(false)} className="text-3xl font-black uppercase italic text-white">Gril</a>
+                            <button onClick={() => { setActiveTab('paka'); setIsMenuOpen(false); window.scrollTo(0, 0); }} className="text-3xl font-black uppercase italic text-orange-500">Turnaj Páka</button>
+                            <a href="#kontakt" onClick={() => setIsMenuOpen(false)} className="text-3xl font-black uppercase italic text-white">Kontakt</a>
+                        </div>
+                    )}
                 </div>
             );
         };
