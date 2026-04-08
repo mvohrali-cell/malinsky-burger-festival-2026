@@ -338,19 +338,46 @@
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 text-white relative z-10 text-left">
                             <div className="space-y-10">
                                 <div>
-                                    <h3 className="text-orange-500 font-black uppercase mb-6 italic tracking-widest border-b border-orange-500/10 pb-2 flex items-center gap-3">Kategorie</h3>
-                                    <ul className="space-y-4 font-bold uppercase italic text-[11px] md:text-xs">
-                                        <li className="bg-neutral-800/50 p-4 rounded-2xl border-l-4 border-orange-500">Muži: do 85 kg, 95 kg, 105 kg, nad 105 kg</li>
-                                        <li className="bg-neutral-800/50 p-4 rounded-2xl border-l-4 border-orange-500">Ženy: do 65 kg, nad 65 kg (+ Dívky do 18 let)</li>
-                                        <li className="bg-neutral-800/50 p-4 rounded-2xl border-l-4 border-orange-500">Junioři: U15 (Open) | U18 & U23 (do 85 / nad 85 kg)</li>
+                                    <h3 className="text-orange-500 font-black uppercase mb-6 italic tracking-widest border-b border-orange-500/10 pb-2 flex items-center gap-3">Váhové Kategorie</h3>
+                                    <ul className="space-y-3 font-bold uppercase italic text-[11px] md:text-xs">
+                                        <li className="bg-neutral-800/50 p-4 rounded-2xl border-l-4 border-orange-500">
+                                            <span className="text-white block mb-1">MUŽI (PROFI/AMATÉR)</span>
+                                            <span className="text-neutral-400">do 85, 95, 105, nad 105 kg</span>
+                                        </li>
+                                        <li className="bg-neutral-800/50 p-4 rounded-2xl border-l-4 border-orange-600">
+                                            <span className="text-white block mb-1">MASTERS (40+)</span>
+                                            <span className="text-neutral-400">do 85, 95, 105, nad 105 kg</span>
+                                        </li>
+                                        <li className="bg-neutral-800/50 p-4 rounded-2xl border-l-4 border-orange-500">
+                                            <span className="text-white block mb-1">ŽENY & DÍVKY</span>
+                                            <span className="text-neutral-400">do 65, nad 65 kg</span>
+                                        </li>
+                                        <li className="bg-neutral-800/50 p-4 rounded-2xl border-l-4 border-white/20">
+                                            <div className="flex flex-col gap-2">
+                                                <div><span className="text-white">JUNIOR U23:</span> <span className="text-neutral-400">do 75, 85, nad 85 kg</span></div>
+                                                <div><span className="text-white">JUNIOR U18:</span> <span className="text-neutral-400">do 75, nad 75 kg</span></div>
+                                                <div><span className="text-white">JUNIOR U15:</span> <span className="text-neutral-400">Bez váhových kat.</span></div>
+                                            </div>
+                                        </li>
                                     </ul>
                                 </div>
+                                <div className="bg-neutral-800/50 p-6 rounded-2xl border border-orange-500/20">
+                                    <h4 className="text-orange-500 font-black uppercase text-[10px] mb-2 tracking-widest">KATEGORIE OPEN</h4>
+                                    <p className="text-xs text-white italic font-bold">Souboj o absolutního vítěze na hlavním pódiu od 16:00!</p>
+                                    <div className="mt-3 flex gap-4 text-[10px] font-black uppercase">
+                                        <span className="text-orange-500">1. místo: 5000 Kč</span>
+                                        <span className="text-neutral-300">2. místo: 2000 Kč</span>
+                                        <span className="text-neutral-400">3. místo: 1000 Kč</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="space-y-10">
                                 <div className="bg-orange-600 p-8 rounded-[2.5rem] text-center shadow-2xl shadow-orange-500/20 border border-orange-400/50">
                                     <h4 className="font-black uppercase mb-6 text-3xl italic text-white tracking-tighter leading-none">Online<br/>Registrace</h4>
                                     <a href={googleFormUrl} target="_blank" className="block w-full bg-black text-white py-5 rounded-2xl font-black uppercase hover:bg-neutral-900 transition-all text-sm tracking-widest">Registrovat se zde</a>
                                 </div>
-                            </div>
-                            <div className="space-y-10">
+
                                 <div className="bg-neutral-800/50 p-10 rounded-[2.5rem] border border-neutral-700/50">
                                     <h3 className="text-white font-black uppercase mb-8 italic text-center tracking-widest">Startovné</h3>
                                     <div className="space-y-6 text-center">
@@ -366,7 +393,7 @@
                                 </div>
                                 <div className="p-6 bg-neutral-800/30 rounded-3xl border-l-4 border-white">
                                     <h4 className="text-white font-black uppercase text-[10px] mb-2 tracking-widest">Harmonogram</h4>
-                                    <p className="text-[11px] text-neutral-400 italic">08:00 - 10:00 Váha (Sokolovna) | Odpoledne OPEN show (Pódium)</p>
+                                    <p className="text-[11px] text-neutral-400 italic">08:00 - 10:00 Váha (Sokolovna) | 10:30 START turnaje | 16:00 OPEN show (Pódium)</p>
                                 </div>
                             </div>
                         </div>
