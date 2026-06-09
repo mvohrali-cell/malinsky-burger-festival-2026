@@ -153,6 +153,7 @@
                             <button onClick={goToHome} className={`hover:text-red-600 transition ${activeTab === 'home' ? 'text-red-600' : ''}`}>Domů</button>
                             <a href="#info" className="hover:text-red-600 transition">O Festivalu</a>
                             <a href="#plakat" className="hover:text-red-600 transition">Plakát</a>
+                            <a href="#pivo" className="hover:text-red-600 transition">Pivo</a>
                             <a href="#jidlo" className="hover:text-red-600 transition">Gril</a>
                             <a href="#program" className="hover:text-red-600 transition">Program</a>
                             <a href="#kontakt" className="hover:text-red-600 transition">Kontakt</a>
@@ -316,6 +317,79 @@
                                 >
                                     <Icon name="FileText" size={16} /> STÁHNOUT PLAKÁT (JPG)
                                 </a>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* NOVÁ SEKCE: Pivovar Blud */}
+                    <section id="pivo" className="py-24 bg-neutral-900 border-b border-white/5 relative">
+                        <div className="container mx-auto px-4 text-center">
+                            <div className="flex justify-center mb-6">
+                                <div className="w-16 h-16 bg-red-700/20 border border-red-600/30 rounded-2xl flex items-center justify-center text-red-500 shadow-lg">
+                                    <Icon name="Beer" size={36} />
+                                </div>
+                            </div>
+                            <h2 className="text-4xl md:text-5xl font-black uppercase italic text-white tracking-tighter mb-4">
+                                Pivo na čepu: <span className="text-red-600">Pivovar Blud</span>
+                            </h2>
+                            <p className="text-neutral-400 text-md italic mb-16 max-w-3xl mx-auto leading-relaxed">
+                                Dovolujeme si vám představit exkluzivní pivní nabídku pro letošní ročník! Na čepu bude skvělé lokální řemeslné pivo z rodinného podniku <strong className="text-white">Kobzův pivovar Bludov</strong>. Vychutnejte si poctivé kousky perfektně vyladěné k našim burgerům.
+                            </p>
+
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto text-left">
+                                {/* Tradiční desítka */}
+                                <div className="clickable-card bg-neutral-950 p-8 rounded-[2.5rem] border border-neutral-800 flex flex-col justify-between">
+                                    <div>
+                                        <div className="inline-block py-1 px-3 bg-neutral-900 rounded-full text-neutral-400 font-black uppercase italic text-[9px] tracking-widest mb-4">
+                                            Klasika
+                                        </div>
+                                        <h3 className="text-2xl font-black text-white uppercase italic tracking-tight mb-3">Tradiční desítka 10°</h3>
+                                        <p className="text-neutral-400 text-sm leading-relaxed italic mb-6">
+                                            Poctivé řemeslné světlé výčepní pivo. Lehká, perfektně pitelná klasika s jemným řízem a vyváženou chmelovou hořkostí – ideální společník pro osvěžení k burgeru během horkého letního dne.
+                                        </p>
+                                    </div>
+                                    <div className="border-t border-neutral-900 pt-4 flex justify-between items-center text-[10px] font-black uppercase italic text-neutral-500">
+                                        <span>Světlé výčepní</span>
+                                        <span className="text-red-600 font-bold">Na čepu</span>
+                                    </div>
+                                </div>
+
+                                {/* Bludná Malina - Speciál (Kyseláč) */}
+                                <div className="clickable-card bg-neutral-950 p-8 rounded-[2.5rem] border-2 border-red-600 paka-card-glow flex flex-col justify-between relative overflow-hidden">
+                                    <div className="absolute top-4 right-4 bg-red-600 text-white font-black uppercase italic text-[8px] tracking-widest px-3 py-1 rounded-full animate-pulse">
+                                        SPECIÁL PRO FESTIVAL
+                                    </div>
+                                    <div>
+                                        <div className="inline-block py-1 px-3 bg-red-950 text-red-400 rounded-full font-black uppercase italic text-[9px] tracking-widest mb-4">
+                                            Osvěžující kyseláč
+                                        </div>
+                                        <h3 className="text-2xl font-black text-white uppercase italic tracking-tight mb-3">Bludná Malina 10°</h3>
+                                        <p className="text-neutral-300 text-sm leading-relaxed italic mb-6">
+                                            Skvostný, svrchně kvašený <strong className="text-red-500">kyseláč (Raspberry + Mint Sour Ale)</strong> uvařený exkluzivně pro Malínský Burger Festival! Unikátní várka piva s příjemně osvěžující nakyslou chutí čerstvých malin a jemným chladivým nádechem čerstvé máty v závěru. Kyseláč, který prostě musíte ochutnat!
+                                        </p>
+                                    </div>
+                                    <div className="border-t border-red-900 pt-4 flex justify-between items-center text-[10px] font-black uppercase italic text-red-500">
+                                        <span>Malina & Máta Sour Ale</span>
+                                        <span className="text-red-600 font-bold">Unikátní kyseláč</span>
+                                    </div>
+                                </div>
+
+                                {/* 14° NEIPA */}
+                                <div className="clickable-card bg-neutral-950 p-8 rounded-[2.5rem] border border-neutral-800 flex flex-col justify-between">
+                                    <div>
+                                        <div className="inline-block py-1 px-3 bg-neutral-900 rounded-full text-neutral-400 font-black uppercase italic text-[9px] tracking-widest mb-4">
+                                            Svrchně kvašené
+                                        </div>
+                                        <h3 className="text-2xl font-black text-white uppercase italic tracking-tight mb-3">14° NEIPA</h3>
+                                        <p className="text-neutral-400 text-sm leading-relaxed italic mb-6">
+                                            New England India Pale Ale. Bohatá chmelová aroma-bomba s typickým zákalem, plným tělem a sametově hladkým profilem plným intenzivních tónů tropického ovoce, manga a citrusů.
+                                        </p>
+                                    </div>
+                                    <div className="border-t border-neutral-900 pt-4 flex justify-between items-center text-[10px] font-black uppercase italic text-neutral-500">
+                                        <span>New England IPA</span>
+                                        <span className="text-red-600 font-bold">Na čepu</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </section>
@@ -536,6 +610,7 @@
                             <button onClick={() => { goToHome(); setIsMenuOpen(false); }} className="text-3xl font-black uppercase italic text-white hover:text-red-600 transition">Domů</button>
                             <a href="#info" onClick={() => setIsMenuOpen(false)} className="text-3xl font-black uppercase italic text-white hover:text-red-600 transition">O Festivalu</a>
                             <a href="#plakat" onClick={() => setIsMenuOpen(false)} className="text-3xl font-black uppercase italic text-white hover:text-red-600 transition">Plakát Akce</a>
+                            <a href="#pivo" onClick={() => setIsMenuOpen(false)} className="text-3xl font-black uppercase italic text-white hover:text-red-600 transition">Pivo na čepu</a>
                             <a href="#jidlo" onClick={() => setIsMenuOpen(false)} className="text-3xl font-black uppercase italic text-white hover:text-red-600 transition">Gril</a>
                             <button onClick={() => { setActiveTab('paka'); setIsMenuOpen(false); window.scrollTo(0, 0); }} className="text-3xl font-black uppercase italic text-red-600">Turnaj Páka</button>
                             <a href={tourneyPdfUrl} target="_blank" className="text-3xl font-black uppercase italic text-white hover:text-red-600 transition">Plakát turnaje (PDF)</a>
