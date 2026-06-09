@@ -49,6 +49,7 @@
                 Star: <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />,
                 FileText: <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />,
                 ChevronRight: <path d="m9 18 6-6-6-6" />,
+                CheckCircle: <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14M22 4L12 14.01l-3-3" />
             };
             return (
                 <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
@@ -327,7 +328,7 @@
                             <div className="flex justify-center mb-6">
                                 <div className="w-16 h-16 bg-red-700/20 border border-red-600/30 rounded-2xl flex items-center justify-center text-red-500 shadow-lg">
                                     <Icon name="Beer" size={36} />
-                                </div>
+                                end        </div>
                             </div>
                             <h2 className="text-4xl md:text-5xl font-black uppercase italic text-white tracking-tighter mb-4">
                                 Pivo na čepu: <span className="text-red-600">Pivovar Blud</span>
@@ -418,7 +419,7 @@
                                         <Icon name="Users" size={40} className="text-white" />
                                     </div>
                                     <h3 className="text-2xl font-black uppercase italic mb-4">Hlasování diváků</h3>
-                                    <p className="text-neutral-500 italic mb-6">Hlavní soutěž o nejlepší burger festivalu. Každý návštěvník má jeden hlas – vyberte svého favorita!</p>
+                                    <p className="text-neutral-500 italic mb-6">Hlavní soutěž o nejlepší burger festivalu. Každý návštěvník má jedan hlas – vyberte svého favorita!</p>
                                     <div className="inline-block py-2 px-6 bg-white/5 rounded-full text-red-600 font-black uppercase italic text-xs tracking-widest">HLASUJÍ NÁVŠTĚVNÍCI</div>
                                 </div>
                                 <div className="p-10 bg-neutral-950 rounded-[3rem] border border-white/10 hover:border-white transition-all group">
@@ -536,7 +537,13 @@
                                 <div className="bg-neutral-800/50 p-6 rounded-2xl border border-red-600/20 text-center lg:text-left">
                                     <h4 className="text-red-600 font-black uppercase text-[10px] mb-2 tracking-widest">KATEGORIE OPEN</h4>
                                     <p className="text-xs text-white italic font-bold">Celá kategorie na hlavním pódiu od 16:00!</p>
-                                    <div className="mt-3 flex gap-4 text-[10px] font-black uppercase justify-center lg:justify-start">
+                                    
+                                    {/* NOVĚ: Doplněná informace o nulovém startovném do OPEN při váhovkách */}
+                                    <p className="text-[11px] text-amber-400 mt-2 italic font-bold">
+                                        🔥 Pokud zápasíte ve váhovkách, startovné do OPEN již neplatíte (platí se pouze 1x)!
+                                    </p>
+
+                                    <div className="mt-4 flex gap-4 text-[10px] font-black uppercase justify-center lg:justify-start">
                                         <span className="text-red-600">1. místo: 5000 Kč</span>
                                         <span className="text-neutral-300">2. místo: 2000 Kč</span>
                                         <span className="text-neutral-400">3. místo: 1000 Kč</span>
@@ -545,9 +552,79 @@
                             </div>
 
                             <div className="space-y-10">
-                                <div className="bg-red-700 p-8 rounded-[2.5rem] text-center shadow-lg border border-red-500/50">
-                                    <h4 className="font-black uppercase mb-6 text-3xl italic text-white tracking-tighter leading-none">Online<br/>Registrace</h4>
-                                    <a href={googleFormUrl} target="_blank" className="block w-full bg-black text-white py-5 rounded-2xl font-black uppercase hover:bg-neutral-900 transition-all text-sm tracking-widest">Registrovat se zde</a>
+                                {/* NOVĚ VYŠPERKOVANÁ SEKCE: Možnosti přihlášení */}
+                                <div className="space-y-6">
+                                    <h3 className="text-white font-black uppercase italic tracking-widest text-lg border-b border-neutral-800 pb-2 flex items-center gap-2">
+                                        <Icon name="Ticket" className="text-red-600" /> Jak se přihlásit do turnaje?
+                                    </h3>
+                                    
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                        {/* VARIANTA A: Online předem */}
+                                        <div className="bg-neutral-950 border-2 border-red-600 rounded-[2rem] p-6 flex flex-col justify-between relative overflow-hidden paka-card-glow transition-all hover:scale-[1.02]">
+                                            <div className="absolute top-0 right-0 bg-red-600 text-white text-[8px] font-black uppercase tracking-widest px-3 py-1 rounded-bl-xl animate-pulse">
+                                                DOPORUČENO
+                                            </div>
+                                            <div>
+                                                <h4 className="text-base font-black text-white uppercase italic mb-3 flex items-center gap-2">
+                                                    <Icon name="CheckCircle" className="text-red-500" size={18} /> Online web
+                                                </h4>
+                                                <p className="text-[11px] text-neutral-400 italic mb-4 leading-relaxed">
+                                                    Zaregistrujte se předem z pohodlí domova a zajistěte si klidný den.
+                                                </p>
+                                                <ul className="space-y-2 text-[10px] text-neutral-300 italic mb-6">
+                                                    <li className="flex items-center gap-1.5">
+                                                        <span className="text-red-500 font-bold">✔</span> <strong>Prioritní odbavení na místě</strong>
+                                                    </li>
+                                                    <li className="flex items-center gap-1.5">
+                                                        <span className="text-red-500 font-bold">✔</span> Rychlá registrace bez čekání
+                                                    </li>
+                                                    <li className="flex items-center gap-1.5">
+                                                        <span className="text-red-500 font-bold">✔</span> Žádné zbytečné papírování
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <a href={googleFormUrl} target="_blank" className="block w-full text-center bg-red-600 hover:bg-red-700 text-white py-3 rounded-xl font-black uppercase text-[10px] tracking-widest transition-all">
+                                                Registrovat se
+                                            </a>
+                                        </div>
+
+                                        {/* VARIANTA B: Na místě */}
+                                        <div className="bg-neutral-900 border border-neutral-800 rounded-[2rem] p-6 flex flex-col justify-between relative overflow-hidden transition-all hover:border-neutral-700">
+                                            <div className="absolute top-0 right-0 bg-neutral-800 text-neutral-400 text-[8px] font-black uppercase tracking-widest px-3 py-1 rounded-bl-xl">
+                                                OSOBNĚ
+                                            </div>
+                                            <div>
+                                                <h4 className="text-base font-black text-white uppercase italic mb-3 flex items-center gap-2">
+                                                    <Icon name="Users" className="text-neutral-500" size={18} /> Přímo na místě
+                                                </h4>
+                                                <p className="text-[11px] text-neutral-400 italic mb-4 leading-relaxed">
+                                                    Zápis u registračního stolku v den konání přímo v sokolovně.
+                                                </p>
+                                                <ul className="space-y-2 text-[10px] text-neutral-300 italic mb-6">
+                                                    <li className="flex items-center gap-1.5">
+                                                        <span className="text-neutral-500">⏱</span> Čas: <strong>08:00 - 10:00</strong>
+                                                    </li>
+                                                    <li className="flex items-center gap-1.5">
+                                                        <span className="text-neutral-500">⚠</span> Možnost delšího čekání
+                                                    </li>
+                                                    <li className="flex items-center gap-1.5">
+                                                        <span className="text-neutral-500">📝</span> Ruční vyplnění přihlášky
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div className="block w-full text-center bg-neutral-950 border border-neutral-800 text-neutral-400 py-3 rounded-xl font-black uppercase text-[10px] tracking-widest cursor-default">
+                                                Zápis v sokolovně
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* DŮLEŽITÉ UPOZORNĚNÍ PRO OBĚ SKUPINY */}
+                                    <div className="p-5 bg-neutral-950 rounded-2xl border-l-4 border-amber-500 text-[11px] italic flex items-start gap-4">
+                                        <span className="text-xl mt-0.5 shrink-0">⚖</span>
+                                        <p className="text-neutral-300">
+                                            <strong>Důležité info o vážení:</strong> Bez ohledu na zvolený způsob přihlášení (online / na místě) musí všichni závodníci projít oficiálním vážením a rozřazením přímo v sokolovně v čase <strong>08:00 - 10:00</strong>!
+                                        </p>
+                                    </div>
                                 </div>
 
                                 <div className="bg-neutral-800/50 p-10 rounded-[2.5rem] border border-neutral-700/50 text-center">
@@ -562,12 +639,17 @@
                                             <p className="text-neutral-200 font-bold italic text-sm">150 Kč / 250 Kč</p>
                                         </div>
                                         <p className="text-[9px] uppercase font-bold text-neutral-500 italic mt-4">Cena za jednu ruku / obě ruce</p>
+                                        
+                                        {/* NOVĚ: Startovné info o OPEN kategorii */}
+                                        <p className="text-[11px] text-amber-400 font-bold italic mt-2 border-t border-neutral-700/50 pt-4">
+                                            💡 Startovné do kategorie OPEN je pro účastníky běžných váhových kategorií ZDARMA (platí se pouze 1x).
+                                        </p>
                                     </div>
                                 </div>
                                 <div className="p-6 bg-neutral-800/30 rounded-3xl border-l-4 border-white">
                                     <h4 className="text-white font-black uppercase text-[10px] mb-4 tracking-widest">Harmonogram Páka</h4>
                                     <div className="space-y-2 text-[11px] text-neutral-400 italic">
-                                        <p className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-red-600"></div> 08:00 - 10:00 Váha (Sokolovna)</p>
+                                        <p className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-red-600"></div> 08:00 - 10:00 Váha & Osobní registrace (Sokolovna)</p>
                                         <p className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-red-600"></div> 11:00 START turnaje</p>
                                         <p className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-red-600"></div> 16:00 OPEN show (Pódium)</p>
                                     </div>
