@@ -30,6 +30,7 @@
 
         const tourneyPdfUrl = "Návrh bez názvu.pdf"; 
         const googleFormUrl = "https://forms.gle/FG1eBjLXpW4HGcYg6";
+        const mainPosterUrl = "MB_2026.jpg"; // Cesta k hlavnímu plakátu akce (stačí nahrát MB_2026.jpg na GitHub)
 
         const Icon = ({ name, size = 24, className = "" }) => {
             const icons = {
@@ -151,6 +152,7 @@
                         <div className="hidden lg:flex space-x-6 items-center font-bold uppercase text-[11px] tracking-widest text-neutral-300">
                             <button onClick={goToHome} className={`hover:text-red-600 transition ${activeTab === 'home' ? 'text-red-600' : ''}`}>Domů</button>
                             <a href="#info" className="hover:text-red-600 transition">O Festivalu</a>
+                            <a href="#plakat" className="hover:text-red-600 transition">Plakát</a>
                             <a href="#jidlo" className="hover:text-red-600 transition">Gril</a>
                             <a href="#program" className="hover:text-red-600 transition">Program</a>
                             <a href="#kontakt" className="hover:text-red-600 transition">Kontakt</a>
@@ -194,13 +196,19 @@
                                 <div className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-neutral-400">NOVÝ MALÍN 157, 788 03</div>
                             </div>
 
-                            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center flex-wrap">
                                 <button 
                                     onClick={() => { setActiveTab('paka'); window.scrollTo(0,0); }}
                                     className="group bg-white text-black hover:bg-red-700 hover:text-white px-8 py-5 rounded-2xl font-black uppercase tracking-widest shadow-2xl transition-all transform hover:scale-105 flex items-center gap-4 text-sm"
                                 >
                                     <Icon name="Trophy" className="group-hover:animate-bounce" /> TURNAJ V PÁCE
                                 </button>
+                                <a 
+                                    href="#plakat"
+                                    className="group bg-red-700 text-white border border-red-600 px-8 py-5 rounded-2xl font-black uppercase tracking-widest shadow-2xl transition-all flex items-center gap-4 text-sm hover:bg-red-600"
+                                >
+                                    <Icon name="FileText" className="text-white animate-pulse" /> ZOBRAZIT PLAKÁT
+                                </a>
                                 <a 
                                     href={tourneyPdfUrl}
                                     target="_blank"
@@ -272,6 +280,42 @@
                                         </ul>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* NOVÁ SEKCE: Hlavní Plakát Akce */}
+                    <section id="plakat" className="py-24 bg-neutral-950 border-b border-white/5">
+                        <div className="container mx-auto px-4 text-center">
+                            <h2 className="text-4xl md:text-5xl font-black uppercase italic text-white tracking-tighter mb-6">Oficiální <span className="text-red-600">Plakát Akce</span></h2>
+                            <p className="text-neutral-400 text-md italic mb-12 max-w-2xl mx-auto">Prohlédněte si kompletní program, seznam soutěžících a partnerů na oficiálním plakátu pro ročník 2026.</p>
+                            
+                            <div className="relative max-w-2xl mx-auto rounded-3xl overflow-hidden shadow-2xl border border-neutral-800 paka-card-glow group">
+                                <a href={mainPosterUrl} target="_blank" rel="noopener noreferrer">
+                                    <img 
+                                        src={mainPosterUrl} 
+                                        alt="Hlavní plakát Malínský Burger Festival 2026" 
+                                        className="w-full h-auto object-cover hover:scale-[1.01] transition-transform duration-500 cursor-pointer"
+                                        onError={(e) => {
+                                            e.target.style.display = 'none';
+                                            document.getElementById('poster-fallback').classList.remove('hidden');
+                                        }}
+                                    />
+                                </a>
+                                <div id="poster-fallback" className="hidden p-12 bg-neutral-900 text-neutral-400">
+                                    <Icon name="FileText" size={64} className="mx-auto mb-4 text-red-600" />
+                                    <p className="font-bold mb-2">Plakát se načítá nebo nebyl nalezen.</p>
+                                    <p className="text-xs">Ujistěte se, že jste nahráli soubor <code className="text-white">MB_2026.jpg</code> do stejné složky jako index.html.</p>
+                                </div>
+                            </div>
+                            <div className="mt-8">
+                                <a 
+                                    href={mainPosterUrl} 
+                                    download
+                                    className="inline-flex items-center gap-3 bg-red-700 hover:bg-red-600 text-white px-6 py-4 rounded-xl font-black uppercase text-xs tracking-widest transition-all"
+                                >
+                                    <Icon name="FileText" size={16} /> STÁHNOUT PLAKÁT (JPG)
+                                </a>
                             </div>
                         </div>
                     </section>
@@ -470,12 +514,14 @@
                         <div className="text-2xl font-black italic tracking-tighter mb-4 uppercase text-stone-200">
                             Nový <span className="text-red-600 underline decoration-4 underline-offset-8">Malín</span> 2026
                         </div>
-                        <div className="space-y-4 max-w-2xl mx-auto px-4 mt-8 text-center flex flex-col items-center">
+                        <div className="space-y-4 max-w-3xl mx-auto px-4 mt-8 text-center flex flex-col items-center">
                             <div className="text-[10px] uppercase font-black text-neutral-500 tracking-[0.3em] mb-4">
                                 Sokolovna Nový Malín 157, 788 03
                             </div>
-                            <div className="flex flex-col md:flex-row justify-center items-center gap-4 text-[12px] md:text-[13px] uppercase font-black tracking-[0.2em]">
+                            <div className="flex flex-col md:flex-row justify-center items-center gap-4 text-[12px] md:text-[13px] uppercase font-black tracking-[0.2em] flex-wrap">
                                 <span className="text-neutral-200 italic">© 2026 Malínský Burger Festival</span>
+                                <span className="hidden md:inline text-neutral-600">|</span>
+                                <span className="text-red-600 italic underline decoration-2 underline-offset-4 cursor-pointer" onClick={() => window.open(mainPosterUrl, '_blank')}>Hlavní Plakát (JPG)</span>
                                 <span className="hidden md:inline text-neutral-600">|</span>
                                 <span className="text-red-600 italic underline decoration-2 underline-offset-4 cursor-pointer" onClick={() => window.open(tourneyPdfUrl, '_blank')}>Plakát turnaje (PDF)</span>
                                 <span className="hidden md:inline text-neutral-600">|</span>
@@ -489,6 +535,7 @@
                             <button onClick={() => setIsMenuOpen(false)} className="absolute top-6 right-6 text-red-600"><Icon name="X" size={48} /></button>
                             <button onClick={() => { goToHome(); setIsMenuOpen(false); }} className="text-3xl font-black uppercase italic text-white hover:text-red-600 transition">Domů</button>
                             <a href="#info" onClick={() => setIsMenuOpen(false)} className="text-3xl font-black uppercase italic text-white hover:text-red-600 transition">O Festivalu</a>
+                            <a href="#plakat" onClick={() => setIsMenuOpen(false)} className="text-3xl font-black uppercase italic text-white hover:text-red-600 transition">Plakát Akce</a>
                             <a href="#jidlo" onClick={() => setIsMenuOpen(false)} className="text-3xl font-black uppercase italic text-white hover:text-red-600 transition">Gril</a>
                             <button onClick={() => { setActiveTab('paka'); setIsMenuOpen(false); window.scrollTo(0, 0); }} className="text-3xl font-black uppercase italic text-red-600">Turnaj Páka</button>
                             <a href={tourneyPdfUrl} target="_blank" className="text-3xl font-black uppercase italic text-white hover:text-red-600 transition">Plakát turnaje (PDF)</a>
