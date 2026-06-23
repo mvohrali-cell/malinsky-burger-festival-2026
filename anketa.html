@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="cs" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malínský Burger Festival 2026 - Dotazník</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            black: '#0f0e0c',
+                            dark: '#1a1814',
+                            gold: '#f59e0b',     // pivní zlatá
+                            red: '#e11d48',      // chilli červená
+                            orange: '#f97316',   // grilovací oranžová
+                            cream: '#fef3c7',
+                            gray: '#2e2b26'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Lilita+One&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Canvas Confetti pro oslavu po dokončení -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        .font-display {
+            font-family: 'Lilita One', sans-serif;
+        }
+        .step-pane {
+            transition: opacity 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-brand-black text-gray-100 font-sans min-h-screen selection:bg-brand-gold selection:text-brand-black flex flex-col justify-between">
+
+    <header class="bg-brand-dark/90 border-b border-brand-orange/10 py-4 px-4 sticky top-0 z-50 backdrop-blur-md">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <span class="text-xl sm:text-2xl font-display text-brand-gold tracking-wide flex items-center gap-2">
+                    <i class="fa-solid fa-burger text-brand-orange"></i>
+                    MALÍNSKÝ BURGER FESTIVAL <span class="text-brand-red">2026</span>
+                </span>
+            </div>
+            <!-- Odkaz zpět na hlavní web festivalu -->
+            <a href="https://malinskyburgerfestival.cz/" class="bg-brand-gray hover:bg-brand-orange text-white font-bold text-xs sm:text-sm px-4 py-2 rounded-full border border-gray-700 transition duration-200 flex items-center gap-2">
+                <i class="fa-solid fa-house"></i> Hlavní web
+            </a>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-4 py-8 flex-1 w-full space-y-6">
+        
+        <!-- Malý úvodní panel -->
+        <div class="text-center space-y-2 py-4">
+            <span class="bg-brand-red/25 text-brand-red text-[11px] font-extrabold uppercase tracking-widest px-3 py-1 rounded-full border border-brand-red/30">
+                🍔 5. JUBILEJNÍ ROČNÍK • VSTUP ZDARMA 🍺
+            </span>
+            <h1 class="text-3xl md:text-5xl font-display text-white tracking-tight">
+                Sokolovna Nový Malín <span class="text-brand-gold">• 27. června 2026</span>
+            </h1>
+            <p class="text-gray-400 text-sm max-w-xl mx-auto">
+                Pomoz nám vyladit letošní festival k dokonalosti! Zodpověz pár rychlých otázek a zařaď se do slosování o <span class="text-brand-gold font-bold uppercase">šťavnatý festivalový BURGER zdarma</span>!
+            </p>
+        </div>
+
+        <!-- Pivní okénko (Pivovar Blud) -->
+        <div class="bg-gradient-to-r from-brand-orange/10 to-brand-gold/15 border border-brand-orange/20 p-4 rounded-2xl flex flex-col sm:flex-row items-center gap-4 shadow-lg">
+            <div class="text-4xl text-brand-gold"><i class="fa-solid fa-beer-mug-empty animate-pulse"></i></div>
+            <div class="text-center sm:text-left space-y-1">
+                <h3 class="font-bold text-white text-base">🍺 Na čepu: Lokální pivovar Blud z Bludova!</h3>
+                <p class="text-xs text-gray-300">
+                    Hlavní pivní tahák: Načepuje se vynikající, extra šťavnatá <span class="text-brand-gold font-bold">Hejzina (Hazy IPA 14°)</span>! Těšit se samozřejmě můžeš i na klasický ležák <span class="text-brand-gold font-semibold">Dejly 10°</span> nebo exkluzivní speciál <span class="text-brand-red font-semibold">"Bludná malina 10°"</span>!
+                </p>
+            </div>
+        </div>
+
+        <!-- Hlavní lákadla akce -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="bg-brand-dark/80 border border-brand-red/30 p-4 rounded-2xl flex items-center gap-3 shadow-md">
+                <div class="text-3xl text-brand-red"><i class="fa-solid fa-handshake-angle animate-bounce"></i></div>
+                <div>
+                    <h4 class="font-bold text-white text-sm">💪 Hlavní tahák: ARMWRESTLING</h4>
+                    <p class="text-[11px] text-gray-400">Oficiální drsná show a turnaj v páce o finanční Prize Money přímo v Sokolovně!</p>
+                </div>
+            </div>
+            <div class="bg-brand-dark/80 border border-brand-orange/30 p-4 rounded-2xl flex items-center gap-3 shadow-md">
+                <div class="text-3xl text-brand-orange"><i class="fa-solid fa-fire-burner"></i></div>
+                <div>
+                    <h4 class="font-bold text-white text-sm">🏆 Souboj stánků: BURGER FIGHT</h4>
+                    <p class="text-[11px] text-gray-400">Tvůj hlas rozhodne! Který ze stánkařů si odveze titul pro nejlepší burger roku?</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-brand-dark border border-brand-gray rounded-3xl p-6 md:p-8 shadow-2xl relative" id="dotaznik-box">
+            
+            <!-- Progress Bar -->
+            <div class="mb-6" id="progress-container">
+                <div class="flex justify-between items-center text-xs font-bold text-gray-400 mb-1.5">
+                    <span id="step-indicator">Krok 1 z 5</span>
+                    <span id="percentage-indicator" class="text-brand-orange">20% Hotovo</span>
+                </div>
+                <div class="w-full bg-brand-black h-2 rounded-full overflow-hidden">
+                    <div id="progress-bar-fill" class="bg-gradient-to-r from-brand-orange to-brand-gold h-full rounded-full transition-all duration-300" style="width: 20%;"></div>
+                </div>
+            </div>
+
+            <!-- Chybový banner pro nucené vyplnění -->
+            <div id="validation-error" class="hidden mb-4 p-3 bg-brand-red/20 border border-brand-red/30 text-red-200 text-xs rounded-xl flex items-center gap-2">
+                <i class="fa-solid fa-triangle-exclamation text-brand-red text-base animate-bounce"></i>
+                <span>Vyberte prosím odpověď před pokračováním!</span>
+            </div>
+
+            <!-- Formulář s otázkami -->
+            <form id="festival-form" onsubmit="handleFormSubmit(event)" class="space-y-4">
+                
+                <!-- KROK 1: ÚČAST -->
+                <div class="step-pane active" id="step-1">
+                    <div class="space-y-3">
+                        <h2 class="text-xl md:text-2xl font-bold text-white flex items-center gap-2">
+                            <span class="bg-brand-gold text-brand-black w-6 h-6 rounded-full flex items-center justify-center font-display text-xs">1</span>
+                            Chystáš se v sobotu 27. června do Sokolovny?
+                        </h2>
+                        <p class="text-xs text-gray-400">Vstup je zdarma, čeká nás pivo Blud, zápasy v páce i hlasování o nejlepší burger.</p>
+                        
+                        <div class="grid grid-cols-1 gap-3 pt-2">
+                            <label class="flex items-center p-4 bg-brand-black rounded-xl border border-gray-800 hover:border-brand-orange cursor-pointer transition duration-200">
+                                <input type="radio" name="attendance" value="ano" class="accent-brand-orange h-5 w-5 mr-3" required>
+                                <div>
+                                    <span class="font-bold text-white text-sm">Ano, jdu na 100%! 🍔</span>
+                                    <p class="text-[11px] text-gray-400">Nenechám si ujít parádní atmosféru, Hejzinu a soutěže.</p>
+                                </div>
+                            </label>
+
+                            <label class="flex items-center p-4 bg-brand-black rounded-xl border border-gray-800 hover:border-brand-orange cursor-pointer transition duration-200">
+                                <input type="radio" name="attendance" value="mozna" class="accent-brand-orange h-5 w-5 mr-3">
+                                <div>
+                                    <span class="font-bold text-white text-sm">Ještě váhám 🤔</span>
+                                    <p class="text-[11px] text-gray-400">Rozhodne hlavně počasí nebo nálada.</p>
+                                </div>
+                            </label>
+
+                            <label class="flex items-center p-4 bg-brand-black rounded-xl border border-gray-800 hover:border-brand-orange cursor-pointer transition duration-200">
+                                <input type="radio" name="attendance" value="ne" class="accent-brand-orange h-5 w-5 mr-3">
+                                <div>
+                                    <span class="font-bold text-white text-sm">Bohužel mi to nevyjde 😢</span>
+                                    <p class="text-[11px] text-gray-400">Budu ale fandit na dálku!</p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KROK 2: ODKUD A JAK DORAZÍŠ -->
+                <div class="step-pane hidden" id="step-2">
+                    <div class="space-y-3">
+                        <h2 class="text-xl md:text-2xl font-bold text-white flex items-center gap-2">
+                            <span class="bg-brand-gold text-brand-black w-6 h-6 rounded-full flex items-center justify-center font-display text-xs">2</span>
+                            Odkud a jak na festival dorazíš?
+                        </h2>
+                        <p class="text-xs text-gray-400">Zajímá nás, jak daleko to k nám lidé mají a jaký způsob dopravy zvolí.</p>
+
+                        <div class="space-y-3 pt-2">
+                            <div>
+                                <label for="location-select" class="block text-[11px] font-bold text-gray-400 uppercase mb-1">Odkud vyrazíš:</label>
+                                <select id="location-select" name="location_group" class="w-full bg-brand-black border border-gray-800 text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-gold" required>
+                                    <option value="" disabled selected>Zvolit odkud jsi...</option>
+                                    <option value="Novy Malin">Přímo z Nového Malína 🏡</option>
+                                    <option value="Sumperk">Šumperk a okolí 🏙️</option>
+                                    <option value="Bludov">Bludov, Hrabišín, Dlouhomilov a okolní obce 🌳</option>
+                                    <option value="Zabreh">Zábřeh a okolí 🚂</option>
+                                    <option value="Dalsi">Z větší dálky Olomouckého kraje 🗺️</option>
+                                    <option value="Mimo kraj">Z jiného kraje ČR 🇨🇿</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="transport-select" class="block text-[11px] font-bold text-gray-400 uppercase mb-1">Jakým způsobem dorazíš:</label>
+                                <select id="transport-select" name="transport_type" class="w-full bg-brand-black border border-gray-800 text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-gold" required>
+                                    <option value="" disabled selected>Vyber způsob dopravy...</option>
+                                    <option value="pesky">Po svých / Pěšky 🚶</option>
+                                    <option value="vlak_bus">Vlakem nebo autobusem 🚌</option>
+                                    <option value="auto">Autem (mám odvoz / nepiju) 🚗</option>
+                                    <option value="kolo">Na kole nebo koloběžce 🚲</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="custom-city" class="block text-[11px] font-bold text-gray-400 uppercase mb-1">Konkrétní obec/město (nepovinné):</label>
+                                <input type="text" id="custom-city" name="custom_city" placeholder="Např. Temenice, Rapotín..." class="w-full bg-brand-black border border-gray-800 text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-gold">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KROK 3: BURGER FIGHT -->
+                <div class="step-pane hidden" id="step-3">
+                    <div class="space-y-3">
+                        <h2 class="text-xl md:text-2xl font-bold text-white flex items-center gap-2">
+                            <span class="bg-brand-gold text-brand-black w-6 h-6 rounded-full flex items-center justify-center font-display text-xs">3</span>
+                            BURGER FIGHT 2026: Pro koho budeš hlasovat?
+                        </h2>
+                        <p class="text-xs text-gray-400">Mezi stánkaři se odehraje tvrdá bitva o nejlepší burger. Kdo je tvůj favorit?</p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
+                            <label class="flex items-center p-3 bg-brand-black rounded-xl border border-gray-800 hover:border-brand-orange cursor-pointer transition">
+                                <input type="radio" name="grill_master" value="cakirs" class="accent-brand-orange h-4 w-4 mr-3" required>
+                                <span class="text-xs text-white"><strong>Cakir´s Burger</strong> (Tradiční kvalita)</span>
+                            </label>
+
+                            <label class="flex items-center p-3 bg-brand-black rounded-xl border border-gray-800 hover:border-brand-orange cursor-pointer transition">
+                                <input type="radio" name="grill_master" value="drevak" class="accent-brand-orange h-4 w-4 mr-3">
+                                <span class="text-xs text-white"><strong>U Dřeváka</strong> (Chedar Lord Burger)</span>
+                            </label>
+
+                            <label class="flex items-center p-3 bg-brand-black rounded-xl border border-gray-800 hover:border-brand-orange cursor-pointer transition">
+                                <input type="radio" name="grill_master" value="smashing" class="accent-brand-orange h-4 w-4 mr-3">
+                                <span class="text-xs text-white"><strong>Smashing Machine</strong> (Smash burgery)</span>
+                            </label>
+
+                            <label class="flex items-center p-3 bg-brand-black rounded-xl border border-gray-800 hover:border-brand-orange cursor-pointer transition">
+                                <input type="radio" name="grill_master" value="balikejk" class="accent-brand-orange h-4 w-4 mr-3">
+                                <span class="text-xs text-white"><strong>Balikejk</strong> (Exotický BaliBurger)</span>
+                            </label>
+
+                            <label class="flex items-center p-3 bg-brand-black rounded-xl border border-gray-800 hover:border-brand-orange cursor-pointer transition">
+                                <input type="radio" name="grill_master" value="kure" class="accent-brand-orange h-4 w-4 mr-3">
+                                <span class="text-xs text-white"><strong>Malínské fritované kuře</strong> (Lokální hit)</span>
+                            </label>
+
+                            <label class="flex items-center p-3 bg-brand-black rounded-xl border border-gray-800 hover:border-brand-orange cursor-pointer transition">
+                                <input type="radio" name="grill_master" value="amigos" class="accent-brand-orange h-4 w-4 mr-3">
+                                <span class="text-xs text-white"><strong>Dos Amigos</strong> (Tacos a Quesadillas)</span>
+                            </label>
+
+                            <label class="flex items-center p-3 bg-brand-black rounded-xl border border-gray-800 hover:border-brand-orange cursor-pointer transition">
+                                <input type="radio" name="grill_master" value="viva" class="accent-brand-orange h-4 w-4 mr-3">
+                                <span class="text-xs text-white"><strong>Bistro Viva</strong> (Pravá BBQ žebírka)</span>
+                            </label>
+
+                            <label class="flex items-center p-3 bg-brand-black rounded-xl border border-gray-800 hover:border-brand-orange cursor-pointer transition">
+                                <input type="radio" name="grill_master" value="meatlab" class="accent-brand-orange h-4 w-4 mr-3">
+                                <span class="text-xs text-white"><strong>Underground Meat Lab</strong> (Bacon speciál)</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KROK 4: DOPROVODNÉ SOUTĚŽE -->
+                <div class="step-pane hidden" id="step-4">
+                    <div class="space-y-3">
+                        <h2 class="text-xl md:text-2xl font-bold text-white flex items-center gap-2">
+                            <span class="bg-brand-gold text-brand-black w-6 h-6 rounded-full flex items-center justify-center font-display text-xs">4</span>
+                            Která z hlavních festivalových pecek tě nejvíc táhne?
+                        </h2>
+                        <p class="text-xs text-gray-400">Náš celodenní program je nadupaný. Na co se nejvíc těšíš?</p>
+
+                        <div class="grid grid-cols-1 gap-3 pt-2">
+                            <label class="flex items-center p-4 bg-brand-black rounded-xl border border-gray-800 hover:border-brand-orange cursor-pointer transition">
+                                <input type="radio" name="contest_choice" value="paka" class="accent-brand-orange h-5 w-5 mr-3" required>
+                                <div>
+                                    <span class="font-bold text-white text-sm">Armwrestling show 💪 (PÁKA)</span>
+                                    <p class="text-[11px] text-gray-400">Chci sledovat nebo rovnou porovnat síly s borci z ČAWA v páce!</p>
+                                </div>
+                            </label>
+
+                            <label class="flex items-center p-4 bg-brand-black rounded-xl border border-gray-800 hover:border-brand-orange cursor-pointer transition">
+                                <input type="radio" name="contest_choice" value="nej_burger" class="accent-brand-orange h-5 w-5 mr-3">
+                                <div>
+                                    <span class="font-bold text-white text-sm">Hlasování v souboji BURGER FIGHT 🏆</span>
+                                    <p class="text-[11px] text-gray-400">Budu poctivě ochutnávat a hodnotit nejlepší kousek dne.</p>
+                                </div>
+                            </label>
+
+                            <label class="flex items-center p-4 bg-brand-black rounded-xl border border-gray-800 hover:border-brand-orange cursor-pointer transition">
+                                <input type="radio" name="contest_choice" value="tuplak" class="accent-brand-orange h-5 w-5 mr-3">
+                                <div>
+                                    <span class="font-bold text-white text-sm">Soutěž v pití tupláků na čas 🍺</span>
+                                    <p class="text-[11px] text-gray-400">Chci zkusit, jak rychle do sebe zvládnu otočit bludské pivo.</p>
+                                </div>
+                            </label>
+
+                            <label class="flex items-center p-4 bg-brand-black rounded-xl border border-gray-800 hover:border-brand-orange cursor-pointer transition">
+                                <input type="radio" name="contest_choice" value="jen_divak" class="accent-brand-orange h-5 w-5 mr-3">
+                                <div>
+                                    <span class="font-bold text-white text-sm">Chci jen v klidu ochutnávat a pít 🥤</span>
+                                    <p class="text-[11px] text-gray-400">Přijdu si čistě užít skvělé gastro a rodinnou atmosféru.</p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KROK 5: REGISTRACE DO SLOSOVÁNÍ O BURGRA -->
+                <div class="step-pane hidden" id="step-5">
+                    <div class="space-y-3">
+                        <h2 class="text-xl md:text-2xl font-bold text-white flex items-center gap-2">
+                            <span class="bg-brand-gold text-brand-black w-6 h-6 rounded-full flex items-center justify-center font-display text-xs">5</span>
+                            Vyhraj luxusního festivalového BURGERA zdarma!
+                        </h2>
+                        <p class="text-xs text-gray-400">Zadáním kontaktu se okamžitě zařadíš do slosování o poukaz na šťavnatého burgera dle vlastního výběru přímo na akci!</p>
+
+                        <div class="space-y-3 pt-2">
+                            <div>
+                                <label for="fullname" class="block text-[11px] font-bold text-gray-400 uppercase mb-1">Jméno a Příjmení:</label>
+                                <input type="text" id="fullname" name="fullname" placeholder="Tvoje jméno..." class="w-full bg-brand-black border border-gray-800 text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-gold" required>
+                            </div>
+
+                            <div>
+                                <label for="email" class="block text-[11px] font-bold text-gray-400 uppercase mb-1">Emailová Adresa:</label>
+                                <input type="email" id="email" name="email" placeholder="jmeno@seznam.cz" class="w-full bg-brand-black border border-gray-800 text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-gold" required>
+                            </div>
+
+                            <div class="flex items-start gap-2.5 pt-1">
+                                <input type="checkbox" id="consent" name="consent" class="accent-brand-orange mt-0.5 h-4 w-4" required>
+                                <label for="consent" class="text-[10px] text-gray-400 cursor-pointer">
+                                    Souhlasím se zpracováním údajů pro účely slosování o festivalové burgery zdarma.
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ovládací tlačítka spodního navigačního menu dotazníku -->
+                <div class="flex justify-between items-center pt-6 border-t border-gray-800">
+                    <button type="button" id="prev-btn" onclick="prevStep()" class="px-5 py-2.5 bg-brand-gray/80 hover:bg-brand-gray text-white text-xs font-bold rounded-full transition invisible flex items-center gap-1.5">
+                        <i class="fa-solid fa-arrow-left"></i> Zpět
+                    </button>
+                    
+                    <button type="button" id="next-btn" onclick="nextStep()" class="px-6 py-2.5 bg-brand-gold hover:bg-brand-orange text-brand-black hover:text-white font-extrabold text-xs sm:text-sm rounded-full transition duration-200 flex items-center gap-1.5 shadow-lg">
+                        Pokračovat <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+
+                    <button type="submit" id="submit-btn" class="hidden px-6 py-2.5 bg-gradient-to-r from-brand-orange to-brand-red text-white font-extrabold text-xs sm:text-sm rounded-full hover:scale-105 transition duration-200 flex items-center gap-1.5 shadow-xl">
+                        Odeslat odpověď a soutěžit <i class="fa-solid fa-circle-check animate-pulse"></i>
+                    </button>
+                </div>
+
+            </form>
+        </div>
+
+        <div id="results-dashboard" class="hidden bg-brand-dark border-2 border-brand-gold rounded-3xl p-6 md:p-8 shadow-2xl space-y-6">
+            <div class="text-center space-y-2">
+                <div class="w-12 h-12 bg-brand-gold/10 text-brand-gold text-2xl rounded-full flex items-center justify-center mx-auto mb-2">
+                    <i class="fa-solid fa-burger"></i>
+                </div>
+                <h3 class="text-2xl font-display text-white">Odpověď zapsána! 🎉</h3>
+                <p class="text-green-400 font-bold text-xs">Jsi zařazen do slosování o BURGRA ZDARMA! Výherce budeme kontaktovat.</p>
+                <p class="text-gray-400 text-[11px]">Uvidíme se v sobotu 27. června v Sokolovně. Zde se můžeš podívat, jak reálně odpovídali ostatní návštěvníci:</p>
+            </div>
+
+            <!-- Statistiky Účasti -->
+            <div class="bg-brand-black/50 p-4 rounded-xl border border-gray-800 space-y-3">
+                <h4 class="font-bold text-white text-xs flex items-center gap-1.5">
+                    <i class="fa-solid fa-users text-brand-gold"></i> Jak to vidí ostatní s účastí?
+                </h4>
+                <div class="space-y-3 pt-1">
+                    <div>
+                        <div class="flex justify-between text-[11px] text-gray-400 mb-1">
+                            <span>Ano, jdu na 100% 🍔</span>
+                            <span id="stat-att-yes" class="font-bold text-brand-gold">--%</span>
+                        </div>
+                        <div class="w-full bg-brand-gray h-2 rounded-full overflow-hidden">
+                            <div id="stat-bar-yes" class="bg-brand-gold h-full rounded-full transition-all duration-1000" style="width: 0%;"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-[11px] text-gray-400 mb-1">
+                            <span>Váhám 🤔</span>
+                            <span id="stat-att-maybe" class="font-bold text-brand-orange">--%</span>
+                        </div>
+                        <div class="w-full bg-brand-gray h-2 rounded-full overflow-hidden">
+                            <div id="stat-bar-maybe" class="bg-brand-orange h-full rounded-full transition-all duration-1000" style="width: 0%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statistiky Dopravy (Jak dorazíš) -->
+            <div class="bg-brand-black/50 p-4 rounded-xl border border-gray-800 space-y-3">
+                <h4 class="font-bold text-white text-xs flex items-center gap-1.5">
+                    <i class="fa-solid fa-route text-brand-gold"></i> Jakým způsobem sousedé dorazí?
+                </h4>
+                <div id="transport-stats-container" class="space-y-3 pt-1">
+                    <!-- Generováno dynamicky přes JS -->
+                </div>
+            </div>
+
+            <!-- Statistiky Grillů -->
+            <div class="bg-brand-black/50 p-4 rounded-xl border border-gray-800 space-y-3">
+                <h4 class="font-bold text-white text-xs flex items-center gap-1.5">
+                    <i class="fa-solid fa-fire text-brand-orange"></i> Favorizovaní mistři v BURGER FIGHT:
+                </h4>
+                <div id="grill-stats-container" class="space-y-3 pt-1">
+                    <!-- Generováno přes JS -->
+                </div>
+            </div>
+
+            <!-- Statistiky Soutěží -->
+            <div class="bg-brand-black/50 p-4 rounded-xl border border-gray-800 space-y-3">
+                <h4 class="font-bold text-white text-xs flex items-center gap-1.5">
+                    <i class="fa-solid fa-award text-brand-red"></i> Nejočekávanější pecka programu:
+                </h4>
+                <div id="contest-stats-container" class="space-y-3 pt-1">
+                    <!-- Generováno přes JS -->
+                </div>
+            </div>
+
+            <div class="text-center pt-2">
+                <button onclick="resetAnketu()" class="px-5 py-2 bg-brand-gray hover:bg-brand-orange text-white text-xs font-bold rounded-full transition duration-200">
+                    <i class="fa-solid fa-rotate-left"></i> Vyplnit znovu (třeba pro partnera / rodinu)
+                </button>
+            </div>
+        </div>
+
+        <!-- Charity Note / Děti dětem -->
+        <div class="text-center bg-brand-dark/40 border border-gray-800 p-4 rounded-2xl">
+            <p class="text-[11px] text-gray-400">
+                ❤️ <span class="text-white font-bold">Charitativní přesah akce:</span> Ve spolupráci s iniciativou <span class="text-brand-orange font-bold">Děti dětem</span> se na místě uskuteční sbírka pro ZŠ a SŠ Pomněnka na pořízení herního prvku pro děti s hendikepem.
+            </p>
+        </div>
+
+        <!-- SEKCE PRO POŘADATELE (Diskrétní brána k administraci) -->
+        <div class="mt-12 pt-6 border-t border-gray-800 text-center">
+            <button onclick="openAdminGate()" class="text-xs text-gray-500 hover:text-brand-gold transition duration-200 flex items-center gap-1.5 mx-auto px-4 py-2 rounded-lg bg-brand-dark/30 border border-gray-800 hover:border-brand-gold/30">
+                <i class="fa-solid fa-key text-[10px]"></i> Administrace pro pořadatele (Hlasy & Kontakty)
+            </button>
+        </div>
+
+        <!-- ADMIN MODAL PRO HESLO -->
+        <div id="admin-pass-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <div class="bg-brand-dark border border-brand-orange/30 p-6 rounded-2xl max-w-sm w-full space-y-4 shadow-2xl">
+                <div class="flex justify-between items-center">
+                    <h3 class="font-bold text-white text-base">Zadejte přístupový kód</h3>
+                    <button onclick="closeAdminGate()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <p class="text-xs text-gray-400">Přístup k výsledkům a kontaktům pro slosování. Výchozí kód je <strong class="text-brand-gold">malin2026</strong>.</p>
+                <input type="password" id="admin-password-input" class="w-full bg-brand-black border border-gray-800 text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-gold" placeholder="Zadejte heslo...">
+                <div id="admin-error-msg" class="hidden text-brand-red text-xs font-semibold">Chybné heslo! Zkuste to znovu.</div>
+                <div class="flex justify-end gap-2">
+                    <button onclick="closeAdminGate()" class="px-4 py-2 bg-brand-gray text-xs font-bold rounded-full text-white">Zrušit</button>
+                    <button onclick="checkAdminPassword()" class="px-4 py-2 bg-brand-gold hover:bg-brand-orange text-brand-black hover:text-white text-xs font-extrabold rounded-full transition">Ověřit</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SKUTEČNÁ ADMINISTRACE (PŘEHLED VŠECH HLASŮ) -->
+        <div id="admin-dashboard" class="hidden bg-brand-dark border border-brand-orange rounded-3xl p-6 md:p-8 shadow-2xl space-y-4">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-gray-800 pb-4">
+                <div>
+                    <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-screwdriver-wrench text-brand-gold"></i> Správa hlasování a soutěžících
+                    </h3>
+                    <p class="text-xs text-gray-400">Zde vidíte reálná data uložená v databázi.</p>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="exportToCSV()" class="px-4 py-2 bg-brand-gold hover:bg-brand-orange text-brand-black hover:text-white font-extrabold text-xs rounded-full transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-file-excel"></i> Exportovat CSV (pro Excel)
+                    </button>
+                    <button onclick="closeAdminDashboard()" class="px-4 py-2 bg-brand-gray hover:bg-red-600 text-white font-bold text-xs rounded-full transition">
+                        Zavřít
+                    </button>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs text-gray-300">
+                    <thead class="bg-brand-black text-gray-400 uppercase text-[10px] border-b border-gray-800">
+                        <tr>
+                            <th class="p-3">Jméno</th>
+                            <th class="p-3">E-mail</th>
+                            <th class="p-3">Účast</th>
+                            <th class="p-3">Odkud</th>
+                            <th class="p-3">Jak</th>
+                            <th class="p-3">Volba burgeru</th>
+                            <th class="p-3">Soutěž</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-table-body" class="divide-y divide-gray-800">
+                        <tr>
+                            <td colspan="7" class="p-4 text-center text-gray-500">Načítání dat...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Jednoduchá patička -->
+    <footer class="bg-brand-dark py-6 px-4 border-t border-brand-gray text-center text-xs text-gray-400 mt-8 space-y-2">
+        <p class="font-bold text-white">Malínský Burger Festival © 2026</p>
+        <p>Sokolovna Nový Malín, Sobota 27. 6. 2026. Vstup zdarma.</p>
+        <p class="text-[10px] text-gray-500">Iniciováno nadšenými řezníky, lokálními siláky a pivovarem Blud.</p>
+        <div class="pt-2">
+            <a href="https://malinskyburgerfestival.cz/" class="text-brand-gold hover:underline">
+                Zpět na oficiální prezentaci akce <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
+            </a>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Globální nastavení a integrace
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'malinsky-burger-2026';
+        let db, auth;
+        let isFirebaseActive = false;
+
+        // Lokální záložní data pro případ, že Firebase není nakonfigurován
+        const fallbackStats = {
+            attendance: { ano: 42, mozna: 12, ne: 4 },
+            transport: { pesky: 22, vlak_bus: 14, auto: 18, kolo: 4 },
+            grills: { cakirs: 12, drevak: 14, smashing: 10, balikejk: 8, kure: 6, amigos: 4, viva: 2, meatlab: 2 },
+            contests: { paka: 15, tuplak: 12, nej_burger: 22, jen_divak: 9 }
+        };
+
+        let currentActiveData = [];
+
+        async function startDatabase() {
+            if (typeof __firebase_config === 'undefined' || !__firebase_config) {
+                console.warn("Není zadána Firebase konfigurace. Používáme lokální simulovaný režim.");
+                if (window.renderStatsData) window.renderStatsData(fallbackStats);
+                return;
+            }
+
+            try {
+                const firebaseConfig = JSON.parse(__firebase_config);
+                const app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+
+                isFirebaseActive = true;
+                console.log("Firebase připojen.");
+
+                const submissionsCol = collection(db, 'artifacts', appId, 'public', 'data', 'submissions');
+                onSnapshot(submissionsCol, (snapshot) => {
+                    const dataList = [];
+                    snapshot.forEach(doc => {
+                        dataList.push(doc.data());
+                    });
+                    currentActiveData = dataList;
+                    processDatabaseSubmissions(dataList);
+                }, (error) => {
+                    console.error("Chyba Firestore:", error);
+                });
+
+            } catch (err) {
+                console.error("Selhalo nastavení databáze:", err);
+                if (window.renderStatsData) window.renderStatsData(fallbackStats);
+            }
+        }
+
+        function processDatabaseSubmissions(submissions) {
+            if (submissions.length === 0) {
+                if (window.renderStatsData) window.renderStatsData(fallbackStats);
+                updateAdminTable([]);
+                return;
+            }
+
+            const stats = {
+                attendance: { ano: 0, mozna: 0, ne: 0 },
+                transport: { pesky: 0, vlak_bus: 0, auto: 0, kolo: 0 },
+                grills: { cakirs: 0, drevak: 0, smashing: 0, balikejk: 0, kure: 0, amigos: 0, viva: 0, meatlab: 0 },
+                contests: { paka: 0, tuplak: 0, nej_burger: 0, jen_divak: 0 }
+            };
+
+            submissions.forEach(item => {
+                if (stats.attendance[item.attendance] !== undefined) stats.attendance[item.attendance]++;
+                if (stats.transport[item.transport_type] !== undefined) stats.transport[item.transport_type]++;
+                if (stats.grills[item.grill_master] !== undefined) stats.grills[item.grill_master]++;
+                if (stats.contests[item.contest_choice] !== undefined) stats.contests[item.contest_choice]++;
+            });
+
+            if (window.renderStatsData) window.renderStatsData(stats);
+            updateAdminTable(submissions);
+        }
+
+        window.saveSubmissionToDb = async function(formData) {
+            if (!isFirebaseActive) {
+                let offlineData = JSON.parse(localStorage.getItem('offline_submissions') || '[]');
+                offlineData.push(formData);
+                localStorage.setItem('offline_submissions', JSON.stringify(offlineData));
+                
+                fallbackStats.attendance[formData.attendance]++;
+                fallbackStats.transport[formData.transport_type]++;
+                fallbackStats.grills[formData.grill_master]++;
+                fallbackStats.contests[formData.contest_choice]++;
+                if (window.renderStatsData) window.renderStatsData(fallbackStats);
+                return;
+            }
+
+            try {
+                const submissionsCol = collection(db, 'artifacts', appId, 'public', 'data', 'submissions');
+                await addDoc(submissionsCol, formData);
+            } catch (err) {
+                console.error("Chyba při zápisu:", err);
+            }
+        };
+
+        function updateAdminTable(submissions) {
+            const tableBody = document.getElementById('admin-table-body');
+            if (submissions.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-gray-500">Dosud nebyly odeslány žádné odpovědi. Buďte první!</td></tr>`;
+                return;
+            }
+
+            const labelGrills = {
+                cakirs: "Cakir´s Burger", drevak: "U Dřeváka", smashing: "Smashing Machine",
+                balikejk: "Balikejk", kure: "Fritované kuře", amigos: "Dos Amigos",
+                viva: "Bistro Viva", meatlab: "Meat Lab"
+            };
+
+            const labelContests = {
+                paka: "Armwrestling (Páka)", tuplak: "Pití tupláků",
+                nej_burger: "Burger Fight", jen_divak: "Jen ochutnávání"
+            };
+
+            tableBody.innerHTML = '';
+            submissions.forEach((item) => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-brand-gray/30 transition-colors";
+                tr.innerHTML = `
+                    <td class="p-3 font-semibold text-white">${escapeHtml(item.fullname)}</td>
+                    <td class="p-3 text-brand-gold font-mono">${escapeHtml(item.email)}</td>
+                    <td class="p-3 uppercase font-bold text-[10px] text-center">${item.attendance === 'ano' ? '💚 Ano' : item.attendance === 'mozna' ? '💛 Váhá' : '💔 Ne'}</td>
+                    <td class="p-3">${escapeHtml(item.location_group)} ${item.custom_city ? '('+escapeHtml(item.custom_city)+')' : ''}</td>
+                    <td class="p-3 capitalize">${item.transport_type}</td>
+                    <td class="p-3 text-gray-400">${labelGrills[item.grill_master] || item.grill_master}</td>
+                    <td class="p-3 text-gray-400">${labelContests[item.contest_choice] || item.contest_choice}</td>
+                `;
+                tableBody.appendChild(tr);
+            });
+        }
+
+        window.exportToCSV = function() {
+            let listToExport = isFirebaseActive ? currentActiveData : JSON.parse(localStorage.getItem('offline_submissions') || '[]');
+            if (listToExport.length === 0) {
+                alertModal("Žádná data k exportování.");
+                return;
+            }
+
+            let csvContent = "\uFEFF"; 
+            csvContent += "Jmeno;Email;Ucast;Odkud;Mesto;Doprava;Burger;Soutez;Datum\r\n";
+
+            listToExport.forEach(item => {
+                let row = [
+                    item.fullname,
+                    item.email,
+                    item.attendance,
+                    item.location_group,
+                    item.custom_city || "",
+                    item.transport_type,
+                    item.grill_master,
+                    item.contest_choice,
+                    item.timestamp || ""
+                ].map(val => `"${val.replace(/"/g, '""')}"`).join(";");
+                csvContent += row + "\r\n";
+            });
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.setAttribute("href", url);
+            link.setAttribute("download", `Malinsky_Burger_Festival_Kontakty_2026.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        };
+
+        function escapeHtml(text) {
+            if (!text) return "";
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        window.addEventListener('load', startDatabase);
+    </script>
+
+    <script>
+        let currentStep = 1;
+        const totalSteps = 5;
+        window.latestStats = null;
+
+        window.onload = function() {
+            checkAlreadySubmitted();
+        };
+
+        function updateProgress() {
+            document.getElementById('step-indicator').innerText = `Krok ${currentStep} z ${totalSteps}`;
+            const percentage = Math.round((currentStep / totalSteps) * 100);
+            document.getElementById('percentage-indicator').innerText = `${percentage}% Hotovo`;
+            document.getElementById('progress-bar-fill').style.width = `${percentage}%`;
+        }
+
+        function validateStep(step) {
+            hideError();
+            if (step === 1) {
+                return document.querySelector('input[name="attendance"]:checked') !== null;
+            }
+            if (step === 2) {
+                return document.getElementById('location-select').value !== "" && document.getElementById('transport-select').value !== "";
+            }
+            if (step === 3) {
+                return document.querySelector('input[name="grill_master"]:checked') !== null;
+            }
+            if (step === 4) {
+                return document.querySelector('input[name="contest_choice"]:checked') !== null;
+            }
+            if (step === 5) {
+                const name = document.getElementById('fullname').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const consent = document.getElementById('consent').checked;
+                return name.length > 0 && email.length > 0 && consent;
+            }
+            return true;
+        }
+
+        function showError() {
+            document.getElementById('validation-error').classList.remove('hidden');
+        }
+
+        function hideError() {
+            document.getElementById('validation-error').classList.add('hidden');
+        }
+
+        function nextStep() {
+            if (!validateStep(currentStep)) {
+                showError();
+                return;
+            }
+
+            if (currentStep < totalSteps) {
+                document.getElementById(`step-${currentStep}`).classList.add('hidden');
+                currentStep++;
+                document.getElementById(`step-${currentStep}`).classList.remove('hidden');
+                
+                document.getElementById('prev-btn').classList.remove('invisible');
+                
+                if (currentStep === totalSteps) {
+                    document.getElementById('next-btn').classList.add('hidden');
+                    document.getElementById('submit-btn').classList.remove('hidden');
+                }
+                updateProgress();
+            }
+        }
+
+        function prevStep() {
+            hideError();
+            if (currentStep > 1) {
+                document.getElementById(`step-${currentStep}`).classList.add('hidden');
+                currentStep--;
+                document.getElementById(`step-${currentStep}`).classList.remove('hidden');
+                
+                if (currentStep === 1) {
+                    document.getElementById('prev-btn').classList.add('invisible');
+                }
+                document.getElementById('next-btn').classList.remove('hidden');
+                document.getElementById('submit-btn').classList.add('hidden');
+                updateProgress();
+            }
+        }
+
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            
+            if (!validateStep(5)) {
+                showError();
+                return;
+            }
+
+            const form = document.getElementById('festival-form');
+            const formData = {
+                attendance: form.elements['attendance'].value,
+                location_group: form.elements['location_group'].value,
+                transport_type: form.elements['transport_type'].value,
+                custom_city: form.elements['custom_city'].value.trim(),
+                grill_master: form.elements['grill_master'].value,
+                contest_choice: form.elements['contest_choice'].value,
+                fullname: document.getElementById('fullname').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                timestamp: new Date().toISOString()
+            };
+
+            if (window.saveSubmissionToDb) {
+                window.saveSubmissionToDb(formData);
+            }
+
+            localStorage.setItem('malin_submitted', 'true');
+
+            triggerConfetti();
+
+            document.getElementById('festival-form').classList.add('hidden');
+            document.getElementById('progress-container').classList.add('hidden');
+            document.getElementById('results-dashboard').classList.remove('hidden');
+
+            if (window.latestStats) {
+                window.renderStatsData(window.latestStats);
+            }
+        }
+
+        function checkAlreadySubmitted() {
+            if (localStorage.getItem('malin_submitted') === 'true') {
+                document.getElementById('festival-form').classList.add('hidden');
+                document.getElementById('progress-container').classList.add('hidden');
+                document.getElementById('results-dashboard').classList.remove('hidden');
+            } else {
+                document.getElementById('festival-form').classList.remove('hidden');
+                document.getElementById('progress-container').classList.remove('hidden');
+                document.getElementById('results-dashboard').classList.add('hidden');
+            }
+        }
+
+        function triggerConfetti() {
+            confetti({
+                particleCount: 140,
+                spread: 80,
+                origin: { y: 0.6 },
+                colors: ['#f59e0b', '#e11d48', '#f97316', '#ffffff']
+            });
+        }
+
+        window.renderStatsData = function(stats) {
+            window.latestStats = stats;
+
+            const total = stats.attendance.ano + stats.attendance.mozna + stats.attendance.ne;
+            const pctYes = total > 0 ? Math.round((stats.attendance.ano / total) * 100) : 0;
+            const pctMaybe = total > 0 ? Math.round((stats.attendance.mozna / total) * 100) : 0;
+
+            const statAttYes = document.getElementById('stat-att-yes');
+            const statBarYes = document.getElementById('stat-bar-yes');
+            const statAttMaybe = document.getElementById('stat-att-maybe');
+            const statBarMaybe = document.getElementById('stat-bar-maybe');
+
+            if (statAttYes) statAttYes.innerText = `${pctYes}%`;
+            if (statBarYes) statBarYes.style.width = `${pctYes}%`;
+
+            if (statAttMaybe) statAttMaybe.innerText = `${pctMaybe}%`;
+            if (statBarMaybe) statBarMaybe.style.width = `${pctMaybe}%`;
+
+            renderTransportChart(stats.transport);
+            renderGrillChart(stats.grills);
+            renderContestChart(stats.contests);
+        }
+
+        function renderTransportChart(transportVotes) {
+            const container = document.getElementById('transport-stats-container');
+            container.innerHTML = '';
+
+            const labelNames = {
+                pesky: "🚶 Pěšky / Po svých",
+                vlak_bus: "🚌 Veřejnou dopravou (Vlak / Bus)",
+                auto: "🚗 Autem",
+                kolo: "🚲 Na kole nebo koloběžce"
+            };
+
+            let total = 0;
+            for (let k in transportVotes) total += transportVotes[k];
+
+            let sortedArr = [];
+            for (let key in transportVotes) {
+                sortedArr.push({
+                    key: key,
+                    votes: transportVotes[key],
+                    pct: total > 0 ? Math.round((transportVotes[key] / total) * 100) : 0
+                });
+            }
+            sortedArr.sort((a, b) => b.votes - a.votes);
+
+            sortedArr.forEach(item => {
+                const label = labelNames[item.key] || item.key;
+                const row = document.createElement('div');
+                row.innerHTML = `
+                    <div class="flex justify-between text-[11px] text-gray-400 mb-1">
+                        <span>${label}</span>
+                        <span class="font-bold text-white">${item.pct}%</span>
+                    </div>
+                    <div class="w-full bg-brand-gray h-2 rounded-full overflow-hidden">
+                        <div class="bg-brand-gold h-full rounded-full transition-all duration-1000" style="width: ${item.pct}%;"></div>
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+        }
+
+        function renderGrillChart(grillVotes) {
+            const container = document.getElementById('grill-stats-container');
+            container.innerHTML = '';
+
+            const labelNames = {
+                cakirs: "Cakir´s Burger 🥩",
+                drevak: "U Dřeváka (Chedar Lord) 🧀",
+                smashing: "Smashing Machine 🍔",
+                balikejk: "Balikejk 🌴",
+                kure: "Malínské fritované kuře 🍗",
+                amigos: "Dos Amigos 🌮",
+                viva: "Bistro Viva 🍖",
+                meatlab: "Underground Meat Lab 🥓"
+            };
+
+            let total = 0;
+            for (let k in grillVotes) total += grillVotes[k];
+
+            let sortedArr = [];
+            for (let key in grillVotes) {
+                sortedArr.push({
+                    key: key,
+                    votes: grillVotes[key],
+                    pct: total > 0 ? Math.round((grillVotes[key] / total) * 100) : 0
+                });
+            }
+            sortedArr.sort((a, b) => b.votes - a.votes);
+
+            sortedArr.slice(0, 4).forEach(item => {
+                const label = labelNames[item.key] || item.key;
+                const row = document.createElement('div');
+                row.innerHTML = `
+                    <div class="flex justify-between text-[11px] text-gray-400 mb-1">
+                        <span>${label}</span>
+                        <span class="font-bold text-white">${item.pct}% (${item.votes} hlasů)</span>
+                    </div>
+                    <div class="w-full bg-brand-gray h-2 rounded-full overflow-hidden">
+                        <div class="bg-brand-orange h-full rounded-full transition-all duration-1000" style="width: ${item.pct}%;"></div>
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+        }
+
+        function renderContestChart(contestVotes) {
+            const container = document.getElementById('contest-stats-container');
+            container.innerHTML = '';
+
+            const labelNames = {
+                paka: "Armwrestling ČAWA (Páka) 💪",
+                tuplak: "Pití tupláků na čas 🍺",
+                nej_burger: "Hodnocení Burger Fight 🏆",
+                jen_divak: "Pouze pohodový divák 🥤"
+            };
+
+            let total = 0;
+            for (let k in contestVotes) total += contestVotes[k];
+
+            let sortedArr = [];
+            for (let key in contestVotes) {
+                sortedArr.push({
+                    key: key,
+                    votes: contestVotes[key],
+                    pct: total > 0 ? Math.round((contestVotes[key] / total) * 100) : 0
+                });
+            }
+            sortedArr.sort((a, b) => b.votes - a.votes);
+
+            sortedArr.forEach(item => {
+                const label = labelNames[item.key] || item.key;
+                const row = document.createElement('div');
+                row.innerHTML = `
+                    <div class="flex justify-between text-[11px] text-gray-400 mb-1">
+                        <span>${label}</span>
+                        <span class="font-bold text-white">${item.pct}%</span>
+                    </div>
+                    <div class="w-full bg-brand-gray h-2 rounded-full overflow-hidden">
+                        <div class="bg-brand-red h-full rounded-full transition-all duration-1000" style="width: ${item.pct}%;"></div>
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+        }
+
+        function resetAnketu() {
+            localStorage.removeItem('malin_submitted');
+            currentStep = 1;
+
+            document.getElementById('festival-form').reset();
+            document.getElementById('festival-form').classList.remove('hidden');
+            document.getElementById('progress-container').classList.remove('hidden');
+            document.getElementById('results-dashboard').classList.add('hidden');
+
+            for (let i = 1; i <= totalSteps; i++) {
+                document.getElementById(`step-${i}`).classList.add('hidden');
+            }
+            document.getElementById('step-1').classList.remove('hidden');
+
+            document.getElementById('prev-btn').classList.add('invisible');
+            document.getElementById('next-btn').classList.remove('hidden');
+            document.getElementById('submit-btn').classList.add('hidden');
+
+            updateProgress();
+        }
+
+        function openAdminGate() {
+            document.getElementById('admin-pass-modal').classList.remove('hidden');
+            document.getElementById('admin-password-input').focus();
+        }
+
+        function closeAdminGate() {
+            document.getElementById('admin-pass-modal').classList.add('hidden');
+            document.getElementById('admin-password-input').value = '';
+            document.getElementById('admin-error-msg').classList.add('hidden');
+        }
+
+        function checkAdminPassword() {
+            const typedPassword = document.getElementById('admin-password-input').value;
+            if (typedPassword === 'malin2026') {
+                closeAdminGate();
+                document.getElementById('admin-dashboard').classList.remove('hidden');
+                document.getElementById('admin-dashboard').scrollIntoView({ behavior: 'smooth' });
+            } else {
+                document.getElementById('admin-error-msg').classList.remove('hidden');
+            }
+        }
+
+        function closeAdminDashboard() {
+            document.getElementById('admin-dashboard').classList.add('hidden');
+        }
+
+        function alertModal(msg) {
+            const overlay = document.createElement('div');
+            overlay.className = "fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4";
+            overlay.innerHTML = `
+                <div class="bg-brand-dark border border-brand-orange/30 p-6 rounded-2xl max-w-sm w-full space-y-4 shadow-2xl text-center">
+                    <p class="text-sm text-gray-200">${msg}</p>
+                    <button id="close-custom-modal-btn" class="px-6 py-2 bg-brand-gold text-brand-black hover:bg-brand-orange hover:text-white text-xs font-bold rounded-full transition mx-auto block">Rozumím</button>
+                </div>
+            `;
+            document.body.appendChild(overlay);
+            document.getElementById('close-custom-modal-btn').onclick = () => {
+                document.body.removeChild(overlay);
+            };
+        }
+    </script>
+</body>
+</html>
