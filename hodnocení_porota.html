@@ -194,7 +194,7 @@
                 </div>
             </div>
 
-            <!-- OVLÁDACÍ TLAČÍTKA FORMULÁŘE -->
+            <!-- OVLÁDACÍ TLAČÍTKA FORMULÁRE -->
             <div class="pt-4 flex items-center justify-between gap-3">
                 <button id="prevBtn" onclick="prevStep()" class="hidden w-1/3 bg-zinc-900 hover:bg-zinc-850 text-zinc-300 font-bold py-3.5 px-4 rounded-xl border border-zinc-800 transition-all text-xs uppercase tracking-wider">
                     <i class="fa-solid fa-arrow-left mr-1"></i> Zpět
@@ -358,8 +358,7 @@
     <script>
         // ====================================================================
         //  NASTAVENÍ ONLINE CLOUDU (BEZ REGISTRACE, BEZ KARET, ZDARMA!)
-        //  Používáme oficiální a garantovaně povolený veřejný bucket "Fd55uogXyxYdnXJvnyN8Xo"
-        //  s unikátním tajným klíčem pro tvůj festival. To zaručuje 100% spolehlivost.
+        //  Používáme bezpečný veřejný bucket kvdb.io s unikátní podskupinou klíčů.
         // ====================================================================
         const CLOUD_URL = "https://kvdb.io/Fd55uogXyxYdnXJvnyN8Xo/malinsky_festival_2026_database_secure_a78f23b";
 
@@ -679,7 +678,7 @@
                 const badge = document.getElementById(`badge-${crit.id}`);
                 if (badge) badge.textContent = currentScore;
 
-                const txt = document.getElementById('scoreText-' + crit.id);
+                const txt = document.getElementById(`scoreText-${crit.id}`);
                 if (txt) {
                     txt.textContent = getVerdictText(currentScore);
                     if (currentScore <= 2) {
@@ -1316,7 +1315,7 @@
                     showToast("Zkopírování se nezdařilo.", "error");
                 }
             } catch (err) {
-                showToast("Zkopírování se nezdařilo.", "error");
+                showToast("Zkopírování selhalo.", "error");
             }
 
             document.body.removeChild(tempTextArea);
@@ -1373,7 +1372,7 @@
 
     </script>
 
-    <!-- CHYTRÁ TOAST NOTIFIKACE (NENAHRADITELNÝ POMOCNÍK) -->
+    <!-- CHYTRÁ TOAST NOTIFIKACE -->
     <script>
         function showToast(message, type = "success") {
             const box = document.getElementById('alertBox');
