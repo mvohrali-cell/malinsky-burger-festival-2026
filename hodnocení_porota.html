@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malínský Burgerfest - Menu</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Playfair Display pro luxusní nadpisy, Inter pro ultra-čitelný text -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,500&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F4F4F5; /* Světle šedé pozadí pro webovou prezentaci lístku */
+            color: #111111;
+        }
+        .serif-title {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        /* Styl pro zobrazení na obrazovce jako reálný A4 list */
+        .menu-page {
+            background-color: #FFFFFF;
+            width: 210mm;
+            min-height: 297mm;
+            padding: 20mm 22mm;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        /* STRIGENTNÍ CHOVÁNÍ PRO TISK / EXPORT DO PDF (Pevná 1 strana A4) */
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 0 !important; /* Odstraní hlavičky, patičky a okraje prohlížeče */
+            }
+            .no-print {
+                display: none !important;
+            }
+            html, body {
+                background-color: #FFFFFF !important;
+                width: 210mm !important;
+                height: 297mm !important;
+                overflow: hidden !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            .menu-page {
+                width: 210mm !important;
+                height: 297mm !important;
+                padding: 18mm 20mm !important;
+                border: none !important;
+                box-shadow: none !important;
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: space-between !important;
+                box-sizing: border-box !important;
+            }
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-start min-h-screen py-10">
+
+    <!-- Ovládací panel (při tisku/PDF exportu se skryje) -->
+    <div class="no-print w-full max-w-[210mm] mb-6 bg-white border border-stone-200 rounded-xl p-4 flex justify-between items-center shadow-sm">
+        <div class="flex items-center gap-2">
+            <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+            <span class="text-sm font-semibold text-stone-700">Připraveno pro bezchybný tisk na 1 stranu A4</span>
+        </div>
+        <button onclick="window.print()" class="px-6 py-2.5 text-sm font-bold bg-stone-900 text-white rounded-lg hover:bg-stone-800 transition-colors shadow-sm">
+            Vytisknout / Uložit do PDF
+        </button>
+    </div>
+
+    <!-- Stránka s menu (přesný formát A4) -->
+    <div class="menu-page shadow-2xl border border-stone-200">
+        
+        <!-- Elegantní dvojitý vnitřní rámeček dotvářející gastro styl -->
+        <div class="absolute inset-[8mm] border border-stone-300 pointer-events-none"></div>
+        <div class="absolute inset-[9.5mm] border border-stone-100 pointer-events-none"></div>
+
+        <!-- HLAVIČKA -->
+        <header class="text-center pt-6 z-10">
+            <p class="text-[10px] uppercase tracking-[0.4em] text-stone-500 font-bold mb-3">Malínský Burgerfest</p>
+            <h1 class="serif-title text-4xl sm:text-5xl font-extrabold tracking-tight text-stone-950">UNDERGROUND MEET LAB</h1>
+            <div class="w-16 h-[1.5px] bg-stone-950 mx-auto my-4"></div>
+            <p class="serif-title italic text-sm sm:text-base text-stone-600 uppercase tracking-widest font-semibold">Exkluzivní festivalové občerstvení</p>
+        </header>
+
+        <!-- NABÍDKA (Rozvržená tak, aby optimálně zaplnila prostor) -->
+        <main class="space-y-12 z-10 my-auto px-6">
+
+            <!-- SEKCE 1: BURGERY -->
+            <section class="space-y-8">
+                <!-- Nadpis sekce s linkou -->
+                <div class="flex items-center gap-4 border-b border-stone-300 pb-2">
+                    <h2 class="serif-title text-xl font-bold uppercase tracking-widest text-stone-950">Prémiové Burgery</h2>
+                    <span class="text-[11px] font-bold text-stone-400 uppercase tracking-wider ml-auto">100% vyzrálé hovězí</span>
+                </div>
+
+                <!-- Jídlo 1 -->
+                <div class="space-y-1">
+                    <div class="flex items-baseline justify-between">
+                        <h3 class="serif-title text-xl font-extrabold text-stone-950 flex items-center gap-2">
+                            BACON BOOM
+                            <span class="text-[9px] uppercase font-sans tracking-wider px-2 py-0.5 border border-stone-800 text-stone-800 rounded-full font-bold">Novinka</span>
+                        </h3>
+                        <span class="flex-grow border-b border-dotted border-stone-300 mx-3"></span>
+                        <span class="serif-title text-xl font-bold text-stone-950">200 Kč</span>
+                    </div>
+                    <p class="text-stone-600 text-[14px] sm:text-[15px] leading-relaxed">
+                        Hovězí vyzrálé maso ze <strong class="text-stone-900 font-semibold">Statku Winter</strong>, triple cheese (3 druhy sýrů), čerstvé guacamole, domácí slaninový džem (bacon jam), barbecue mayo, máslová houska.
+                    </p>
+                </div>
+
+                <!-- Jídlo 2 -->
+                <div class="space-y-1">
+                    <div class="flex items-baseline justify-between">
+                        <h3 class="serif-title text-xl font-extrabold text-stone-950 flex items-center gap-2">
+                            SPECIÁL
+                            <span class="text-[9px] uppercase font-sans tracking-wider px-2 py-0.5 bg-stone-950 text-white rounded-full font-bold">Limitovaná edice</span>
+                        </h3>
+                        <span class="flex-grow border-b border-dotted border-stone-300 mx-3"></span>
+                        <span class="serif-title text-xl font-bold text-stone-950">200 Kč</span>
+                    </div>
+                    <p class="text-stone-600 text-[14px] sm:text-[15px] leading-relaxed">
+                        Pomalu zauzený hovězí jazyk, naše domácí kořeněná nakládačka, jemná karamelizovaná cibulka, pikantní wasabi mayo, máslová houska.
+                    </p>
+                </div>
+            </section>
+
+            <!-- SEKCE 2: LIMONÁDY -->
+            <section class="space-y-6">
+                <!-- Nadpis sekce s linkou -->
+                <div class="flex items-center gap-4 border-b border-stone-300 pb-2">
+                    <h2 class="serif-title text-xl font-bold uppercase tracking-widest text-stone-950">Domácí Limonády</h2>
+                    <span class="text-[11px] font-bold text-stone-400 uppercase tracking-wider ml-auto">Poctivá výroba</span>
+                </div>
+
+                <!-- Limonáda 1 -->
+                <div class="space-y-1">
+                    <div class="flex items-baseline justify-between">
+                        <h3 class="serif-title text-lg font-bold text-stone-900">Bezová limonáda</h3>
+                        <span class="flex-grow border-b border-dotted border-stone-300 mx-3"></span>
+                        <span class="serif-title text-lg font-bold text-stone-950">50 Kč</span>
+                    </div>
+                    <p class="text-stone-600 text-[14px] leading-relaxed">
+                        Tradiční domácí sirup z květů černého bezu, čerstvý citron, lístky máty, soda a led.
+                    </p>
+                </div>
+
+                <!-- Limonáda 2 -->
+                <div class="space-y-1">
+                    <div class="flex items-baseline justify-between">
+                        <h3 class="serif-title text-lg font-bold text-stone-900">Levandulová limonáda</h3>
+                        <span class="flex-grow border-b border-dotted border-stone-300 mx-3"></span>
+                        <span class="serif-title text-lg font-bold text-stone-950">50 Kč</span>
+                    </div>
+                    <p class="text-stone-600 text-[14px] leading-relaxed">
+                        Domácí levandulový sirup, čerstvý citron, meduňka, soda a led.
+                    </p>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- PATKA -->
+        <footer class="text-center pb-6 z-10">
+            <div class="flex justify-center gap-6 text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-stone-600 mb-2">
+                <span>Poctivé Suroviny</span>
+                <span>•</span>
+                <span>Skvělá Chuť</span>
+                <span>•</span>
+                <span>Lokální podpora</span>
+            </div>
+            <p class="text-[10px] text-stone-400 font-semibold uppercase tracking-wider">
+                Masa a suroviny nakupujeme výhradně u lokálních českých farmářů.
+            </p>
+        </footer>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,1469 @@
+<!DOCTYPE html>
+<html lang="cs" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hlasování | Malínský Burgerfestival 2026</title>
+    <!-- Tailwind CSS for modern styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            red: '#c51f1f',
+                            redHover: '#a81818',
+                            darkBg: '#050505',
+                            cardBg: '#121212',
+                            borderDark: '#222222'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Montserrat', 'Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts matching typography from image_320c0c.jpg -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300..900;1,300..900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Canvas Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <style>
+        :root {
+            --brand-red: #c51f1f;
+            --brand-red-hover: #a81818;
+            --star-color: #fbbf24;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #121212;
+            border-radius: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: var(--brand-red);
+            border-radius: 8px;
+        }
+
+        .glow-bg {
+            background: radial-gradient(circle at 50% -20%, rgba(197, 31, 31, 0.15) 0%, rgba(5, 5, 5, 0) 60%);
+        }
+    </style>
+</head>
+<body class="bg-brand-darkBg text-slate-200 font-sans min-h-screen flex flex-col antialiased select-none glow-bg">
+
+    <!-- Navigation (Styled after the official website) -->
+    <nav class="sticky top-0 z-50 bg-black/90 backdrop-blur-md border-b border-brand-borderDark shadow-2xl">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Logo exactly as styled on image_320c0c.jpg -->
+                <div class="flex flex-col cursor-pointer transform hover:scale-105 transition duration-300" onclick="switchTab('vote')">
+                    <div class="italic font-black text-lg sm:text-2xl tracking-tight leading-none">
+                        <span class="text-brand-red">MALÍNSKÝ</span>
+                        <span class="text-white">BURGER</span>
+                        <span class="text-brand-red">FESTIVAL</span>
+                    </div>
+                    <span class="text-[11px] font-bold text-white/90 tracking-[0.25em] block mt-1 leading-none uppercase">2026</span>
+                </div>
+
+                <!-- Navigation Tabs (Red / White interactive design) -->
+                <div class="flex items-center space-x-2">
+                    <button onclick="switchTab('vote')" id="tab-btn-vote" class="tab-btn px-4 py-2 rounded-lg font-bold uppercase tracking-wider text-xs sm:text-sm transition duration-200 text-white bg-brand-red border border-brand-red/30 shadow-lg shadow-brand-red/20">
+                        Hlasování
+                    </button>
+                    <button onclick="switchTab('results')" id="tab-btn-results" class="tab-btn px-4 py-2 rounded-lg font-bold uppercase tracking-wider text-xs sm:text-sm transition duration-200 text-slate-400 hover:text-white hover:bg-white/5">
+                        Výsledky
+                    </button>
+                </div>
+
+                <!-- Reset Button (Visible only to admin) -->
+                <div id="admin-reset-container" class="hidden">
+                    <button onclick="openResetModal()" class="text-neutral-500 hover:text-brand-red transition-colors p-2 text-sm" title="Resetovat data">
+                        <i class="fa-solid fa-rotate animate-spin-slow"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow max-w-3xl w-full mx-auto px-4 py-8 mb-6">
+
+        <!-- ================= VOTE TAB (Step-by-Step Wizard) ================= -->
+        <section id="section-vote" class="tab-content space-y-8">
+            
+            <!-- Festival Header Intro (Clean matching landing hero text style) -->
+            <div class="text-center space-y-3 py-4">
+                <span class="text-brand-red uppercase font-extrabold tracking-widest text-xs">
+                    Sokolovna Nový Malín — 27. ČERVNA 2026
+                </span>
+                <h1 class="text-4xl sm:text-5xl font-black italic uppercase tracking-tight text-white leading-none">
+                    HLASOVÁNÍ O NEJLEPŠÍ BURGER
+                </h1>
+                <p class="text-xs sm:text-sm text-neutral-400 max-w-md mx-auto">
+                    Dejte hlas svému favoritovi, ohodnoťte festival a zařaďte se do slosování o lákavé gastro ceny.
+                </p>
+            </div>
+
+            <!-- Wizard Card Container -->
+            <div class="bg-brand-cardBg border border-brand-borderDark rounded-2xl p-6 sm:p-8 shadow-2xl relative overflow-hidden">
+                
+                <!-- STEP INDICATOR & PROGRESS BAR -->
+                <div class="mb-8 space-y-3">
+                    <div class="flex justify-between items-center text-xs font-bold uppercase tracking-wider text-neutral-400">
+                        <span id="step-label">Krok 1 ze 4: Výběr prodejce</span>
+                        <span class="text-brand-red" id="step-percent">25% hotovo</span>
+                    </div>
+                    <div class="h-1.5 w-full bg-neutral-900 rounded-full overflow-hidden">
+                        <div id="step-progress-bar" class="h-full bg-brand-red transition-all duration-300 rounded-full" style="width: 25%"></div>
+                    </div>
+                </div>
+
+                <!-- FORM MULTISTEP WIZARD -->
+                <form id="voting-form" onsubmit="handleFormSubmit(event)">
+                    
+                    <!-- KROK 1: VÝBĚR PRODEJCE (Čistě textový bez fotek, bez tlačítka pokračovat) -->
+                    <div id="wizard-step-1" class="wizard-step space-y-6">
+                        <div class="text-center sm:text-left">
+                            <h3 class="text-xl font-bold text-white uppercase tracking-wide">
+                                Kterého prodejce chcete hodnotit?
+                            </h3>
+                            <p class="text-xs text-neutral-400 mt-1">Zvolte stánek nebo restauraci, kterou jste navštívili.</p>
+                        </div>
+
+                        <!-- Grid Selection (Čistě textové karty bez fotek) -->
+                        <div id="burger-selector-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <!-- Populated dynamically via JS -->
+                        </div>
+                        
+                        <p class="text-xs text-brand-red font-semibold hidden text-center" id="burger-select-error">
+                            <i class="fa-solid fa-triangle-exclamation mr-1"></i> Pro pokračování musíte vybrat jednoho prodejce.
+                        </p>
+                    </div>
+
+                    <!-- KROK 2: JEDINÉ HODNOCENÍ BURGERU 1-10 HVĚZDIČEK -->
+                    <div id="wizard-step-2" class="wizard-step space-y-6 hidden">
+                        <div class="text-center">
+                            <span class="text-xs font-bold text-brand-red uppercase tracking-widest block" id="selected-burger-badge-step2">Vybraný prodejce</span>
+                            <h3 class="text-xl font-bold text-white uppercase tracking-wide mt-1">
+                                Jak vám chutnal burger?
+                            </h3>
+                            <p class="text-xs text-neutral-400 mt-1">Udělte hodnocení od 1 (nejhorší) do 10 (naprostá bomba!).</p>
+                        </div>
+
+                        <div class="flex flex-col items-center justify-center py-8 bg-black/40 rounded-xl border border-brand-borderDark/60 space-y-4">
+                            <!-- 10 Stars rating container -->
+                            <div class="flex flex-wrap items-center justify-center gap-2 text-2xl sm:text-3xl" id="stars-rating-container">
+                                <!-- Generated by JS -->
+                            </div>
+                            
+                            <!-- Large Rating Text Indicator -->
+                            <div class="text-center pt-2">
+                                <span id="rating-badge" class="px-5 py-2 bg-brand-red/10 text-brand-red border border-brand-red/20 rounded-full text-xs font-extrabold tracking-widest uppercase">
+                                    Vyberte hodnocení
+                                </span>
+                            </div>
+                        </div>
+
+                        <p class="text-xs text-brand-red font-semibold hidden text-center" id="rating-select-error">
+                            <i class="fa-solid fa-triangle-exclamation mr-1"></i> Pro pokračování udělte hodnocení hvězdičkami.
+                        </p>
+
+                        <!-- Step 2 Navigation -->
+                        <div class="pt-4 flex justify-between border-t border-brand-borderDark">
+                            <button type="button" onclick="goToStep(1)" class="px-5 py-3 border border-brand-borderDark text-neutral-400 hover:text-white font-bold rounded-xl tracking-wide uppercase text-xs transition duration-200 flex items-center space-x-1.5">
+                                <i class="fa-solid fa-arrow-left"></i>
+                                <span>Zpět</span>
+                            </button>
+                            <button type="button" onclick="goToStep(3)" class="px-6 py-3 bg-brand-red hover:bg-brand-redHover text-white font-bold rounded-xl tracking-wide uppercase text-xs transition duration-200 shadow-md flex items-center space-x-1.5">
+                                <span>Pokračovat</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- KROK 3: ATMOSFÉRA FESTIVALU & CO NADCHLO -->
+                    <div id="wizard-step-3" class="wizard-step space-y-6 hidden">
+                        <div class="text-center">
+                            <h3 class="text-xl font-bold text-white uppercase tracking-wide">
+                                Jak hodnotíte festival?
+                            </h3>
+                            <p class="text-xs text-neutral-400 mt-1">Ohodnoťte celkovou atmosféru festivalu.</p>
+                        </div>
+
+                        <!-- Atmosphere Stars -->
+                        <div class="flex flex-col items-center justify-center py-6 bg-black/40 rounded-xl border border-brand-borderDark/60 space-y-3">
+                            <span class="text-xs font-bold text-neutral-400 uppercase tracking-widest">Celková atmosféra</span>
+                            <div class="flex flex-wrap items-center justify-center gap-2 text-2xl sm:text-3xl" id="atmosphere-rating-container">
+                                <!-- Generated by JS -->
+                            </div>
+                            <div class="text-center pt-1">
+                                <span id="atmosphere-badge" class="px-4 py-1.5 bg-brand-red/10 text-brand-red border border-brand-red/20 rounded-full text-xs font-bold uppercase">
+                                    Vyberte hodnocení
+                                </span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-brand-red font-semibold hidden text-center" id="atmosphere-select-error">
+                            <i class="fa-solid fa-triangle-exclamation mr-1"></i> Pro pokračování udělte hodnocení atmosféry.
+                        </p>
+
+                        <!-- Co vás nejvíc nadchlo -->
+                        <div class="space-y-3">
+                            <label class="block text-center sm:text-left text-xs font-bold text-neutral-300 uppercase tracking-wider">Co vás na festivalu nejvíc nadchlo? *</label>
+                            <div class="grid grid-cols-2 gap-3" id="thrilled-selector-container">
+                                <button type="button" onclick="selectThrilled('burgers')" id="thrilled-burgers" class="thrilled-btn py-3 px-4 bg-black/60 border border-brand-borderDark hover:border-brand-red/50 rounded-xl text-xs font-bold uppercase transition flex flex-col items-center space-y-1">
+                                    <i class="fa-solid fa-hamburger text-lg text-brand-red"></i>
+                                    <span>Gastro nabídka</span>
+                                </button>
+                                <button type="button" onclick="selectThrilled('music')" id="thrilled-music" class="thrilled-btn py-3 px-4 bg-black/60 border border-brand-borderDark hover:border-brand-red/50 rounded-xl text-xs font-bold uppercase transition flex flex-col items-center space-y-1">
+                                    <i class="fa-solid fa-music text-lg text-brand-red"></i>
+                                    <span>Atmosféra & Hudba</span>
+                                </button>
+                                <button type="button" onclick="selectThrilled('people')" id="thrilled-people" class="thrilled-btn py-3 px-4 bg-black/60 border border-brand-borderDark hover:border-brand-red/50 rounded-xl text-xs font-bold uppercase transition flex flex-col items-center space-y-1">
+                                    <i class="fa-solid fa-users text-lg text-brand-red"></i>
+                                    <span>Lidé & Obsluha</span>
+                                </button>
+                                <button type="button" onclick="selectThrilled('program')" id="thrilled-program" class="thrilled-btn py-3 px-4 bg-black/60 border border-brand-borderDark hover:border-brand-red/50 rounded-xl text-xs font-bold uppercase transition flex flex-col items-center space-y-1">
+                                    <i class="fa-solid fa-star text-lg text-brand-red"></i>
+                                    <span>Turnaj v páce</span>
+                                </button>
+                            </div>
+                            <p class="text-xs text-brand-red font-semibold hidden text-center" id="thrilled-select-error">
+                                <i class="fa-solid fa-triangle-exclamation mr-1"></i> Vyberte prosím, co vás nejvíc nadchlo.
+                            </p>
+                        </div>
+
+                        <!-- Step 3 Navigation -->
+                        <div class="pt-4 flex justify-between border-t border-brand-borderDark">
+                            <button type="button" onclick="goToStep(2)" class="px-5 py-3 border border-brand-borderDark text-neutral-400 hover:text-white font-bold rounded-xl tracking-wide uppercase text-xs transition duration-200 flex items-center space-x-1.5">
+                                <i class="fa-solid fa-arrow-left"></i>
+                                <span>Zpět</span>
+                            </button>
+                            <button type="button" onclick="goToStep(4)" class="px-6 py-3 bg-brand-red hover:bg-brand-redHover text-white font-bold rounded-xl tracking-wide uppercase text-xs transition duration-200 shadow-md flex items-center space-x-1.5">
+                                <span>Pokračovat</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- KROK 4: MARKETING, ODKUD JSOU & OSOBNÍ ÚDAJE -->
+                    <div id="wizard-step-4" class="wizard-step space-y-6 hidden">
+                        <div class="text-center sm:text-left">
+                            <h3 class="text-xl font-bold text-white uppercase tracking-wide">
+                                Rychlé otázky & Kontakt
+                            </h3>
+                            <p class="text-xs text-neutral-400 mt-1">Dokončete hlasování a zařaďte se do slosování.</p>
+                        </div>
+
+                        <!-- Odkud cestujete -->
+                        <div class="space-y-2">
+                            <label class="block text-xs font-bold text-neutral-300 uppercase tracking-wider">Odkud k nám dnes cestujete? *</label>
+                            <div class="grid grid-cols-2 gap-2" id="origin-selector-container">
+                                <button type="button" onclick="selectOrigin('malin')" id="origin-malin" class="origin-btn py-2.5 px-3 bg-black/60 border border-brand-borderDark rounded-lg text-xs font-semibold transition">Nový Malín</button>
+                                <button type="button" onclick="selectOrigin('sumperk')" id="origin-sumperk" class="origin-btn py-2.5 px-3 bg-black/60 border border-brand-borderDark rounded-lg text-xs font-semibold transition">Šumperk</button>
+                                <button type="button" onclick="selectOrigin('okoli')" id="origin-okoli" class="origin-btn py-2.5 px-3 bg-black/60 border border-brand-borderDark rounded-lg text-xs font-semibold transition">Okolní obce</button>
+                                <button type="button" onclick="selectOrigin('dalka')" id="origin-dalka" class="origin-btn py-2.5 px-3 bg-black/60 border border-brand-borderDark rounded-lg text-xs font-semibold transition">Z větší dálky</button>
+                            </div>
+                            <p class="text-xs text-brand-red font-semibold hidden" id="origin-select-error">
+                                <i class="fa-solid fa-triangle-exclamation mr-1"></i> Vyberte prosím, odkud k nám cestujete.
+                            </p>
+                        </div>
+
+                        <!-- Jak jste se dozvěděli -->
+                        <div class="space-y-2">
+                            <label class="block text-xs font-bold text-neutral-300 uppercase tracking-wider">Jak jste se o festivalu dozvěděli? *</label>
+                            <div class="grid grid-cols-2 gap-2" id="heard-selector-container">
+                                <button type="button" onclick="selectHeard('social')" id="heard-social" class="heard-btn py-2.5 px-3 bg-black/60 border border-brand-borderDark rounded-lg text-xs font-semibold transition">Sociální sítě</button>
+                                <button type="button" onclick="selectHeard('plakat')" id="heard-plakat" class="heard-btn py-2.5 px-3 bg-black/60 border border-brand-borderDark rounded-lg text-xs font-semibold transition">Plakát v okolí</button>
+                                <button type="button" onclick="selectHeard('znami')" id="heard-znami" class="heard-btn py-2.5 px-3 bg-black/60 border border-brand-borderDark rounded-lg text-xs font-semibold transition">Doporučení známých</button>
+                                <button type="button" onclick="selectHeard('media')" id="heard-media" class="heard-btn py-2.5 px-3 bg-black/60 border border-brand-borderDark rounded-lg text-xs font-semibold transition">Rádio / Noviny</button>
+                            </div>
+                            <p class="text-xs text-brand-red font-semibold hidden" id="heard-select-error">
+                                <i class="fa-solid fa-triangle-exclamation mr-1"></i> Vyberte prosím, jak jste se o nás dozvěděli.
+                            </p>
+                        </div>
+
+                        <!-- Contact information -->
+                        <div class="space-y-4 pt-3 border-t border-brand-borderDark/60">
+                            <!-- Name -->
+                            <div class="space-y-1.5">
+                                <label for="voter-name" class="block text-[11px] font-bold text-neutral-400 uppercase tracking-wider">Jméno a příjmení *</label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-neutral-500">
+                                        <i class="fa-solid fa-user text-xs"></i>
+                                    </span>
+                                    <input type="text" id="voter-name" required placeholder="Jan Novák" class="w-full bg-black/60 border border-brand-borderDark rounded-xl py-3 pl-10 pr-4 text-white text-sm placeholder-neutral-600 focus:outline-none focus:border-brand-red focus:ring-1 focus:ring-brand-red transition duration-200">
+                                </div>
+                            </div>
+
+                            <!-- Contact -->
+                            <div class="space-y-1.5">
+                                <label for="voter-contact" class="block text-[11px] font-bold text-neutral-400 uppercase tracking-wider">E-mail / Telefon *</label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-neutral-500">
+                                        <i class="fa-solid fa-phone text-xs"></i>
+                                    </span>
+                                    <input type="text" id="voter-contact" required placeholder="E-mail nebo telefonní číslo" class="w-full bg-black/60 border border-brand-borderDark rounded-xl py-3 pl-10 pr-4 text-white text-sm placeholder-neutral-600 focus:outline-none focus:border-brand-red focus:ring-1 focus:ring-brand-red transition duration-200">
+                                </div>
+                            </div>
+
+                            <!-- Comment -->
+                            <div class="space-y-1.5">
+                                <label for="voter-comment" class="block text-[11px] font-bold text-neutral-400 uppercase tracking-wider">Slovní hodnocení (nepovinné)</label>
+                                <textarea id="voter-comment" rows="2" placeholder="Co se vám nejvíc líbilo nebo co příště vylepšit..." class="w-full bg-black/60 border border-brand-borderDark rounded-xl py-3 px-4 text-white text-sm placeholder-neutral-600 focus:outline-none focus:border-brand-red focus:ring-1 focus:ring-brand-red transition duration-200 resize-none"></textarea>
+                            </div>
+
+                            <!-- GDPR Checkbox -->
+                            <div class="flex items-start space-x-3 bg-black/20 p-3.5 rounded-xl border border-brand-borderDark/60">
+                                <input type="checkbox" id="voter-gdpr" required class="mt-1 w-4 h-4 rounded text-brand-red focus:ring-brand-red border-brand-borderDark bg-neutral-900 cursor-pointer accent-brand-red">
+                                <label for="voter-gdpr" class="text-[11px] text-neutral-400 leading-snug cursor-pointer">
+                                    Souhlasím se zpracováním osobních údajů pro potřeby vyhodnocení hlasování a kontaktování v případě výhry v tombole. *
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Step 4 Navigation / Submit -->
+                        <div class="pt-4 flex flex-col sm:flex-row gap-3 justify-between border-t border-brand-borderDark">
+                            <button type="button" onclick="goToStep(3)" class="px-5 py-3 border border-brand-borderDark text-neutral-400 hover:text-white font-bold rounded-xl tracking-wide uppercase text-xs transition duration-200 flex items-center justify-center space-x-1.5">
+                                <i class="fa-solid fa-arrow-left"></i>
+                                <span>Zpět</span>
+                            </button>
+                            <button type="submit" class="px-6 py-3.5 bg-brand-red hover:bg-brand-redHover text-white font-black rounded-xl tracking-wider uppercase text-xs transition duration-200 shadow-lg shadow-brand-red/20 flex items-center justify-center space-x-2">
+                                <span>Odeslat hodnocení!</span>
+                                <i class="fa-solid fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </section>
+
+        <!-- ================= RESULTS TAB ================= -->
+        <section id="section-results" class="tab-content hidden space-y-8">
+            
+            <!-- Title -->
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-brand-borderDark">
+                <div>
+                    <span class="text-brand-red uppercase font-extrabold tracking-widest text-xs">PŘEHLED V REÁLNÉM ČASE</span>
+                    <h2 class="text-3xl font-black italic uppercase tracking-tight text-white leading-none mt-1">Průběžné výsledky</h2>
+                </div>
+                
+                <!-- Admin Status / Quick Actions (Visible ONLY to unlocked Admin) -->
+                <div id="admin-actions-container" class="hidden flex flex-wrap gap-2 transition-all duration-300">
+                    <button onclick="exportToCSV()" class="px-3.5 py-1.5 bg-emerald-700 hover:bg-emerald-600 border border-emerald-500/30 rounded-lg text-[11px] font-bold uppercase tracking-wider text-white transition-colors" title="Stáhnout kompletní tabulku pro Excel">
+                        <i class="fa-solid fa-file-csv mr-1 text-white"></i> Stáhnout data (CSV)
+                    </button>
+                    <button onclick="seedMockData()" class="px-3.5 py-1.5 bg-neutral-900 hover:bg-neutral-800 border border-brand-borderDark rounded-lg text-[11px] font-bold uppercase tracking-wider text-neutral-300 transition-colors">
+                        <i class="fa-solid fa-database mr-1 text-brand-red"></i> Simulovat hlasy
+                    </button>
+                </div>
+                
+                <!-- Unlocked Banner -->
+                <div id="admin-unlocked-badge" class="hidden bg-emerald-950/40 border border-emerald-500/40 text-emerald-400 px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider">
+                    <i class="fa-solid fa-unlock-keyhole mr-1 text-emerald-400"></i> Admin aktivní
+                </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+                <div class="bg-brand-cardBg border border-brand-borderDark p-5 rounded-xl flex items-center space-x-3">
+                    <div class="p-3 bg-brand-red/10 rounded-lg text-brand-red">
+                        <i class="fa-solid fa-store text-sm sm:text-base"></i>
+                    </div>
+                    <div>
+                        <div class="text-lg font-black text-white" id="stat-burgers-count">5</div>
+                        <div class="text-neutral-400 text-[10px] uppercase tracking-wider">Soutěžících</div>
+                    </div>
+                </div>
+                <div class="bg-brand-cardBg border border-brand-borderDark p-5 rounded-xl flex items-center space-x-3">
+                    <div class="p-3 bg-brand-red/10 rounded-lg text-brand-red">
+                        <i class="fa-solid fa-check-to-slot text-sm sm:text-base"></i>
+                    </div>
+                    <div>
+                        <div class="text-lg font-black text-white" id="stat-votes-count">0</div>
+                        <div class="text-neutral-400 text-[10px] uppercase tracking-wider">Hlasujících</div>
+                    </div>
+                </div>
+                <div class="bg-brand-cardBg border border-brand-borderDark p-5 rounded-xl flex items-center space-x-3">
+                    <div class="p-3 bg-yellow-500/10 rounded-lg text-yellow-500">
+                        <i class="fa-solid fa-star text-sm sm:text-base"></i>
+                    </div>
+                    <div>
+                        <div class="text-lg font-black text-white" id="stat-avg-rating">0.0</div>
+                        <div class="text-neutral-400 text-[10px] uppercase tracking-wider">Burger Ø</div>
+                    </div>
+                </div>
+                <div class="bg-brand-cardBg border border-brand-borderDark p-5 rounded-xl flex items-center space-x-3">
+                    <div class="p-3 bg-orange-500/10 rounded-lg text-orange-500">
+                        <i class="fa-solid fa-fire text-sm sm:text-base"></i>
+                    </div>
+                    <div>
+                        <div class="text-lg font-black text-white" id="stat-avg-atmos">0.0</div>
+                        <div class="text-neutral-400 text-[10px] uppercase tracking-wider">Atmosféra Ø</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leaderboard Block -->
+            <div class="bg-brand-cardBg border border-brand-borderDark rounded-2xl p-6 sm:p-8 space-y-6 shadow-xl">
+                <h3 class="text-lg font-extrabold uppercase tracking-wide text-white flex items-center">
+                    <i class="fa-solid fa-trophy text-yellow-500 mr-2.5"></i>
+                    ŽEBŘÍČEK PRODEJCŮ
+                </h3>
+                <div id="results-leaderboard-container" class="space-y-4">
+                    <!-- Populated dynamically via JS -->
+                </div>
+            </div>
+
+            <!-- Additional Statistics Grid (Charts / Progress bars) -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Co lidi nejvíce nadchlo -->
+                <div class="bg-brand-cardBg border border-brand-borderDark p-6 rounded-2xl space-y-4">
+                    <h4 class="text-xs font-black text-white uppercase tracking-wider flex items-center text-brand-red">
+                        <i class="fa-solid fa-heart mr-2"></i> Co nejvíc nadchlo
+                    </h4>
+                    <div id="stats-thrilled-container" class="space-y-3">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+
+                <!-- Odkud jsou lidé -->
+                <div class="bg-brand-cardBg border border-brand-borderDark p-6 rounded-2xl space-y-4">
+                    <h4 class="text-xs font-black text-white uppercase tracking-wider flex items-center text-brand-red">
+                        <i class="fa-solid fa-map-location-dot mr-2"></i> Odkud cestují
+                    </h4>
+                    <div id="stats-origin-container" class="space-y-3">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+
+                <!-- Jak se dozvěděli -->
+                <div class="bg-brand-cardBg border border-brand-borderDark p-6 rounded-2xl space-y-4">
+                    <h4 class="text-xs font-black text-white uppercase tracking-wider flex items-center text-brand-red">
+                        <i class="fa-solid fa-bullhorn mr-2"></i> Marketingové kanály
+                    </h4>
+                    <div id="stats-heard-container" class="space-y-3">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wall of Reviews -->
+            <div class="bg-brand-cardBg/55 border border-brand-borderDark rounded-2xl p-6 sm:p-8 space-y-6">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-lg font-extrabold uppercase tracking-wide text-white flex items-center">
+                        <i class="fa-solid fa-comments text-brand-red mr-2.5"></i>
+                        Ohlasy a recenze
+                    </h3>
+                    <span id="reviews-count-badge" class="bg-black border border-brand-borderDark px-3 py-1 rounded-full text-xs font-bold text-neutral-400">0 recenzí</span>
+                </div>
+
+                <div id="reviews-feed-container" class="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[450px] overflow-y-auto custom-scrollbar pr-2">
+                    <!-- Dynamically loaded comments -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-black border-t border-brand-borderDark py-8 mt-12">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="italic font-black text-sm tracking-wider text-white">
+                <span class="text-brand-red">MALÍNSKÝ</span> BURGER <span class="text-brand-red">FESTIVAL</span>
+            </div>
+            <p class="text-[11px] text-neutral-500">
+                © 2026 Malínský Burgerfestival. Všechna data jsou chráněna v lokálním úložišti.
+            </p>
+            
+            <!-- Secure Admin Entrance -->
+            <div>
+                <button onclick="openAdminLoginModal()" id="admin-panel-trigger" class="text-[11px] text-neutral-600 hover:text-brand-red transition-all flex items-center gap-1">
+                    <i class="fa-solid fa-lock"></i> Vstup pro organizátory
+                </button>
+                <button onclick="logoutAdmin()" id="admin-logout-trigger" class="hidden text-[11px] text-emerald-600 hover:text-red-500 transition-all flex items-center gap-1 font-bold">
+                    <i class="fa-solid fa-lock-open"></i> Odhlásit administrátora
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- TOAST NOTIFICATION POPUP -->
+    <div id="toast-notification" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+        <div id="toast-box" class="bg-brand-cardBg text-white px-5 py-4 rounded-xl shadow-2xl flex items-center space-x-3 border border-brand-borderDark">
+            <span id="toast-icon" class="text-brand-red text-lg"><i class="fa-solid fa-circle-check"></i></span>
+            <span id="toast-message" class="text-xs sm:text-sm font-semibold tracking-wide uppercase">Hlas byl úspěšně zaznamenán!</span>
+        </div>
+    </div>
+
+    <!-- SECURE ADMIN LOGIN MODAL -->
+    <div id="admin-login-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md hidden">
+        <div class="bg-brand-cardBg border border-brand-borderDark rounded-2xl max-w-sm w-full p-6 space-y-5 shadow-2xl">
+            <div class="text-center space-y-2">
+                <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-brand-red/10 text-brand-red text-xl">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <h3 class="text-lg font-black text-white uppercase tracking-wider">Ověření organizátora</h3>
+                <p class="text-xs text-neutral-400 leading-relaxed">Pro zobrazení stažení dat (GDPR) a správu výsledků zadejte administrátorský PIN.</p>
+            </div>
+            <div class="space-y-3">
+                <div class="relative">
+                    <input type="password" id="admin-pin-input" placeholder="Zadejte PIN (např. malin2026)" class="w-full bg-black/60 border border-brand-borderDark rounded-xl py-3 px-4 text-center text-white text-sm focus:outline-none focus:border-brand-red focus:ring-1 focus:ring-brand-red transition duration-200">
+                </div>
+                <p id="admin-login-error" class="text-center text-[11px] text-brand-red font-bold hidden">
+                    <i class="fa-solid fa-circle-exclamation mr-1"></i> Neplatné heslo, zkuste to znovu.
+                </p>
+            </div>
+            <div class="flex space-x-3">
+                <button onclick="closeAdminLoginModal()" class="flex-1 py-2.5 rounded-xl border border-brand-borderDark text-xs font-bold uppercase tracking-wider text-neutral-400 hover:text-white transition">Storno</button>
+                <button onclick="validateAdminPin()" class="flex-1 py-2.5 rounded-xl bg-brand-red hover:bg-brand-redHover text-white text-xs font-black uppercase tracking-wider transition">Odemknout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- RESET DATA CONFIRMATION MODAL -->
+    <div id="reset-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm hidden">
+        <div class="bg-brand-cardBg border border-brand-borderDark rounded-2xl max-w-sm w-full p-6 space-y-5 shadow-2xl">
+            <div class="text-center space-y-2">
+                <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-brand-red/10 text-brand-red text-xl">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+                <h3 class="text-lg font-black text-white uppercase tracking-wider">Resetovat všechna data?</h3>
+                <p class="text-xs text-neutral-400 leading-relaxed">Tato akce kompletně vymaže veškeré odevzdané hlasy v této relaci. Přejete si pokračovat?</p>
+            </div>
+            <div class="flex space-x-3">
+                <button onclick="closeResetModal()" class="flex-1 py-2.5 rounded-xl border border-brand-borderDark text-xs font-bold uppercase tracking-wider text-neutral-400 hover:text-white transition">Storno</button>
+                <button onclick="resetAllData()" class="flex-1 py-2.5 rounded-xl bg-brand-red hover:bg-brand-redHover text-white text-xs font-black uppercase tracking-wider transition">Smazat vše</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- APPLICATION LOGIC SCRIPT -->
+    <script>
+        const BURGERS = [
+            { id: 'cakir', name: 'Cakir´s' },
+            { id: 'drevak', name: 'U Dřeváka' },
+            { id: 'balikejk', name: 'Balikejk' },
+            { id: 'smashin-machine', name: 'Smashin! Machine' },
+            { id: 'ezra-friends', name: 'Ezra & Friends' }
+        ];
+
+        // Password settings (Feel free to change this in code)
+        const ADMIN_PIN = "malin2026";
+
+        // State variables
+        let selectedBurgerId = "";
+        let selectedRating = 0; // 1 to 10
+        let hoverRating = 0;
+
+        let selectedAtmosRating = 0; // 1 to 10
+        let hoverAtmosRating = 0;
+
+        let selectedThrilled = ""; // burgers, music, people, program
+        let selectedOrigin = "";   // malin, sumperk, okoli, dalka
+        let selectedHeard = "";    // social, plakat, znami, media
+
+        let currentStep = 1; // 1, 2, 3 or 4
+
+        // Initialize State on Load
+        window.onload = function() {
+            initDatabase();
+            renderSelectionGrid();
+            setupStarsRating();
+            setupAtmosphereRating();
+            updateStats();
+            checkAdminStatus(); // Verify if previously logged in session
+            goToStep(1);
+            switchTab('vote');
+        };
+
+        // Initialize Local Storage with some interesting mock votes if empty
+        function initDatabase() {
+            if (!localStorage.getItem('burger_votes')) {
+                const initialVotes = [];
+                localStorage.setItem('burger_votes', JSON.stringify(initialVotes));
+                seedInitialMockData(); // Pre-load with some realistic historical votes so graphs aren't empty
+            }
+        }
+
+        // Setup 1 to 10 stars rating for taste
+        function setupStarsRating() {
+            const container = document.getElementById('stars-rating-container');
+            container.innerHTML = '';
+
+            for (let i = 1; i <= 10; i++) {
+                const btn = document.createElement('button');
+                btn.type = "button";
+                btn.className = "star-btn text-neutral-700 hover:scale-125 focus:outline-none transition-all duration-150 transform";
+                
+                btn.onmouseenter = () => handleStarHover(i);
+                btn.onmouseleave = () => handleStarHover(0);
+                btn.onclick = () => setStarRating(i);
+
+                btn.innerHTML = `<i class="fa-solid fa-star"></i>`;
+                container.appendChild(btn);
+            }
+            updateStarsDisplay();
+        }
+
+        function handleStarHover(rating) {
+            hoverRating = rating;
+            updateStarsDisplay();
+        }
+
+        function setStarRating(rating) {
+            selectedRating = rating;
+            document.getElementById('rating-select-error').classList.add('hidden');
+            updateStarsDisplay();
+        }
+
+        function updateStarsDisplay() {
+            const container = document.getElementById('stars-rating-container');
+            if (!container) return;
+            const stars = container.querySelectorAll('.star-btn');
+            const activeRating = hoverRating > 0 ? hoverRating : selectedRating;
+
+            stars.forEach((star, index) => {
+                const starVal = index + 1;
+                if (starVal <= activeRating) {
+                    star.style.color = "var(--star-color)";
+                    star.classList.remove('text-neutral-700');
+                } else {
+                    star.style.color = "";
+                    star.classList.add('text-neutral-700');
+                }
+            });
+
+            // Update rating label text
+            const badge = document.getElementById('rating-badge');
+            if (activeRating > 0) {
+                const labels = {
+                    1: "Příšerné 🤢",
+                    2: "Špatné 😞",
+                    3: "Slabé 😐",
+                    4: "Průměrné 🙂",
+                    5: "Dobré 😋",
+                    6: "Velmi dobré 😏",
+                    7: "Skvělé! 🍔",
+                    8: "Fantastické! 🔥",
+                    9: "Dokonalé! 👑",
+                    10: "Gastroorgasmus! 🏆"
+                };
+                badge.innerText = `${activeRating}/10 - ${labels[activeRating]}`;
+            } else {
+                badge.innerText = "Vyberte počet hvězdiček";
+            }
+        }
+
+        // Setup 1 to 10 stars rating for atmosphere
+        function setupAtmosphereRating() {
+            const container = document.getElementById('atmosphere-rating-container');
+            container.innerHTML = '';
+
+            for (let i = 1; i <= 10; i++) {
+                const btn = document.createElement('button');
+                btn.type = "button";
+                btn.className = "atmos-star-btn text-neutral-700 hover:scale-125 focus:outline-none transition-all duration-150 transform";
+                
+                btn.onmouseenter = () => handleAtmosHover(i);
+                btn.onmouseleave = () => handleAtmosHover(0);
+                btn.onclick = () => setAtmosRating(i);
+
+                btn.innerHTML = `<i class="fa-solid fa-star"></i>`;
+                container.appendChild(btn);
+            }
+            updateAtmosDisplay();
+        }
+
+        function handleAtmosHover(rating) {
+            hoverAtmosRating = rating;
+            updateAtmosDisplay();
+        }
+
+        function setAtmosRating(rating) {
+            selectedAtmosRating = rating;
+            document.getElementById('atmosphere-select-error').classList.add('hidden');
+            updateAtmosDisplay();
+        }
+
+        function updateAtmosDisplay() {
+            const container = document.getElementById('atmosphere-rating-container');
+            if (!container) return;
+            const stars = container.querySelectorAll('.atmos-star-btn');
+            const activeRating = hoverAtmosRating > 0 ? hoverAtmosRating : selectedAtmosRating;
+
+            stars.forEach((star, index) => {
+                const starVal = index + 1;
+                if (starVal <= activeRating) {
+                    star.style.color = "var(--star-color)";
+                    star.classList.remove('text-neutral-700');
+                } else {
+                    star.style.color = "";
+                    star.classList.add('text-neutral-700');
+                }
+            });
+
+            const badge = document.getElementById('atmosphere-badge');
+            if (activeRating > 0) {
+                const labels = {
+                    1: "Nuda 😴",
+                    2: "Podprůměr 😐",
+                    3: "Dá se to 🤔",
+                    4: "Normálka 🙂",
+                    5: "Docela fajn 😉",
+                    6: "Dobrá nálada 😎",
+                    7: "Skvělé vibrace! ✨",
+                    8: "Úžasná show! 🎉",
+                    9: "Naprostá extáze! 🔥",
+                    10: "Bezkonkurenční! 🏆"
+                };
+                badge.innerText = `${activeRating}/10 - ${labels[activeRating]}`;
+            } else {
+                badge.innerText = "Vyberte počet hvězdiček";
+            }
+        }
+
+        // Selection of what thrilled you
+        function selectThrilled(val) {
+            selectedThrilled = val;
+            document.getElementById('thrilled-select-error').classList.add('hidden');
+            
+            document.querySelectorAll('.thrilled-btn').forEach(btn => {
+                btn.className = "thrilled-btn py-3 px-4 bg-black/60 border border-brand-borderDark hover:border-brand-red/50 rounded-xl text-xs font-bold uppercase transition flex flex-col items-center space-y-1";
+            });
+
+            const activeBtn = document.getElementById(`thrilled-${val}`);
+            activeBtn.className = "thrilled-btn py-3 px-4 bg-brand-red/10 border-2 border-brand-red rounded-xl text-xs font-bold uppercase transition flex flex-col items-center space-y-1 shadow-lg shadow-brand-red/10 text-white";
+        }
+
+        // Selection of origin
+        function selectOrigin(val) {
+            selectedOrigin = val;
+            document.getElementById('origin-select-error').classList.add('hidden');
+
+            document.querySelectorAll('.origin-btn').forEach(btn => {
+                btn.className = "origin-btn py-2.5 px-3 bg-black/60 border border-brand-borderDark rounded-lg text-xs font-semibold transition text-slate-300";
+            });
+
+            const activeBtn = document.getElementById(`origin-${val}`);
+            activeBtn.className = "origin-btn py-2.5 px-3 bg-brand-red/15 border border-brand-red rounded-lg text-xs font-bold transition text-white shadow";
+        }
+
+        // Selection of how they heard
+        function selectHeard(val) {
+            selectedHeard = val;
+            document.getElementById('heard-select-error').classList.add('hidden');
+
+            document.querySelectorAll('.heard-btn').forEach(btn => {
+                btn.className = "heard-btn py-2.5 px-3 bg-black/60 border border-brand-borderDark rounded-lg text-xs font-semibold transition text-slate-300";
+            });
+
+            const activeBtn = document.getElementById(`heard-${val}`);
+            activeBtn.className = "heard-btn py-2.5 px-3 bg-brand-red/15 border border-brand-red rounded-lg text-xs font-bold transition text-white shadow";
+        }
+
+        // Render radio grid visually
+        function renderSelectionGrid() {
+            const grid = document.getElementById('burger-selector-grid');
+            grid.innerHTML = '';
+
+            BURGERS.forEach(b => {
+                const card = document.createElement('div');
+                card.id = `card-${b.id}`;
+                card.className = "relative bg-black/60 border border-brand-borderDark hover:border-brand-red/60 rounded-xl p-5 flex flex-col justify-center cursor-pointer select-none transition duration-200 shadow-md";
+                card.onclick = () => selectBurger(b.id);
+
+                card.innerHTML = `
+                    <div class="pr-8">
+                        <span class="block text-base sm:text-lg font-extrabold text-white leading-tight">${b.name}</span>
+                    </div>
+                    <div id="check-${b.id}" class="absolute top-1/2 right-5 -translate-y-1/2 w-5 h-5 rounded-full bg-neutral-900 border border-neutral-700 flex items-center justify-center text-[10px] text-white transition">
+                        <i class="fa-solid fa-check opacity-0"></i>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Selecting a burger
+        function selectBurger(id) {
+            selectedBurgerId = id;
+            document.getElementById('burger-select-error').classList.add('hidden');
+
+            BURGERS.forEach(b => {
+                const card = document.getElementById(`card-${b.id}`);
+                const check = document.getElementById(`check-${b.id}`);
+
+                card.className = "relative bg-black/60 border border-brand-borderDark hover:border-brand-red/60 rounded-xl p-5 flex flex-col justify-center cursor-pointer select-none transition duration-200 shadow-md";
+                check.className = "absolute top-1/2 right-5 -translate-y-1/2 w-5 h-5 rounded-full bg-neutral-900 border border-neutral-700 flex items-center justify-center text-[10px] text-white transition";
+                check.querySelector('i').classList.add('opacity-0');
+            });
+
+            const activeCard = document.getElementById(`card-${id}`);
+            const activeCheck = document.getElementById(`check-${id}`);
+
+            activeCard.className = "relative bg-brand-red/10 border border-brand-red rounded-xl p-5 flex flex-col justify-center cursor-pointer select-none transition duration-200 shadow-lg";
+            activeCheck.className = "absolute top-1/2 right-5 -translate-y-1/2 w-5 h-5 rounded-full bg-brand-red border border-brand-red flex items-center justify-center text-[10px] text-white transition";
+            activeCheck.querySelector('i').classList.remove('opacity-0');
+
+            const bObj = BURGERS.find(b => b.id === id);
+            document.getElementById('selected-burger-badge-step2').innerText = bObj.name;
+
+            // Okamžitý plynulý přechod na hodnocení hvězdiček (Krok 2) po 200 ms pro zpětnou vazbu o kliknutí
+            setTimeout(() => {
+                if (currentStep === 1) {
+                    goToStep(2);
+                }
+            }, 200);
+        }
+
+        // Multi-step Wizard Navigation Handler
+        function goToStep(step) {
+            // Step validation rules
+            if (step === 2 && !selectedBurgerId) {
+                document.getElementById('burger-select-error').classList.remove('hidden');
+                return;
+            }
+            if (step === 3 && selectedRating === 0) {
+                document.getElementById('rating-select-error').classList.remove('hidden');
+                return;
+            }
+            if (step === 4) {
+                let error = false;
+                if (selectedAtmosRating === 0) {
+                    document.getElementById('atmosphere-select-error').classList.remove('hidden');
+                    error = true;
+                }
+                if (!selectedThrilled) {
+                    document.getElementById('thrilled-select-error').classList.remove('hidden');
+                    error = true;
+                }
+                if (error) return;
+            }
+
+            // Clean errors
+            document.getElementById('burger-select-error').classList.add('hidden');
+            document.getElementById('rating-select-error').classList.add('hidden');
+            document.getElementById('atmosphere-select-error').classList.add('hidden');
+            document.getElementById('thrilled-select-error').classList.add('hidden');
+
+            currentStep = step;
+
+            // Hide steps securely
+            document.querySelectorAll('.wizard-step').forEach(stepDiv => {
+                stepDiv.classList.add('hidden');
+            });
+
+            // Show active step exclusively
+            const activeStepElement = document.getElementById(`wizard-step-${step}`);
+            if (activeStepElement) {
+                activeStepElement.classList.remove('hidden');
+            }
+
+            // Update Progress Indicators
+            const labels = {
+                1: "Krok 1 ze 4: Výběr prodejce",
+                2: "Krok 2 ze 4: Hodnocení prodejce",
+                3: "Krok 3 ze 4: Ohodnoťte atmosféru",
+                4: "Krok 4 ze 4: Otázky & Kontakt"
+            };
+            const percents = {
+                1: "25% hotovo",
+                2: "50% hotovo",
+                3: "75% hotovo",
+                4: "Skoro tam!"
+            };
+            const progressWidths = {
+                1: "25%",
+                2: "50%",
+                3: "75%",
+                4: "100%"
+            };
+
+            document.getElementById('step-label').innerText = labels[step];
+            document.getElementById('step-percent').innerText = percents[step];
+            document.getElementById('step-progress-bar').style.width = progressWidths[step];
+        }
+
+        // Navigation tab switching
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.className = "tab-btn px-4 py-2 rounded-lg font-bold uppercase tracking-wider text-xs sm:text-sm transition duration-200 text-slate-400 hover:text-white hover:bg-white/5";
+            });
+            document.querySelectorAll('.tab-content').forEach(sect => {
+                sect.classList.add('hidden');
+            });
+
+            const activeBtn = document.getElementById(`tab-btn-${tabId}`);
+            if (activeBtn) {
+                activeBtn.className = "tab-btn px-4 py-2 rounded-lg font-bold uppercase tracking-wider text-xs sm:text-sm transition duration-200 text-white bg-brand-red border border-brand-red/30 shadow-lg shadow-brand-red/20";
+            }
+
+            const activeSect = document.getElementById(`section-${tabId}`);
+            if (activeSect) {
+                activeSect.classList.remove('hidden');
+            }
+
+            if (tabId === 'results') {
+                updateResultsData();
+            }
+        }
+
+        // Show toast feedback overlay
+        function triggerToast(message, type = "success") {
+            const toast = document.getElementById('toast-notification');
+            const box = document.getElementById('toast-box');
+            const msg = document.getElementById('toast-message');
+            const icon = document.getElementById('toast-icon');
+
+            msg.innerText = message;
+            if (type === "success") {
+                box.className = "bg-brand-cardBg text-white px-5 py-4 rounded-xl shadow-2xl flex items-center space-x-3 border border-brand-red/40";
+                icon.innerHTML = '<i class="fa-solid fa-circle-check text-brand-red"></i>';
+            } else {
+                box.className = "bg-brand-cardBg text-white px-5 py-4 rounded-xl shadow-2xl flex items-center space-x-3 border border-yellow-500/40";
+                icon.innerHTML = '<i class="fa-solid fa-triangle-exclamation text-yellow-500"></i>';
+            }
+
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+                toast.classList.remove('translate-y-0', 'opacity-100');
+            }, 3500);
+        }
+
+        // Form Submission
+        function handleFormSubmit(e) {
+            e.preventDefault();
+
+            let hasErrors = false;
+            if (!selectedOrigin) {
+                document.getElementById('origin-select-error').classList.remove('hidden');
+                hasErrors = true;
+            }
+            if (!selectedHeard) {
+                document.getElementById('heard-select-error').classList.remove('hidden');
+                hasErrors = true;
+            }
+
+            if (hasErrors) {
+                triggerToast("Vyplňte prosím zbývající festivalové otázky.", "error");
+                return;
+            }
+
+            const votes = JSON.parse(localStorage.getItem('burger_votes')) || [];
+            const contact = document.getElementById('voter-contact').value.trim().toLowerCase();
+            
+            const hasAlreadyVoted = votes.some(v => v.contact === contact);
+            if (hasAlreadyVoted) {
+                triggerToast(`Z kontaktu "${contact}" již bylo hlasováno!`, "error");
+                return;
+            }
+
+            const newVote = {
+                id: 'v_' + Date.now(),
+                name: document.getElementById('voter-name').value.trim(),
+                contact: contact,
+                burgerId: selectedBurgerId,
+                rating: selectedRating,
+                atmosphereRating: selectedAtmosRating,
+                thrilledBy: selectedThrilled,
+                origin: selectedOrigin,
+                heardFrom: selectedHeard,
+                comment: document.getElementById('voter-comment').value.trim(),
+                timestamp: new Date().toISOString()
+            };
+
+            votes.push(newVote);
+            localStorage.setItem('burger_votes', JSON.stringify(votes));
+
+            confetti({
+                particleCount: 150,
+                spread: 80,
+                colors: ['#c51f1f', '#ffffff', '#fbbf24'],
+                origin: { y: 0.6 }
+            });
+            triggerToast("Hlas úspěšně odeslán do festivalové databáze! Děkujeme.");
+
+            resetForm();
+            switchTab('results');
+            updateStats();
+        }
+
+        function resetForm() {
+            document.getElementById('voting-form').reset();
+            selectedBurgerId = "";
+            selectedRating = 0;
+            selectedAtmosRating = 0;
+            selectedThrilled = "";
+            selectedOrigin = "";
+            selectedHeard = "";
+
+            setupStarsRating();
+            setupAtmosphereRating();
+            
+            // Clean custom buttons
+            document.querySelectorAll('.thrilled-btn').forEach(b => {
+                b.className = "thrilled-btn py-3 px-4 bg-black/60 border border-brand-borderDark hover:border-brand-red/50 rounded-xl text-xs font-bold uppercase transition flex flex-col items-center space-y-1";
+            });
+            document.querySelectorAll('.origin-btn').forEach(b => {
+                b.className = "origin-btn py-2.5 px-3 bg-black/60 border border-brand-borderDark rounded-lg text-xs font-semibold transition text-slate-300";
+            });
+            document.querySelectorAll('.heard-btn').forEach(b => {
+                b.className = "heard-btn py-2.5 px-3 bg-black/60 border border-brand-borderDark rounded-lg text-xs font-semibold transition text-slate-300";
+            });
+
+            goToStep(1);
+            renderSelectionGrid();
+        }
+
+        // Statistics sync
+        function updateStats() {
+            const votes = JSON.parse(localStorage.getItem('burger_votes')) || [];
+            
+            document.getElementById('stat-votes-count').innerText = votes.length;
+            document.getElementById('stat-burgers-count').innerText = BURGERS.length;
+
+            if (votes.length > 0) {
+                let totalRatingSums = 0;
+                let totalAtmosSums = 0;
+                votes.forEach(v => {
+                    totalRatingSums += v.rating;
+                    totalAtmosSums += (v.atmosphereRating || 8); 
+                });
+                document.getElementById('stat-avg-rating').innerText = `${(totalRatingSums / votes.length).toFixed(1)} / 10`;
+                document.getElementById('stat-avg-atmos').innerText = `${(totalAtmosSums / votes.length).toFixed(1)} / 10`;
+            } else {
+                document.getElementById('stat-avg-rating').innerText = "0.0 / 10";
+                document.getElementById('stat-avg-atmos').innerText = "0.0 / 10";
+            }
+        }
+
+        // Calculations for Results Dashboard
+        function updateResultsData() {
+            const votes = JSON.parse(localStorage.getItem('burger_votes')) || [];
+            
+            // 1. Leaderboard calculation
+            const votesCount = {};
+            const ratingAccumulator = {};
+            
+            BURGERS.forEach(b => {
+                votesCount[b.id] = 0;
+                ratingAccumulator[b.id] = { totalRating: 0, count: 0 };
+            });
+
+            // Additional stats accumulators
+            const thrilledCounts = { burgers: 0, music: 0, people: 0, program: 0 };
+            const originCounts = { malin: 0, sumperk: 0, okoli: 0, dalka: 0 };
+            const heardCounts = { social: 0, plakat: 0, znami: 0, media: 0 };
+
+            votes.forEach(v => {
+                // Leaderboard
+                if (votesCount[v.burgerId] !== undefined) {
+                    votesCount[v.burgerId] += 1;
+                    ratingAccumulator[v.burgerId].totalRating += v.rating;
+                    ratingAccumulator[v.burgerId].count += 1;
+                }
+
+                // Thrilled stats
+                if (v.thrilledBy && thrilledCounts[v.thrilledBy] !== undefined) {
+                    thrilledCounts[v.thrilledBy]++;
+                }
+                // Origin
+                if (v.origin && originCounts[v.origin] !== undefined) {
+                    originCounts[v.origin]++;
+                }
+                // Marketing
+                if (v.heardFrom && heardCounts[v.heardFrom] !== undefined) {
+                    heardCounts[v.heardFrom]++;
+                }
+            });
+
+            const leaderboardContainer = document.getElementById('results-leaderboard-container');
+            leaderboardContainer.innerHTML = '';
+
+            const sortedContestants = BURGERS.map(b => {
+                const count = votesCount[b.id];
+                const acc = ratingAccumulator[b.id];
+                const avgRating = acc.count > 0 ? (acc.totalRating / acc.count) : 0;
+                return { ...b, votesCount: count, avgRating: avgRating };
+            }).sort((a, b) => b.votesCount - a.votesCount || b.avgRating - a.avgRating);
+
+            const maxVotes = Math.max(...sortedContestants.map(c => c.votesCount), 1);
+
+            sortedContestants.forEach((c, index) => {
+                const percentage = (c.votesCount / maxVotes) * 100;
+                const progressColor = index === 0 ? 'bg-gradient-to-r from-red-700 to-brand-red' : 'bg-neutral-700';
+                
+                let trophyBadge = "";
+                if (index === 0) {
+                    trophyBadge = `<div class="w-8 h-8 rounded-full bg-yellow-500/10 text-yellow-500 border border-yellow-500/30 flex items-center justify-center font-black text-sm shadow-sm"><i class="fa-solid fa-trophy"></i></div>`;
+                } else if (index === 1) {
+                    trophyBadge = `<div class="w-8 h-8 rounded-full bg-slate-300/10 text-slate-300 border border-slate-300/30 flex items-center justify-center font-black text-sm shadow-sm">2</div>`;
+                } else if (index === 2) {
+                    trophyBadge = `<div class="w-8 h-8 rounded-full bg-amber-700/10 text-amber-700 border border-amber-700/30 flex items-center justify-center font-black text-sm shadow-sm">3</div>`;
+                } else {
+                    trophyBadge = `<div class="w-8 h-8 rounded-full bg-neutral-900 border border-brand-borderDark text-neutral-500 flex items-center justify-center text-xs">${index + 1}</div>`;
+                }
+
+                const item = document.createElement('div');
+                item.className = "space-y-2 p-4 rounded-xl bg-black/40 border border-brand-borderDark hover:border-brand-borderDark/90 transition";
+                item.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            ${trophyBadge}
+                            <div>
+                                <span class="font-bold text-white block text-sm sm:text-base">${c.name}</span>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-base font-black text-white block">${c.votesCount} <span class="text-xs font-semibold text-neutral-500">hlasů</span></span>
+                            <span class="text-[11px] text-brand-red block font-semibold"><i class="fa-solid fa-star text-[10px] mr-0.5 text-yellow-500"></i>${c.avgRating.toFixed(1)} / 10</span>
+                        </div>
+                    </div>
+                    <div class="h-2 w-full bg-neutral-950 rounded-full overflow-hidden">
+                        <div class="h-full ${progressColor} transition-all duration-700 rounded-full" style="width: ${percentage}%"></div>
+                    </div>
+                `;
+                leaderboardContainer.appendChild(item);
+            });
+
+            // 2. Render bar charts for secondary statistics
+            renderChart('stats-thrilled-container', [
+                { label: "🍔 Gastro nabídka", count: thrilledCounts.burgers },
+                { label: "🎶 Atmosféra & Hudba", count: thrilledCounts.music },
+                { label: "👥 Lidé & Obsluha", count: thrilledCounts.people },
+                { label: "💪 Turnaj v páce", count: thrilledCounts.program }
+            ]);
+
+            renderChart('stats-origin-container', [
+                { label: "Nový Malín", count: originCounts.malin },
+                { label: "Šumperk", count: originCounts.sumperk },
+                { label: "Okolní obce", count: originCounts.okoli },
+                { label: "Z větší dálky", count: originCounts.dalka }
+            ]);
+
+            renderChart('stats-heard-container', [
+                { label: "Sociální sítě", count: heardCounts.social },
+                { label: "Plakáty / Letáky", count: heardCounts.plakat },
+                { label: "Doporučení známých", count: heardCounts.znami },
+                { label: "Rádio / Noviny", count: heardCounts.media }
+            ]);
+
+            // Comments feed
+            renderCommentsFeed(votes);
+        }
+
+        // Custom micro-rendering bar charts
+        function renderChart(containerId, data) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            container.innerHTML = '';
+
+            const total = data.reduce((acc, curr) => acc + curr.count, 0) || 1;
+            const maxVal = Math.max(...data.map(d => d.count), 1);
+
+            data.forEach(item => {
+                const percentTotal = Math.round((item.count / total) * 100);
+                const barWidth = (item.count / maxVal) * 100;
+
+                const row = document.createElement('div');
+                row.className = "space-y-1 text-xs";
+                row.innerHTML = `
+                    <div class="flex justify-between text-neutral-300">
+                        <span class="font-medium">${item.label}</span>
+                        <span class="font-bold text-white">${item.count} <span class="text-[9px] text-neutral-500">(${percentTotal}%)</span></span>
+                    </div>
+                    <div class="h-1.5 w-full bg-neutral-950 rounded-full overflow-hidden">
+                        <div class="h-full bg-brand-red rounded-full" style="width: ${barWidth}%"></div>
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+        }
+
+        // Render feed comments list
+        function renderCommentsFeed(votes) {
+            const container = document.getElementById('reviews-feed-container');
+            if (!container) return;
+            container.innerHTML = '';
+
+            const comments = votes.filter(v => v.comment && v.comment.trim() !== "").sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
+            
+            document.getElementById('reviews-count-badge').innerText = `${comments.length} recenzí`;
+
+            if (comments.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full py-10 text-center text-neutral-500 bg-black/40 rounded-xl border border-dashed border-brand-borderDark">
+                        <i class="fa-regular fa-comment-dots text-2xl mb-2 block text-brand-red"></i>
+                        <p class="text-xs font-semibold">Zatím nebyly napsány žádné slovní recenze.</p>
+                        <p class="text-[10px] text-neutral-600">Buďte první a napište slovní ohlas!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            comments.forEach(c => {
+                const burger = BURGERS.find(b => b.id === c.burgerId);
+                const burgerName = burger ? burger.name : "Neznámý burger";
+                const date = new Date(c.timestamp).toLocaleDateString('cs-CZ', {day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'});
+
+                const card = document.createElement('div');
+                card.className = "bg-black/50 border border-brand-borderDark p-4 rounded-xl flex flex-col justify-between space-y-3 hover:border-brand-borderDark/80 transition";
+                card.innerHTML = `
+                    <div class="space-y-1.5">
+                        <div class="flex items-start justify-between">
+                            <div>
+                                <h4 class="font-bold text-white text-xs">${c.name}</h4>
+                                <span class="text-[9px] text-neutral-500 uppercase">${date}</span>
+                            </div>
+                            <span class="text-[10px] bg-brand-red/10 text-brand-red border border-brand-red/20 px-2 py-0.5 rounded font-black">${burgerName}</span>
+                        </div>
+                        <p class="text-xs text-neutral-300 italic leading-relaxed">"${c.comment}"</p>
+                    </div>
+                    <div class="flex items-center justify-between border-t border-brand-borderDark/40 pt-2 text-[10px] text-neutral-400">
+                        <div class="flex items-center space-x-1" style="color: var(--star-color)">
+                            <i class="fa-solid fa-star"></i>
+                            <span class="font-black">${c.rating}</span>
+                            <span class="text-neutral-500">/10</span>
+                        </div>
+                        <div class="flex items-center space-x-1" style="color: #f97316">
+                            <i class="fa-solid fa-fire"></i>
+                            <span class="font-black">${c.atmosphereRating || 8}</span>
+                            <span class="text-neutral-500">Atmosféra</span>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Admin verification and sessions
+        function openAdminLoginModal() {
+            document.getElementById('admin-login-modal').classList.remove('hidden');
+            document.getElementById('admin-pin-input').focus();
+        }
+
+        function closeAdminLoginModal() {
+            document.getElementById('admin-login-modal').classList.add('hidden');
+            document.getElementById('admin-pin-input').value = "";
+            document.getElementById('admin-login-error').classList.add('hidden');
+        }
+
+        function validateAdminPin() {
+            const inputVal = document.getElementById('admin-pin-input').value;
+            if (inputVal === ADMIN_PIN) {
+                sessionStorage.setItem('is_admin', 'true');
+                checkAdminStatus();
+                closeAdminLoginModal();
+                triggerToast("Administrátorský režim odemčen!", "success");
+            } else {
+                document.getElementById('admin-login-error').classList.remove('hidden');
+                document.getElementById('admin-pin-input').value = "";
+                document.getElementById('admin-pin-input').focus();
+            }
+        }
+
+        function checkAdminStatus() {
+            const isAdmin = sessionStorage.getItem('is_admin') === 'true';
+            
+            const adminActions = document.getElementById('admin-actions-container');
+            const adminBadge = document.getElementById('admin-unlocked-badge');
+            const adminReset = document.getElementById('admin-reset-container');
+            const adminTrigger = document.getElementById('admin-panel-trigger');
+            const logoutTrigger = document.getElementById('admin-logout-trigger');
+
+            if (isAdmin) {
+                adminActions.classList.remove('hidden');
+                adminBadge.classList.remove('hidden');
+                adminReset.classList.remove('hidden');
+                adminTrigger.classList.add('hidden');
+                logoutTrigger.classList.remove('hidden');
+            } else {
+                adminActions.classList.add('hidden');
+                adminBadge.classList.add('hidden');
+                adminReset.classList.add('hidden');
+                adminTrigger.classList.remove('hidden');
+                logoutTrigger.classList.add('hidden');
+            }
+        }
+
+        function logoutAdmin() {
+            sessionStorage.removeItem('is_admin');
+            checkAdminStatus();
+            triggerToast("Administrátor byl odhlášen.", "success");
+        }
+
+        // Seeds realistic mock data if requested
+        function seedInitialMockData() {
+            const votes = JSON.parse(localStorage.getItem('burger_votes')) || [];
+            
+            if (votes.length === 0) {
+                const sampleReviews = [
+                    { name: "Jakub Novák", contact: "jakub.novak@gmail.com", burgerId: "cakir", rating: 9, atmosphereRating: 10, thrilledBy: "burgers", origin: "sumperk", heardFrom: "social", comment: "Cakir's byl neuvěřitelně chuťově vyvážený, skvělá akce!" },
+                    { name: "Petra Svobodová", contact: "732 111 222", burgerId: "drevak", rating: 10, atmosphereRating: 9, thrilledBy: "music", origin: "malin", heardFrom: "znami", comment: "U Dřeváka mě dostal jejich speciál – a ta hudba na pódiu byla skvělá!" },
+                    { name: "Tomáš Král", contact: "tomas.kral@post.cz", burgerId: "balikejk", rating: 8, atmosphereRating: 9, thrilledBy: "program", origin: "okoli", heardFrom: "plakat", comment: "Skvělá indonéská pecka od Balikejku, zápasy v páce byly mega show!" },
+                    { name: "Lucie Černá", contact: "lucie92@gmail.com", burgerId: "smashin-machine", rating: 10, atmosphereRating: 8, thrilledBy: "burgers", origin: "dalka", heardFrom: "social", comment: "Smash burger od Smashin! Machine jako z učebnice. Krásná krusta a super organizace." },
+                    { name: "Martin Dvořák", contact: "777 555 444", burgerId: "ezra-friends", rating: 9, atmosphereRating: 10, thrilledBy: "people", origin: "sumperk", heardFrom: "media", comment: "Ezra & Friends společně nezklamali, skvělá gastro nabídka a lidé na stánku jsou neuvěřitelně milí a usměvaví." }
+                ];
+
+                const mockVotes = sampleReviews.map((r, index) => ({
+                    id: 'mock_' + index + '_' + Date.now(),
+                    name: r.name,
+                    contact: r.contact,
+                    burgerId: r.burgerId,
+                    rating: r.rating,
+                    atmosphereRating: r.atmosphereRating,
+                    thrilledBy: r.thrilledBy,
+                    origin: r.origin,
+                    heardFrom: r.heardFrom,
+                    comment: r.comment,
+                    timestamp: new Date(Date.now() - (index * 4 * 3600 * 1000)).toISOString()
+                }));
+
+                localStorage.setItem('burger_votes', JSON.stringify(mockVotes));
+            }
+        }
+
+        // Generates extra mass votes for demonstration
+        function seedMockData() {
+            const votes = JSON.parse(localStorage.getItem('burger_votes')) || [];
+            const testers = ["Karel", "Eva", "Michal", "Pavla", "Radek", "Lenka", "Jiří", "Monika", "Jan", "Kateřina"];
+            const commentsList = [
+                "Byla to naprostá paráda!", "Nejlepší burger dnešního odpoledne.", "Znovu už si ho asi nedám, ale špatné to rozhodně nebylo.", 
+                "Tohle se kuchařům vážně moc povedlo.", "Perfektní atmosféra, skvělá muzika.", "Maso mohlo být o chloupek více propečené.",
+                "Houska byla nadýchaná jako obláček a úžasně máslová.", "Turnaj v páce byl neuvěřitelný zážitek!"
+            ];
+
+            const thrilledOpts = ["burgers", "music", "people", "program"];
+            const originOpts = ["malin", "sumperk", "okoli", "dalka"];
+            const heardOpts = ["social", "plakat", "znami", "media"];
+
+            for (let i = 0; i < 12; i++) {
+                const randomBurger = BURGERS[Math.floor(Math.random() * BURGERS.length)];
+                const randomTester = testers[Math.floor(Math.random() * testers.length)] + " " + String.fromCharCode(65 + Math.floor(Math.random() * 24)) + ".";
+                const randContact = `sim_${Math.random().toString(36).substr(2, 5)}@test.cz`;
+                const includeComment = Math.random() > 0.4;
+
+                votes.push({
+                    id: 'sim_' + Date.now() + '_' + i,
+                    name: randomTester,
+                    contact: randContact,
+                    burgerId: randomBurger.id,
+                    rating: Math.floor(Math.random() * 4) + 7, // scores 7-10
+                    atmosphereRating: Math.floor(Math.random() * 4) + 7,
+                    thrilledBy: thrilledOpts[Math.floor(Math.random() * thrilledOpts.length)],
+                    origin: originOpts[Math.floor(Math.random() * originOpts.length)],
+                    heardFrom: heardOpts[Math.floor(Math.random() * heardOpts.length)],
+                    comment: includeComment ? commentsList[Math.floor(Math.random() * commentsList.length)] : "",
+                    timestamp: new Date(Date.now() - (Math.random() * 24 * 3600 * 1000)).toISOString()
+                });
+            }
+
+            localStorage.setItem('burger_votes', JSON.stringify(votes));
+            updateStats();
+            updateResultsData();
+            triggerToast("Nasimulováno 12 nových hlasů s detailními statistikami!");
+        }
+
+        // Exports all votes from localStorage into a Czech Excel compatible CSV file
+        function exportToCSV() {
+            const votes = JSON.parse(localStorage.getItem('burger_votes')) || [];
+            if (votes.length === 0) {
+                triggerToast("V databázi nejsou žádné hlasy k exportu!", "error");
+                return;
+            }
+
+            // Excel expects UTF-8 BOM for Czech diacritics and semicolons for regional settings
+            let csvContent = "\uFEFF"; 
+            
+            // Header row
+            const headers = [
+                "ID Hlasu", "Datum a Čas", "Jméno a Příjmení", "Kontakt (Tel/Email)", 
+                "Hodnocená Restaurace", "Chuť Burgeru (1-10)", "Atmosféra (1-10)", 
+                "Co nejvíc nadchlo", "Odkud cestoval", "Jak se dozvěděl", "Slovní Hodnocení"
+            ];
+            csvContent += headers.join(";") + "\r\n";
+
+            // Translation mapping for human-readable values in CSV
+            const translationMap = {
+                burgers: "Gastro nabídka", music: "Atmosféra & Hudba", people: "Lidé & Obsluha", program: "Turnaj v páce",
+                malin: "Nový Malín", sumperk: "Šumperk", okoli: "Okolní obce", dalka: "Z větší dálky",
+                social: "Sociální sítě", plakat: "Plakát v okolí", znami: "Doporučení známých", media: "Rádio / Noviny"
+            };
+
+            votes.forEach(v => {
+                const burgerObj = BURGERS.find(b => b.id === v.burgerId);
+                const vendorName = burgerObj ? burgerObj.name : v.burgerId;
+                
+                const clean = (val) => {
+                    if (val === undefined || val === null) return "";
+                    let str = String(val).replace(/"/g, '""');
+                    if (str.includes(";") || str.includes("\n") || str.includes("\r") || str.includes('"')) {
+                        return `"${str}"`;
+                    }
+                    return str;
+                };
+
+                const row = [
+                    clean(v.id),
+                    clean(new Date(v.timestamp).toLocaleString('cs-CZ')),
+                    clean(v.name),
+                    clean(v.contact),
+                    clean(vendorName),
+                    clean(v.rating),
+                    clean(v.atmosphereRating || "8"),
+                    clean(translationMap[v.thrilledBy] || v.thrilledBy || ""),
+                    clean(translationMap[v.origin] || v.origin || ""),
+                    clean(translationMap[v.heardFrom] || v.heardFrom || ""),
+                    clean(v.comment || "")
+                ];
+                csvContent += row.join(";") + "\r\n";
+            });
+
+            // Trigger file download
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", `malinsky_burgerfestival_2026_vysledky.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            triggerToast("Hrubá data (CSV) byla úspěšně stažena!");
+        }
+
+        // Reset functions
+        function openResetModal() {
+            document.getElementById('reset-modal').classList.remove('hidden');
+        }
+
+        function closeResetModal() {
+            document.getElementById('reset-modal').classList.add('hidden');
+        }
+
+        function resetAllData() {
+            localStorage.removeItem('burger_votes');
+            initDatabase();
+            updateStats();
+            updateResultsData();
+            closeResetModal();
+            triggerToast("Všechna lokální data a hlasy smazány!");
+        }
+    </script>
+</body>
+</html>
