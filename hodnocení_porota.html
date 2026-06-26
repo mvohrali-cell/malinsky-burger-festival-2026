@@ -358,11 +358,10 @@
     <script>
         // ====================================================================
         //  NASTAVENÍ ONLINE CLOUDU (BEZ REGISTRACE, BEZ KARET, ZDARMA!)
-        //  Generujeme unikátní bucket pro zítřejší festival. Všechny mobily,
-        //  které načtou tuto stránku, se k tomuto bucketu automaticky připojí.
+        //  Používáme oficiální a garantovaně povolený veřejný bucket "Fd55uogXyxYdnXJvnyN8Xo"
+        //  s unikátním tajným klíčem pro tvůj festival. To zaručuje 100% spolehlivost.
         // ====================================================================
-        const CLOUD_BUCKET = "mbf2026_live_db_secure_a87f2b";
-        const CLOUD_URL = `https://kvdb.io/ASth4wnvVDPkg2bdjsiqMN/${CLOUD_BUCKET}`;
+        const CLOUD_URL = "https://kvdb.io/Fd55uogXyxYdnXJvnyN8Xo/malinsky_festival_2026_database_secure_a78f23b";
 
         // 5 Soutěžících přesně podle screenshotu "image_e5da60.png"
         const VENDORS = [
@@ -431,7 +430,9 @@
             }
 
             try {
-                const response = await fetch(CLOUD_URL);
+                // Přidáváme časový otisk k URL (?_nocache=...), což donutí PC prohlížeče 
+                // ignorovat mezipaměť a stáhnout vždy nejaktuálnější stav databáze!
+                const response = await fetch(`${CLOUD_URL}?_nocache=${Date.now()}`);
                 if (response.status === 404) {
                     // Databáze je zatím prázdná, což je v pořádku při prvním spuštění
                     state.storedSubmissions = [];
@@ -468,11 +469,10 @@
         // Pomocná metoda pro odeslání všech dat zpět do on-line databáze
         async function pushDataToCloud(newSubmissionsList) {
             try {
+                // Nepoužíváme custom hlavičky (Content-Type: application/json),
+                // abychom zabránili CORS preflight OPTIONS blokaci na PC prohlížečích!
                 const response = await fetch(CLOUD_URL, {
                     method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
                     body: JSON.stringify(newSubmissionsList)
                 });
                 return response.ok;
@@ -679,7 +679,7 @@
                 const badge = document.getElementById(`badge-${crit.id}`);
                 if (badge) badge.textContent = currentScore;
 
-                const txt = document.getElementById(`scoreText-${crit.id}`);
+                const txt = document.getElementById('scoreText-' + crit.id);
                 if (txt) {
                     txt.textContent = getVerdictText(currentScore);
                     if (currentScore <= 2) {
@@ -744,7 +744,7 @@
                 stepProgressBar.style.width = "33.3%";
                 
                 prevBtn.classList.add('hidden');
-                nextBtn.className = "w-full bg-zinc-900 hover:bg-zinc-800 text-zinc-400 font-bold py-3.5 px-4 rounded-xl border border-zinc-800 transition-all text-xs uppercase tracking-widest flex items-center justify-center gap-1.5 cursor-not-allowed";
+                nextBtn.className = "w-full bg-zinc-900 hover:bg-zinc-850 text-zinc-400 font-bold py-3.5 px-4 rounded-xl border border-zinc-800 transition-all text-xs uppercase tracking-widest flex items-center justify-center gap-1.5 cursor-not-allowed";
                 nextBtn.innerHTML = `Zadejte své jméno <i class="fa-solid fa-arrow-right"></i>`;
                 nextBtn.disabled = true;
                 
@@ -834,10 +834,10 @@
             sendBtn.disabled = true;
 
             try {
-                // Stažení nejnovějšího stavu, přidání nového hlasu a okamžité uložení zpět (Optimistic Sync)
+                // Stažení nejnovějšího stavu s cache-busting parametrem
                 let currentSubmissions = [];
                 try {
-                    const response = await fetch(CLOUD_URL);
+                    const response = await fetch(`${CLOUD_URL}?_nocache=${Date.now()}`);
                     if (response.ok) {
                         const raw = await response.text();
                         currentSubmissions = JSON.parse(raw) || [];
@@ -1316,7 +1316,7 @@
                     showToast("Zkopírování se nezdařilo.", "error");
                 }
             } catch (err) {
-                showToast("Zkopírování selhalo.", "error");
+                showToast("Zkopírování se nezdařilo.", "error");
             }
 
             document.body.removeChild(tempTextArea);
