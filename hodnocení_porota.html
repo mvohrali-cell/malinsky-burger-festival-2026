@@ -1,190 +1,1235 @@
 <!DOCTYPE html>
-<html lang="cs">
+<html lang="cs" class="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Malínský Burgerfest - Menu</title>
-    <!-- Tailwind CSS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Malínský Burgerfestival 2026 – Porota</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Playfair Display pro luxusní nadpisy, Inter pro ultra-čitelný text -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        festivalRed: {
+                            DEFAULT: '#df1f26',
+                            hover: '#c6171d',
+                            glow: 'rgba(223, 31, 38, 0.4)'
+                        },
+                        darkBg: '#0b0b0c',
+                        cardBg: '#151518',
+                        cardBorder: '#232328'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
     
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #F4F4F5; /* Světle šedé pozadí pro webovou prezentaci lístku */
-            color: #111111;
+            background-color: #0b0b0c;
+            color: #f3f4f6;
+            -webkit-tap-highlight-color: transparent;
         }
-        .serif-title {
-            font-family: 'Playfair Display', serif;
+        .festival-heading {
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -0.05em;
         }
-        
-        /* Styl pro zobrazení na obrazovce jako reálný A4 list */
-        .menu-page {
-            background-color: #FFFFFF;
-            width: 210mm;
-            min-height: 297mm;
-            padding: 20mm 22mm;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            position: relative;
+        .festival-skew {
+            transform: skewX(-6deg);
         }
-
-        /* STRIGENTNÍ CHOVÁNÍ PRO TISK / EXPORT DO PDF (Pevná 1 strana A4) */
-        @media print {
-            @page {
-                size: A4 portrait;
-                margin: 0 !important; /* Odstraní hlavičky, patičky a okraje prohlížeče */
-            }
-            .no-print {
-                display: none !important;
-            }
-            html, body {
-                background-color: #FFFFFF !important;
-                width: 210mm !important;
-                height: 297mm !important;
-                overflow: hidden !important;
-                margin: 0 !important;
-                padding: 0 !important;
-            }
-            .menu-page {
-                width: 210mm !important;
-                height: 297mm !important;
-                padding: 18mm 20mm !important;
-                border: none !important;
-                box-shadow: none !important;
-                display: flex !important;
-                flex-direction: column !important;
-                justify-content: space-between !important;
-                box-sizing: border-box !important;
-            }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b0b0c;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #232328;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #df1f26;
         }
     </style>
 </head>
-<body class="flex flex-col items-center justify-start min-h-screen py-10">
+<body class="min-h-screen flex flex-col justify-between overflow-x-hidden antialiased pb-20">
 
-    <!-- Ovládací panel (při tisku/PDF exportu se skryje) -->
-    <div class="no-print w-full max-w-[210mm] mb-6 bg-white border border-stone-200 rounded-xl p-4 flex justify-between items-center shadow-sm">
-        <div class="flex items-center gap-2">
-            <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
-            <span class="text-sm font-semibold text-stone-700">Připraveno pro bezchybný tisk na 1 stranu A4</span>
-        </div>
-        <button onclick="window.print()" class="px-6 py-2.5 text-sm font-bold bg-stone-900 text-white rounded-lg hover:bg-stone-800 transition-colors shadow-sm">
-            Vytisknout / Uložit do PDF
-        </button>
-    </div>
-
-    <!-- Stránka s menu (přesný formát A4) -->
-    <div class="menu-page shadow-2xl border border-stone-200">
-        
-        <!-- Elegantní dvojitý vnitřní rámeček dotvářející gastro styl -->
-        <div class="absolute inset-[8mm] border border-stone-300 pointer-events-none"></div>
-        <div class="absolute inset-[9.5mm] border border-stone-100 pointer-events-none"></div>
-
-        <!-- HLAVIČKA -->
-        <header class="text-center pt-6 z-10">
-            <p class="text-[10px] uppercase tracking-[0.4em] text-stone-500 font-bold mb-3">Malínský Burgerfest</p>
-            <h1 class="serif-title text-4xl sm:text-5xl font-extrabold tracking-tight text-stone-950">UNDERGROUND MEET LAB</h1>
-            <div class="w-16 h-[1.5px] bg-stone-950 mx-auto my-4"></div>
-            <p class="serif-title italic text-sm sm:text-base text-stone-600 uppercase tracking-widest font-semibold">Exkluzivní festivalové občerstvení</p>
-        </header>
-
-        <!-- NABÍDKA (Rozvržená tak, aby optimálně zaplnila prostor) -->
-        <main class="space-y-12 z-10 my-auto px-6">
-
-            <!-- SEKCE 1: BURGERY -->
-            <section class="space-y-8">
-                <!-- Nadpis sekce s linkou -->
-                <div class="flex items-center gap-4 border-b border-stone-300 pb-2">
-                    <h2 class="serif-title text-xl font-bold uppercase tracking-widest text-stone-950">Prémiové Burgery</h2>
-                    <span class="text-[11px] font-bold text-stone-400 uppercase tracking-wider ml-auto">100% vyzrálé hovězí</span>
+    <header class="sticky top-0 z-50 bg-[#0b0b0ce0] backdrop-blur-md border-b border-cardBorder/80 px-4 py-3">
+        <div class="max-w-md mx-auto flex items-center justify-between">
+            <div class="flex flex-col">
+                <div class="flex items-center gap-2">
+                    <span class="inline-block w-2.5 h-2.5 rounded-full bg-festivalRed animate-pulse"></span>
+                    <h1 class="festival-heading text-lg tracking-tight text-white leading-none">
+                        <span class="text-white italic">MALÍNSKÝ</span> 
+                        <span class="text-festivalRed italic font-black">BURGER FESTIVAL</span>
+                    </h1>
                 </div>
-
-                <!-- Jídlo 1 -->
-                <div class="space-y-1">
-                    <div class="flex items-baseline justify-between">
-                        <h3 class="serif-title text-xl font-extrabold text-stone-950 flex items-center gap-2">
-                            BACON BOOM
-                            <span class="text-[9px] uppercase font-sans tracking-wider px-2 py-0.5 border border-stone-800 text-stone-800 rounded-full font-bold">Novinka</span>
-                        </h3>
-                        <span class="flex-grow border-b border-dotted border-stone-300 mx-3"></span>
-                        <span class="serif-title text-xl font-bold text-stone-950">200 Kč</span>
-                    </div>
-                    <p class="text-stone-600 text-[14px] sm:text-[15px] leading-relaxed">
-                        Hovězí vyzrálé maso ze <strong class="text-stone-900 font-semibold">Statku Winter</strong>, triple cheese (3 druhy sýrů), čerstvé guacamole, domácí slaninový džem (bacon jam), barbecue mayo, máslová houska.
-                    </p>
+                <div class="flex items-center gap-2 mt-0.5">
+                    <span class="text-[10px] uppercase font-bold tracking-widest text-zinc-400">Jubilejní 5. ročník</span>
+                    <span class="text-[10px] font-semibold bg-zinc-800 text-zinc-300 px-1.5 py-0.2 rounded">27. ČERVNA 2026</span>
                 </div>
-
-                <!-- Jídlo 2 -->
-                <div class="space-y-1">
-                    <div class="flex items-baseline justify-between">
-                        <h3 class="serif-title text-xl font-extrabold text-stone-950 flex items-center gap-2">
-                            SPECIÁL
-                            <span class="text-[9px] uppercase font-sans tracking-wider px-2 py-0.5 bg-stone-950 text-white rounded-full font-bold">Limitovaná edice</span>
-                        </h3>
-                        <span class="flex-grow border-b border-dotted border-stone-300 mx-3"></span>
-                        <span class="serif-title text-xl font-bold text-stone-950">200 Kč</span>
-                    </div>
-                    <p class="text-stone-600 text-[14px] sm:text-[15px] leading-relaxed">
-                        Pomalu zauzený hovězí jazyk, naše domácí kořeněná nakládačka, jemná karamelizovaná cibulka, pikantní wasabi mayo, máslová houska.
-                    </p>
-                </div>
-            </section>
-
-            <!-- SEKCE 2: LIMONÁDY -->
-            <section class="space-y-6">
-                <!-- Nadpis sekce s linkou -->
-                <div class="flex items-center gap-4 border-b border-stone-300 pb-2">
-                    <h2 class="serif-title text-xl font-bold uppercase tracking-widest text-stone-950">Domácí Limonády</h2>
-                    <span class="text-[11px] font-bold text-stone-400 uppercase tracking-wider ml-auto">Poctivá výroba</span>
-                </div>
-
-                <!-- Limonáda 1 -->
-                <div class="space-y-1">
-                    <div class="flex items-baseline justify-between">
-                        <h3 class="serif-title text-lg font-bold text-stone-900">Bezová limonáda</h3>
-                        <span class="flex-grow border-b border-dotted border-stone-300 mx-3"></span>
-                        <span class="serif-title text-lg font-bold text-stone-950">50 Kč</span>
-                    </div>
-                    <p class="text-stone-600 text-[14px] leading-relaxed">
-                        Tradiční domácí sirup z květů černého bezu, čerstvý citron, lístky máty, soda a led.
-                    </p>
-                </div>
-
-                <!-- Limonáda 2 -->
-                <div class="space-y-1">
-                    <div class="flex items-baseline justify-between">
-                        <h3 class="serif-title text-lg font-bold text-stone-900">Levandulová limonáda</h3>
-                        <span class="flex-grow border-b border-dotted border-stone-300 mx-3"></span>
-                        <span class="serif-title text-lg font-bold text-stone-950">50 Kč</span>
-                    </div>
-                    <p class="text-stone-600 text-[14px] leading-relaxed">
-                        Domácí levandulový sirup, čerstvý citron, meduňka, soda a led.
-                    </p>
-                </div>
-            </section>
-
-        </main>
-
-        <!-- PATKA -->
-        <footer class="text-center pb-6 z-10">
-            <div class="flex justify-center gap-6 text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-stone-600 mb-2">
-                <span>Poctivé Suroviny</span>
-                <span>•</span>
-                <span>Skvělá Chuť</span>
-                <span>•</span>
-                <span>Lokální podpora</span>
             </div>
-            <p class="text-[10px] text-stone-400 font-semibold uppercase tracking-wider">
-                Masa a suroviny nakupujeme výhradně u lokálních českých farmářů.
-            </p>
-        </footer>
+            <div class="flex items-center gap-2">
+                <button onclick="switchTab('results')" class="relative p-2 bg-zinc-900 border border-zinc-800 rounded-lg text-zinc-300 hover:text-white transition-all">
+                    <i class="fa-solid fa-chart-simple text-sm"></i>
+                    <span id="badgeCount" class="absolute -top-1.5 -right-1.5 bg-festivalRed text-[9px] font-bold text-white px-1.5 py-0.2 rounded-full hidden">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
 
+    <main class="flex-grow max-w-md w-full mx-auto px-4 py-4 flex flex-col gap-4">
+        
+        <div class="grid grid-cols-3 gap-1 bg-zinc-950 p-1 rounded-xl border border-cardBorder">
+            <button id="tabBtn-evaluation" onclick="switchTab('evaluation')" class="tab-active text-xs py-2.5 font-bold rounded-lg transition-all flex items-center justify-center gap-1.5">
+                <i class="fa-solid fa-star"></i> Hodnotit
+            </button>
+            <button id="tabBtn-results" onclick="switchTab('results')" class="text-xs py-2.5 font-bold rounded-lg text-zinc-400 hover:text-zinc-200 transition-all flex items-center justify-center gap-1.5">
+                <i class="fa-solid fa-lock text-[10px] text-zinc-500 mr-0.5"></i> Výsledky
+            </button>
+            <button id="tabBtn-admin" onclick="switchTab('admin')" class="text-xs py-2.5 font-bold rounded-lg text-zinc-400 hover:text-zinc-200 transition-all flex items-center justify-center gap-1.5">
+                <i class="fa-solid fa-lock text-[10px] text-zinc-500 mr-0.5"></i> Správa
+            </button>
+        </div>
+
+        <!-- ================= TAB 1: EVALUATION (HODNOCENÍ) ================= -->
+        <section id="tab-evaluation" class="space-y-4">
+            
+            <!-- Progress Stepper -->
+            <div class="bg-cardBg border border-cardBorder rounded-2xl p-4 shadow-xl">
+                <div class="flex items-center justify-between text-[11px] font-extrabold tracking-wider uppercase text-zinc-400 mb-2">
+                    <span id="stepTitle" class="text-festivalRed">KROK 1 ZE 3: POROTCE</span>
+                    <span id="stepPercent">33% HOTOVO</span>
+                </div>
+                <div class="w-full bg-zinc-900 rounded-full h-1.5 overflow-hidden">
+                    <div id="stepProgressBar" class="bg-festivalRed h-1.5 rounded-full transition-all duration-300" style="width: 33.3%"></div>
+                </div>
+            </div>
+
+            <!-- STEP 1: SELECT / ENTER JUROR NAME -->
+            <div id="step1Container" class="space-y-4 transition-all duration-300">
+                <div class="text-center py-2">
+                    <h2 class="text-lg font-black text-white uppercase tracking-tight">KDO HODNOTÍ?</h2>
+                    <p class="text-xs text-zinc-400">Zadejte své jméno nebo identifikační číslo</p>
+                </div>
+
+                <div class="bg-cardBg border border-cardBorder rounded-2xl p-5 shadow-xl space-y-4">
+                    <div class="space-y-2">
+                        <label for="jurorNameInput" class="block text-[11px] font-extrabold uppercase text-zinc-400 tracking-wider">
+                            <i class="fa-solid fa-user-pen mr-1 text-festivalRed"></i> Vaše jméno / přezdívka
+                        </label>
+                        <div class="relative">
+                            <input type="text" id="jurorNameInput" placeholder="Např. Porotce 1, Pavel Novotný, atd." 
+                                class="w-full bg-zinc-950 border border-zinc-850 rounded-xl py-3 px-4 pl-10 text-sm text-white focus:outline-none focus:border-festivalRed focus:ring-1 focus:ring-festivalRed/50 placeholder:text-zinc-600 transition-all" 
+                                oninput="onJurorNameChange(this.value)">
+                            <div class="absolute left-3.5 top-3.5 text-zinc-500">
+                                <i class="fa-solid fa-user text-xs"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick select suggestion if names already exist -->
+                    <div id="recentJurorsContainer" class="space-y-2 hidden pt-2 border-t border-zinc-900">
+                        <p class="text-[10px] text-zinc-500 font-extrabold uppercase tracking-wider">Rychlý výběr z uložených jmen:</p>
+                        <div id="recentJurorsList" class="flex flex-wrap gap-2">
+                            <!-- Dynamic recent juror name pills -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 2: SELECT VENDOR (PRODEJCE) -->
+            <div id="step2Container" class="hidden space-y-4 transition-all duration-300">
+                <div class="text-center py-1">
+                    <h2 class="text-lg font-black text-white uppercase tracking-tight">KTERÉHO PRODEJCE CHCETE HODNOTIT?</h2>
+                    <p class="text-xs text-zinc-400">Zvolte stánek, jehož burger jste právě otestovali.</p>
+                </div>
+
+                <div class="grid grid-cols-1 gap-2.5" id="vendorsContainer">
+                    <!-- Interactive vendor list matching image_e5da60.png style -->
+                </div>
+            </div>
+
+            <!-- STEP 3: EVALUATION CRITERIA (HODNOCENÍ) -->
+            <div id="step3Container" class="hidden space-y-4 transition-all duration-300">
+                <div class="bg-zinc-950 border border-cardBorder rounded-xl p-3 flex items-center justify-between">
+                    <div>
+                        <p class="text-[10px] uppercase font-bold tracking-widest text-zinc-500">Hodnocený prodejce</p>
+                        <h3 id="currentSelectedVendorName" class="text-base font-black text-white tracking-tight">Cakir's</h3>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-[10px] uppercase font-bold tracking-widest text-zinc-500">Porotce</p>
+                        <h4 id="currentActiveJurorName" class="text-xs font-bold text-festivalRed">Nezadáno</h4>
+                    </div>
+                </div>
+
+                <div class="text-center py-1">
+                    <h2 class="text-lg font-black text-white uppercase tracking-tight">UDĚLTE HVĚZDY</h2>
+                    <p class="text-xs text-zinc-400">Čím více hvězd, tím lepší výkon (1 = nejslabší, 5 = nejlepší)</p>
+                </div>
+
+                <div class="space-y-3 bg-cardBg border border-cardBorder rounded-2xl p-4 shadow-xl" id="criteriaContainer">
+                    <!-- Dynamic Rating Stars will go here -->
+                </div>
+            </div>
+
+            <!-- NAVIGATION BUTTONS FOR EVALUATION FORM -->
+            <div class="pt-4 flex items-center justify-between gap-3">
+                <button id="prevBtn" onclick="prevStep()" class="hidden w-1/3 bg-zinc-900 hover:bg-zinc-850 text-zinc-300 font-bold py-3.5 px-4 rounded-xl border border-zinc-800 transition-all text-xs uppercase tracking-wider">
+                    <i class="fa-solid fa-arrow-left mr-1"></i> Zpět
+                </button>
+                <button id="nextBtn" onclick="nextStep()" class="w-full bg-festivalRed hover:bg-festivalRed-hover text-white font-extrabold py-3.5 px-4 rounded-xl transition-all shadow-lg shadow-festivalRed-glow text-xs uppercase tracking-widest flex items-center justify-center gap-1">
+                    Pokračovat <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+
+        </section>
+
+        <!-- ================= TAB 2: RESULTS & LEADERBOARD ================= -->
+        <section id="tab-results" class="hidden space-y-4">
+            <div class="text-center py-2">
+                <h2 class="text-xl font-black text-white uppercase tracking-tight">ŽIVÝ ŽEBŘÍČEK</h2>
+                <p class="text-xs text-zinc-400">Celkové průběžné výsledky na základě všech odeslaných hodnocení</p>
+            </div>
+
+            <!-- Leaderboard cards -->
+            <div id="leaderboardList" class="space-y-3">
+                <!-- Dynamically generated leaderboard rows -->
+            </div>
+
+            <!-- Empty state results fallback -->
+            <div id="emptyResultsState" class="hidden text-center py-12 px-6 bg-cardBg border border-cardBorder rounded-2xl space-y-4">
+                <div class="w-16 h-16 bg-zinc-900 rounded-full flex items-center justify-center mx-auto border border-zinc-800">
+                    <i class="fa-solid fa-calculator text-zinc-600 text-xl"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white text-base">Zatím žádná data</h3>
+                    <p class="text-xs text-zinc-400 max-w-xs mx-auto mt-1">Odešlete první hodnocení v záložce "Hodnotit" nebo jděte do záložky "Správa" pro simulaci testovacích dat.</p>
+                </div>
+                <button onclick="switchTab('evaluation')" class="bg-festivalRed text-white text-xs font-bold px-4 py-2 rounded-lg">
+                    Zadat první hodnocení
+                </button>
+            </div>
+
+            <!-- Export data block -->
+            <div id="exportPanel" class="bg-cardBg border border-cardBorder rounded-2xl p-4 shadow-xl space-y-3 hidden">
+                <h3 class="text-xs font-extrabold uppercase text-white tracking-wider flex items-center gap-1.5">
+                    <i class="fa-solid fa-file-export text-festivalRed"></i> Export pro organizátora
+                </h3>
+                <p class="text-[11px] text-zinc-400 leading-relaxed">
+                    Můžete snadno vygenerovat kompletní textovou zprávu o dosavadním pořadí a výsledcích, kterou stačí zkopírovat a poslat na WhatsApp nebo e-mail hlavnímu pořadateli.
+                </p>
+                <div class="grid grid-cols-2 gap-2">
+                    <button onclick="copyTextReport()" class="bg-zinc-900 hover:bg-zinc-800 text-white font-bold py-2.5 px-3 rounded-xl border border-zinc-800 transition-all text-xs flex items-center justify-center gap-1.5">
+                        <i class="fa-regular fa-copy"></i> Kopírovat report
+                    </button>
+                    <button onclick="exportCSV()" class="bg-zinc-900 hover:bg-zinc-800 text-white font-bold py-2.5 px-3 rounded-xl border border-zinc-800 transition-all text-xs flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-file-csv"></i> Stáhnout CSV
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TAB 3: ADMIN & DATA MANAGEMENT ================= -->
+        <section id="tab-admin" class="hidden space-y-4">
+            <div class="text-center py-2">
+                <h2 class="text-xl font-black text-white uppercase tracking-tight font-black">NASTAVENÍ A DATA</h2>
+                <p class="text-xs text-zinc-400">Správa uložených hodnocení a testování aplikace</p>
+            </div>
+
+            <!-- Simulation helper widget -->
+            <div class="bg-cardBg border border-cardBorder rounded-2xl p-4 shadow-xl space-y-3">
+                <h3 class="text-xs font-extrabold uppercase text-white tracking-wider flex items-center gap-1.5">
+                    <i class="fa-solid fa-vial text-amber-500"></i> Generátor testovacích dat
+                </h3>
+                <p class="text-[11px] text-zinc-400 leading-relaxed">
+                    Chcete si okamžitě vyzkoušet, jak bude vypadat žebříček a výsledný report? Jedním tlačítkem nasimulujete náhodné hlasy od fiktivních porotců pro všechny soutěžící.
+                </p>
+                <button onclick="simulateRatings()" class="w-full bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 font-bold py-2.5 px-3 rounded-xl transition-all text-xs flex items-center justify-center gap-1.5">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Vygenerovat náhodné hlasy (nanečisto)
+                </button>
+            </div>
+
+            <!-- List of stored entries -->
+            <div class="bg-cardBg border border-cardBorder rounded-2xl p-4 shadow-xl space-y-3">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xs font-extrabold uppercase text-white tracking-wider flex items-center gap-1.5">
+                        <i class="fa-solid fa-database text-zinc-400"></i> Uložená hodnocení (<span id="totalVotesCount">0</span>)
+                    </h3>
+                    <button onclick="confirmReset()" id="resetBtn" class="text-[10px] text-red-500 hover:text-red-400 font-bold uppercase transition-all flex items-center gap-1">
+                        <i class="fa-regular fa-trash-can"></i> Smazat vše
+                    </button>
+                </div>
+
+                <!-- Custom confirm dialogue built directly into layout -->
+                <div id="confirmResetBox" class="hidden p-3 bg-red-950/40 border border-red-900/40 rounded-xl space-y-2">
+                    <p class="text-[11px] text-red-200">Určitě chcete kompletně vymazat celou databázi hodnocení? Tuto akci nelze vzít zpět.</p>
+                    <div class="flex gap-2">
+                        <button onclick="resetAllData()" class="bg-red-600 hover:bg-red-700 text-white font-bold px-3 py-1 text-[10px] rounded uppercase">Smazat</button>
+                        <button onclick="cancelReset()" class="bg-zinc-800 text-zinc-300 font-bold px-3 py-1 text-[10px] rounded uppercase">Storno</button>
+                    </div>
+                </div>
+
+                <div id="storedEntriesList" class="space-y-2 max-h-60 overflow-y-auto pr-1">
+                    <!-- Dynamic details of individual submissions -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TAB: LOCK SCREEN / PASSWORD ENTRY ================= -->
+        <section id="tab-lock" class="hidden space-y-4">
+            <div class="text-center py-6">
+                <div class="w-16 h-16 bg-festivalRed/10 border border-festivalRed/20 text-festivalRed rounded-full flex items-center justify-center mx-auto mb-3">
+                    <i class="fa-solid fa-lock text-2xl"></i>
+                </div>
+                <h2 class="text-xl font-black text-white uppercase tracking-tight">Zabezpečená sekce</h2>
+                <p class="text-xs text-zinc-400">Tato data jsou přístupná pouze organizátorům festivalu.</p>
+            </div>
+
+            <div class="bg-cardBg border border-cardBorder rounded-2xl p-6 shadow-xl max-w-xs mx-auto space-y-4">
+                <div class="space-y-1.5 text-center">
+                    <label class="block text-xs font-bold uppercase text-zinc-400 tracking-wider">Zadejte přístupový PIN</label>
+                    <div class="flex justify-center gap-2" id="pinDots">
+                        <span class="w-3.5 h-3.5 rounded-full bg-zinc-800 border border-zinc-700 transition-all"></span>
+                        <span class="w-3.5 h-3.5 rounded-full bg-zinc-800 border border-zinc-700 transition-all"></span>
+                        <span class="w-3.5 h-3.5 rounded-full bg-zinc-800 border border-zinc-700 transition-all"></span>
+                        <span class="w-3.5 h-3.5 rounded-full bg-zinc-800 border border-zinc-700 transition-all"></span>
+                    </div>
+                </div>
+
+                <!-- Custom Numeric PIN Pad -->
+                <div class="grid grid-cols-3 gap-2.5 pt-2">
+                    <button onclick="pressPin('1')" class="h-12 bg-zinc-900 hover:bg-zinc-800 text-white font-extrabold text-base rounded-xl transition-all">1</button>
+                    <button onclick="pressPin('2')" class="h-12 bg-zinc-900 hover:bg-zinc-800 text-white font-extrabold text-base rounded-xl transition-all">2</button>
+                    <button onclick="pressPin('3')" class="h-12 bg-zinc-900 hover:bg-zinc-800 text-white font-extrabold text-base rounded-xl transition-all">3</button>
+                    <button onclick="pressPin('4')" class="h-12 bg-zinc-900 hover:bg-zinc-800 text-white font-extrabold text-base rounded-xl transition-all">4</button>
+                    <button onclick="pressPin('5')" class="h-12 bg-zinc-900 hover:bg-zinc-800 text-white font-extrabold text-base rounded-xl transition-all">5</button>
+                    <button onclick="pressPin('6')" class="h-12 bg-zinc-900 hover:bg-zinc-800 text-white font-extrabold text-base rounded-xl transition-all">6</button>
+                    <button onclick="pressPin('7')" class="h-12 bg-zinc-900 hover:bg-zinc-800 text-white font-extrabold text-base rounded-xl transition-all">7</button>
+                    <button onclick="pressPin('8')" class="h-12 bg-zinc-900 hover:bg-zinc-800 text-white font-extrabold text-base rounded-xl transition-all">8</button>
+                    <button onclick="pressPin('9')" class="h-12 bg-zinc-900 hover:bg-zinc-800 text-white font-extrabold text-base rounded-xl transition-all">9</button>
+                    <button onclick="pressPin('clear')" class="h-12 bg-zinc-950 hover:bg-zinc-900 text-zinc-500 font-bold text-xs rounded-xl transition-all uppercase">Smazat</button>
+                    <button onclick="pressPin('0')" class="h-12 bg-zinc-900 hover:bg-zinc-800 text-white font-extrabold text-base rounded-xl transition-all">0</button>
+                    <button onclick="switchTab('evaluation')" class="h-12 bg-zinc-950 hover:bg-zinc-900 text-festivalRed font-bold text-xs rounded-xl transition-all uppercase">Zpět</button>
+                </div>
+                <p class="text-[10px] text-zinc-600 text-center italic">Tip pro testování: výchozí kód je 1234</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Custom Floating Feedback Alert Element -->
+    <div id="alertBox" class="fixed bottom-20 left-4 right-4 z-[99] hidden transform translate-y-2 opacity-0 transition-all duration-300">
+        <div id="alertContent" class="bg-zinc-900 border border-zinc-800 shadow-2xl rounded-xl p-3 flex items-center gap-2.5">
+            <span id="alertIcon" class="flex-shrink-0 w-6 h-6 rounded-full bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-xs">
+                <i class="fa-solid fa-check"></i>
+            </span>
+            <p id="alertMessage" class="text-xs font-semibold text-white"></p>
+        </div>
     </div>
 
+    <footer class="fixed bottom-0 left-0 right-0 bg-[#0b0b0cfa] border-t border-cardBorder p-2 text-center text-[10px] text-zinc-500 z-40">
+        <div class="max-w-md mx-auto">
+            © 2026 Malínský Burgerfestival. Vytvořeno pro porotce.
+        </div>
+    </footer>
+
+    <script>
+        // 5 Vendors exactly from image_e5da60.png
+        const VENDORS = [
+            { id: 'cakirs', name: "Cakir´s" },
+            { id: 'woodman', name: "U Dřeváka" },
+            { id: 'balikejk', name: "Balikejk" },
+            { id: 'smashin', name: "Smashin! Machine" },
+            { id: 'ezra', name: "Ezra & Friends" }
+        ];
+
+        // 5 masterchef evaluation criteria requested
+        const CRITERIA = [
+            { id: 'vzhled', title: "Vzhled & Prezentace", desc: "Aranžování, čistota, vizuální lákavost burgeru" },
+            { id: 'chut', title: "Chuť burgeru", desc: "Kvalita a šťavnatost masa, vyváženost základního dochucení" },
+            { id: 'suroviny', title: "Harmonie & Mix surovin", desc: "Vyváženost vrstev, textura, houska, doplňkové omáčky" },
+            { id: 'originalita', title: "Originalita & Jedinečnost", desc: "Netradiční omáčka, specifické suroviny, kreativní nápad" },
+            { id: 'celkovy', title: "Celkový dojem", desc: "Jak silný celkový dojem zanechal chuťový a zážitkový dojem" }
+        ];
+
+        // Application State
+        let state = {
+            currentStep: 1, // 1 to 3
+            selectedJurorName: "", // String (manual input)
+            selectedVendor: null, // Vendor ID
+            ratings: {}, // Temporary rating for current selected vendor: { criteriaId: 1..5 }
+            storedSubmissions: [], // Array of all submitted evaluations
+            isUnlocked: false, // Security lock state
+            currentPinInput: "", // Temporary input PIN buffer
+            targetTabAfterUnlock: "results" // Where to go once PIN is entered
+        };
+
+        const SECURE_PIN = "1234";
+
+        window.onload = function() {
+            // Check session storage if unlocked previously in this session
+            if (sessionStorage.getItem('mbf2026_unlocked') === 'true') {
+                state.isUnlocked = true;
+            }
+            loadLocalStorageData();
+            initJurorStep();
+            initVendorsUI();
+            initCriteriaUI();
+            updateStepView();
+            updateBadgeCount();
+        };
+
+        function loadLocalStorageData() {
+            try {
+                // Pre-fill previously used juror name to save typing work
+                const savedName = localStorage.getItem('mbf2026_current_juror_name');
+                if (savedName) {
+                    state.selectedJurorName = savedName;
+                }
+
+                // Submissions
+                const localSubs = localStorage.getItem('mbf2026_submissions');
+                if (localSubs) {
+                    state.storedSubmissions = JSON.parse(localSubs);
+                }
+            } catch (e) {
+                console.error("Chyba při načítání dat z LocalStorage", e);
+            }
+        }
+
+        function initJurorStep() {
+            const input = document.getElementById('jurorNameInput');
+            if (input) {
+                input.value = state.selectedJurorName;
+            }
+            renderRecentJurors();
+        }
+
+        function onJurorNameChange(val) {
+            state.selectedJurorName = val.trim();
+            updateStepView();
+        }
+
+        // Render previously active jurors so judges can easily tap their name back
+        function renderRecentJurors() {
+            const container = document.getElementById('recentJurorsContainer');
+            const list = document.getElementById('recentJurorsList');
+            if (!container || !list) return;
+
+            // Extract unique names from existing submissions
+            const uniqueNames = [...new Set(state.storedSubmissions.map(sub => sub.jurorName))].filter(Boolean);
+
+            if (uniqueNames.length > 0) {
+                container.classList.remove('hidden');
+                list.innerHTML = '';
+                uniqueNames.forEach(name => {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.onclick = () => selectRecentJuror(name);
+                    btn.className = "bg-zinc-900 hover:bg-zinc-800 text-zinc-300 font-semibold px-2.5 py-1.5 rounded-lg border border-zinc-800 text-[11px] transition-all flex items-center gap-1.5";
+                    btn.innerHTML = `<i class="fa-solid fa-clock-rotate-left text-zinc-500 text-[9px]"></i> ${name}`;
+                    list.appendChild(btn);
+                });
+            } else {
+                container.classList.add('hidden');
+            }
+        }
+
+        function selectRecentJuror(name) {
+            state.selectedJurorName = name;
+            const input = document.getElementById('jurorNameInput');
+            if (input) {
+                input.value = name;
+            }
+            updateStepView();
+            // Automatically proceed forward for speed
+            setTimeout(() => {
+                nextStep();
+            }, 250);
+        }
+
+        function initVendorsUI() {
+            const container = document.getElementById('vendorsContainer');
+            container.innerHTML = '';
+
+            VENDORS.forEach(vendor => {
+                const isSelected = state.selectedVendor === vendor.id;
+                
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.onclick = () => selectVendor(vendor.id);
+                btn.className = `w-full text-left p-4 rounded-2xl bg-cardBg border border-cardBorder transition-all duration-200 flex items-center justify-between hover:border-zinc-700 ${isSelected ? 'border-festivalRed ring-2 ring-festivalRed-glow' : ''}`;
+                
+                // Count of existing ratings from current juror for this vendor
+                const evaluatedByCurrent = state.storedSubmissions.filter(sub => sub.vendorId === vendor.id && sub.jurorName.toLowerCase() === state.selectedJurorName.toLowerCase()).length;
+                const evaluatedBadge = evaluatedByCurrent > 0 
+                    ? `<span class="text-[9px] bg-emerald-950 border border-emerald-900/50 text-emerald-400 px-2 py-0.5 rounded-full font-bold flex items-center gap-1"><i class="fa-solid fa-check text-emerald-400"></i> Vámi ohodnoceno</span>` 
+                    : '';
+
+                btn.innerHTML = `
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-base ${isSelected ? 'text-festivalRed bg-festivalRed/5' : 'text-zinc-400'}">
+                            <i class="fa-solid fa-hamburger"></i>
+                        </div>
+                        <div class="flex flex-col">
+                            <div class="flex items-center gap-2">
+                                <h4 class="font-extrabold text-sm text-white tracking-tight">${vendor.name}</h4>
+                                ${evaluatedBadge}
+                            </div>
+                            <span class="text-[11px] text-zinc-500 font-medium">Klikněte pro spuštění hodnocení</span>
+                        </div>
+                    </div>
+                    <span class="w-5 h-5 rounded-full border border-zinc-700 flex items-center justify-center flex-shrink-0 ${isSelected ? 'border-festivalRed bg-festivalRed' : ''}">
+                        ${isSelected ? '<span class="w-2 h-2 bg-white rounded-full"></span>' : ''}
+                    </span>
+                `;
+                container.appendChild(btn);
+            });
+        }
+
+        function initCriteriaUI() {
+            const container = document.getElementById('criteriaContainer');
+            container.innerHTML = '';
+
+            CRITERIA.forEach(crit => {
+                // Default value is 5 stars (generous baseline)
+                state.ratings[crit.id] = 5;
+
+                const wrapper = document.createElement('div');
+                wrapper.className = "py-3 border-b border-zinc-900 last:border-0";
+                
+                // Head and subhead
+                const textHeader = document.createElement('div');
+                textHeader.className = "flex justify-between items-baseline mb-1";
+                textHeader.innerHTML = `
+                    <span class="text-xs font-bold text-zinc-200 uppercase tracking-wide">${crit.title}</span>
+                    <span id="scoreText-${crit.id}" class="text-xs font-black text-festivalRed bg-festivalRed/10 px-2 py-0.5 rounded">Skvělý (5/5)</span>
+                `;
+                wrapper.appendChild(textHeader);
+
+                // Short description helptext
+                const desc = document.createElement('p');
+                desc.className = "text-[10px] text-zinc-500 mb-2 leading-relaxed";
+                desc.textContent = crit.desc;
+                wrapper.appendChild(desc);
+
+                // Stars container
+                const starsDiv = document.createElement('div');
+                starsDiv.className = "flex items-center justify-between py-1 bg-zinc-950 px-3 rounded-xl border border-cardBorder";
+                
+                const starsWrapper = document.createElement('div');
+                starsWrapper.className = "flex gap-2.5 py-1.5";
+                
+                for (let score = 1; score <= 5; score++) {
+                    const star = document.createElement('button');
+                    star.type = 'button';
+                    star.id = `star-${crit.id}-${score}`;
+                    star.onclick = () => setCriteriaScore(crit.id, score);
+                    star.className = "text-xl transition-all scale-100 active:scale-125 duration-100 hover:scale-110";
+                    star.innerHTML = `<i class="fa-solid fa-star text-amber-500"></i>`;
+                    starsWrapper.appendChild(star);
+                }
+                starsDiv.appendChild(starsWrapper);
+
+                const countBadge = document.createElement('span');
+                countBadge.id = `badge-${crit.id}`;
+                countBadge.className = "text-sm font-black text-white bg-zinc-900 border border-zinc-850 px-2.5 py-1 rounded-lg min-w-[32px] text-center";
+                countBadge.textContent = "5";
+                starsDiv.appendChild(countBadge);
+
+                wrapper.appendChild(starsDiv);
+                container.appendChild(wrapper);
+            });
+
+            updateStarsUI();
+        }
+
+        function setCriteriaScore(criteriaId, score) {
+            state.ratings[criteriaId] = score;
+            updateStarsUI();
+        }
+
+        // Update active stars UI colors
+        function updateStarsUI() {
+            const getVerdictText = (score) => {
+                switch(score) {
+                    case 1: return "Slabé (1/5)";
+                    case 2: return "Podprůměr (2/5)";
+                    case 3: return "Průměr (3/5)";
+                    case 4: return "Velmi dobré (4/5)";
+                    case 5: return "Skvělý (5/5)";
+                    default: return "";
+                }
+            };
+
+            CRITERIA.forEach(crit => {
+                const currentScore = state.ratings[crit.id];
+                
+                // Update Badge Value
+                const badge = document.getElementById(`badge-${crit.id}`);
+                if (badge) badge.textContent = currentScore;
+
+                // Update text verdict
+                const txt = document.getElementById(`scoreText-${crit.id}`);
+                if (txt) {
+                    txt.textContent = getVerdictText(currentScore);
+                    if (currentScore <= 2) {
+                        txt.className = "text-xs font-black text-red-400 bg-red-400/10 px-2 py-0.5 rounded";
+                    } else if (currentScore === 3) {
+                        txt.className = "text-xs font-black text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded";
+                    } else {
+                        txt.className = "text-xs font-black text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded";
+                    }
+                }
+
+                // Colorize stars accordingly
+                for (let s = 1; s <= 5; s++) {
+                    const starBtn = document.getElementById(`star-${crit.id}-${s}`);
+                    if (starBtn) {
+                        const icon = starBtn.querySelector('i');
+                        if (s <= currentScore) {
+                            icon.className = "fa-solid fa-star text-amber-500 drop-shadow-[0_0_4px_rgba(245,158,11,0.4)]";
+                        } else {
+                            icon.className = "fa-regular fa-star text-zinc-700";
+                        }
+                    }
+                }
+            });
+        }
+
+        function selectVendor(vendorId) {
+            state.selectedVendor = vendorId;
+            initVendorsUI();
+
+            const vendorName = VENDORS.find(v => v.id === vendorId).name;
+            document.getElementById('currentSelectedVendorName').textContent = vendorName;
+            document.getElementById('currentActiveJurorName').textContent = state.selectedJurorName || "Nezadáno";
+
+            setTimeout(() => {
+                nextStep();
+            }, 250);
+        }
+
+        function updateStepView() {
+            const stepTitle = document.getElementById('stepTitle');
+            const stepPercent = document.getElementById('stepPercent');
+            const stepProgressBar = document.getElementById('stepProgressBar');
+
+            const step1 = document.getElementById('step1Container');
+            const step2 = document.getElementById('step2Container');
+            const step3 = document.getElementById('step3Container');
+
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+
+            // Hide everything first
+            step1.classList.add('hidden');
+            step2.classList.add('hidden');
+            step3.classList.add('hidden');
+
+            if (state.currentStep === 1) {
+                step1.classList.remove('hidden');
+                stepTitle.textContent = "KROK 1 ZE 3: POROTCE";
+                stepPercent.textContent = "33% HOTOVO";
+                stepProgressBar.style.width = "33.3%";
+                
+                prevBtn.classList.add('hidden');
+                nextBtn.className = "w-full bg-zinc-900 hover:bg-zinc-850 text-zinc-400 font-bold py-3.5 px-4 rounded-xl border border-zinc-800 transition-all text-xs uppercase tracking-widest flex items-center justify-center gap-1.5 cursor-not-allowed";
+                nextBtn.innerHTML = `Zadejte své jméno <i class="fa-solid fa-arrow-right"></i>`;
+                nextBtn.disabled = true;
+                
+                if (state.selectedJurorName && state.selectedJurorName.trim().length > 0) {
+                    nextBtn.classList.remove('cursor-not-allowed');
+                    nextBtn.className = "w-full bg-festivalRed hover:bg-festivalRed-hover text-white font-extrabold py-3.5 px-4 rounded-xl transition-all shadow-lg shadow-festivalRed-glow text-xs uppercase tracking-widest flex items-center justify-center gap-1";
+                    nextBtn.disabled = false;
+                    nextBtn.innerHTML = `Pokračovat <i class="fa-solid fa-arrow-right"></i>`;
+                }
+
+            } else if (state.currentStep === 2) {
+                step2.classList.remove('hidden');
+                stepTitle.textContent = "KROK 2 ZE 3: VÝBĚR PRODEJCE";
+                stepPercent.textContent = "66% HOTOVO";
+                stepProgressBar.style.width = "66.6%";
+                
+                prevBtn.classList.remove('hidden');
+                nextBtn.className = "w-full bg-zinc-900 hover:bg-zinc-850 text-zinc-400 font-bold py-3.5 px-4 rounded-xl border border-zinc-800 transition-all text-xs uppercase tracking-widest flex items-center justify-center gap-1.5 cursor-not-allowed";
+                nextBtn.innerHTML = `Vyberte prodejce <i class="fa-solid fa-arrow-right"></i>`;
+                nextBtn.disabled = true;
+
+                if (state.selectedVendor !== null) {
+                    nextBtn.classList.remove('cursor-not-allowed');
+                    nextBtn.className = "w-full bg-festivalRed hover:bg-festivalRed-hover text-white font-extrabold py-3.5 px-4 rounded-xl transition-all shadow-lg shadow-festivalRed-glow text-xs uppercase tracking-widest flex items-center justify-center gap-1";
+                    nextBtn.disabled = false;
+                    nextBtn.innerHTML = `Přejít k hodnocení <i class="fa-solid fa-star text-[10px]"></i>`;
+                }
+
+            } else if (state.currentStep === 3) {
+                step3.classList.remove('hidden');
+                stepTitle.textContent = "KROK 3 ZE 3: HODNOCENÍ";
+                stepPercent.textContent = "TÉMĚŘ HOTOVO";
+                stepProgressBar.style.width = "100%";
+                
+                prevBtn.classList.remove('hidden');
+                nextBtn.className = "w-full bg-festivalRed hover:bg-festivalRed-hover text-white font-black py-3.5 px-4 rounded-xl transition-all shadow-lg shadow-festivalRed-glow text-xs uppercase tracking-widest flex items-center justify-center gap-1.5";
+                nextBtn.disabled = false;
+                nextBtn.innerHTML = `Odeslat hodnocení <i class="fa-regular fa-paper-plane"></i>`;
+            }
+        }
+
+        function nextStep() {
+            if (state.currentStep === 1 && state.selectedJurorName.trim().length > 0) {
+                state.currentStep = 2;
+                updateStepView();
+            } else if (state.currentStep === 2 && state.selectedVendor !== null) {
+                state.currentStep = 3;
+                updateStepView();
+            } else if (state.currentStep === 3) {
+                submitCurrentEvaluation();
+            }
+        }
+
+        function prevStep() {
+            if (state.currentStep > 1) {
+                state.currentStep--;
+                updateStepView();
+            }
+        }
+
+        function submitCurrentEvaluation() {
+            if (!state.selectedJurorName || state.selectedJurorName.trim().length === 0 || state.selectedVendor === null) {
+                showToast("Nastala chyba. Chybí jméno porotce nebo zvolený prodejce.", "error");
+                return;
+            }
+            
+            // Build rating entry model
+            const submission = {
+                id: 'sub_' + Date.now(),
+                timestamp: new Date().toISOString(),
+                jurorIndex: 0,
+                jurorName: state.selectedJurorName,
+                vendorId: state.selectedVendor,
+                vendorName: VENDORS.find(v => v.id === state.selectedVendor).name,
+                scores: { ...state.ratings },
+                notes: "" // Removed notes written commentary as requested
+            };
+
+            // Calculate total sum score (max 25 points)
+            let total = 0;
+            CRITERIA.forEach(c => {
+                total += submission.scores[c.id];
+            });
+            submission.totalScore = total;
+
+            // Save in memory
+            state.storedSubmissions.push(submission);
+            
+            // Persist
+            localStorage.setItem('mbf2026_submissions', JSON.stringify(state.storedSubmissions));
+            localStorage.setItem('mbf2026_current_juror_name', state.selectedJurorName);
+
+            // Feedback alert popup
+            showToast(`Hodnocení pro ${submission.vendorName} úspěšně uloženo!`, "success");
+
+            // Reset step parameters for next entry
+            state.selectedVendor = null;
+            
+            // Go back to select vendor step for speedy work on next booth!
+            state.currentStep = 2;
+            
+            // Refresh views
+            initVendorsUI();
+            renderRecentJurors();
+            updateStepView();
+            updateBadgeCount();
+            calculateAndRenderResults();
+            renderStoredSubmissions();
+        }
+
+        function pressPin(char) {
+            if (char === 'clear') {
+                state.currentPinInput = "";
+            } else {
+                if (state.currentPinInput.length < 4) {
+                    state.currentPinInput += char;
+                }
+            }
+
+            updatePinDots();
+
+            // Auto-check PIN when 4 digits are entered
+            if (state.currentPinInput.length === 4) {
+                setTimeout(() => {
+                    if (state.currentPinInput === SECURE_PIN) {
+                        state.isUnlocked = true;
+                        sessionStorage.setItem('mbf2026_unlocked', 'true');
+                        showToast("Přístup povolen", "success");
+                        state.currentPinInput = "";
+                        updatePinDots();
+                        switchTab(state.targetTabAfterUnlock);
+                    } else {
+                        showToast("Nesprávný PIN kód", "error");
+                        state.currentPinInput = "";
+                        updatePinDots();
+                    }
+                }, 150);
+            }
+        }
+
+        function updatePinDots() {
+            const dots = document.getElementById('pinDots').querySelectorAll('span');
+            dots.forEach((dot, index) => {
+                if (index < state.currentPinInput.length) {
+                    dot.className = "w-3.5 h-3.5 rounded-full bg-festivalRed border border-festivalRed shadow-[0_0_8px_rgba(223,31,38,0.6)] scale-110 transition-all";
+                } else {
+                    dot.className = "w-3.5 h-3.5 rounded-full bg-zinc-800 border border-zinc-700 transition-all";
+                }
+            });
+        }
+
+        function calculateAndRenderResults() {
+            const list = document.getElementById('leaderboardList');
+            const emptyState = document.getElementById('emptyResultsState');
+            const exportPanel = document.getElementById('exportPanel');
+            
+            if (state.storedSubmissions.length === 0) {
+                list.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                exportPanel.classList.add('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            exportPanel.classList.remove('hidden');
+
+            // Calculate aggregated score for each of the 5 vendors
+            const results = VENDORS.map(vendor => {
+                const vendorRatings = state.storedSubmissions.filter(sub => sub.vendorId === vendor.id);
+                const totalEvaluationsCount = vendorRatings.length;
+                
+                let sumScores = {
+                    vzhled: 0,
+                    chut: 0,
+                    suroviny: 0,
+                    originalita: 0,
+                    celkovy: 0
+                };
+                let absoluteTotalSum = 0;
+
+                vendorRatings.forEach(r => {
+                    CRITERIA.forEach(c => {
+                        sumScores[c.id] += r.scores[c.id] || 0;
+                        absoluteTotalSum += r.scores[c.id] || 0;
+                    });
+                });
+
+                // Calculate averages
+                let averages = {};
+                CRITERIA.forEach(c => {
+                    averages[c.id] = totalEvaluationsCount > 0 ? (sumScores[c.id] / totalEvaluationsCount).toFixed(1) : "0.0";
+                });
+
+                // Average score of the burger overall (scale 1-5)
+                const totalAverage = totalEvaluationsCount > 0 
+                    ? (absoluteTotalSum / (totalEvaluationsCount * CRITERIA.length)).toFixed(2) 
+                    : "0.00";
+
+                return {
+                    id: vendor.id,
+                    name: vendor.name,
+                    voteCount: totalEvaluationsCount,
+                    totalScore: absoluteTotalSum,
+                    averageScore: parseFloat(totalAverage),
+                    criteriaAverages: averages
+                };
+            });
+
+            // Sort results desc
+            results.sort((a, b) => b.averageScore - a.averageScore || b.totalScore - a.totalScore);
+
+            // Render leaderboard list with progress charts
+            list.innerHTML = '';
+            results.forEach((res, rank) => {
+                const row = document.createElement('div');
+                row.className = "bg-cardBg border border-cardBorder rounded-2xl p-4 shadow-xl space-y-3 relative overflow-hidden";
+                
+                // Color configuration depending on rank
+                let medalBg = "bg-zinc-800 text-zinc-300";
+                let badgeBorder = "border-zinc-700";
+                if (rank === 0) {
+                    medalBg = "bg-amber-500 text-black";
+                    badgeBorder = "border-amber-400 shadow-[0_0_8px_rgba(245,158,11,0.2)]";
+                } else if (rank === 1) {
+                    medalBg = "bg-zinc-300 text-black";
+                    badgeBorder = "border-zinc-200";
+                } else if (rank === 2) {
+                    medalBg = "bg-amber-700 text-white";
+                    badgeBorder = "border-amber-800";
+                }
+
+                const percentage = (res.averageScore / 5) * 100;
+
+                row.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-xl font-black text-sm flex items-center justify-center ${medalBg}">
+                                ${rank + 1}.
+                            </div>
+                            <div>
+                                <h3 class="font-extrabold text-sm text-white tracking-tight">${res.name}</h3>
+                                <p class="text-[10px] text-zinc-400 font-semibold">${res.voteCount}x hodnoceno (suma: ${res.totalScore}b)</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-xs text-zinc-500 font-bold uppercase block tracking-wider">Průměr</span>
+                            <span class="text-base font-black text-festivalRed">${res.averageScore.toFixed(2)} <span class="text-[11px] text-zinc-400">/ 5★</span></span>
+                        </div>
+                    </div>
+
+                    <!-- Visual Progress Bar -->
+                    <div class="w-full bg-zinc-950 rounded-full h-2 overflow-hidden border border-zinc-900">
+                        <div class="bg-festivalRed h-2 rounded-full transition-all duration-300" style="width: ${percentage}%"></div>
+                    </div>
+
+                    <!-- Detail Collapse -->
+                    <details class="group">
+                        <summary class="list-none flex items-center justify-center gap-1 text-[10px] text-zinc-400 hover:text-white font-bold cursor-pointer py-1 uppercase select-none tracking-wider">
+                            <span>Podrobná kritéria</span>
+                            <i class="fa-solid fa-chevron-down transition-transform group-open:rotate-185 text-[8px]"></i>
+                        </summary>
+                        <div class="pt-2 grid grid-cols-2 gap-x-4 gap-y-2 text-xs border-t border-zinc-900/60 mt-1">
+                            ${CRITERIA.map(c => `
+                                <div class="flex justify-between items-center py-0.5">
+                                    <span class="text-zinc-500 text-[10px]">${c.title}:</span>
+                                    <span class="font-bold text-zinc-200 text-[11px]">${res.criteriaAverages[c.id]} ★</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </details>
+                `;
+                list.appendChild(row);
+            });
+        }
+
+        function renderStoredSubmissions() {
+            const list = document.getElementById('storedEntriesList');
+            const totalCount = document.getElementById('totalVotesCount');
+            
+            totalCount.textContent = state.storedSubmissions.length;
+            list.innerHTML = '';
+
+            if (state.storedSubmissions.length === 0) {
+                list.innerHTML = `<p class="text-center py-6 text-xs text-zinc-500 italic">Zatím nebyly zadány žádné záznamy.</p>`;
+                return;
+            }
+
+            // Show newest submissions at top
+            const sorted = [...state.storedSubmissions].reverse();
+
+            sorted.forEach((sub, idx) => {
+                const item = document.createElement('div');
+                item.className = "bg-zinc-900 border border-cardBorder rounded-xl p-3 flex justify-between items-center transition-all hover:bg-zinc-900/80";
+                
+                const formattedTime = new Date(sub.timestamp).toLocaleTimeString('cs-CZ', { hour: '2-digit', minute: '2-digit' });
+
+                item.innerHTML = `
+                    <div class="space-y-0.5">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-black text-white">${sub.vendorName}</span>
+                            <span class="text-[9px] bg-zinc-800 text-zinc-400 px-1.5 py-0.2 rounded font-semibold">${sub.jurorName}</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-[10px] text-zinc-500">
+                            <span>Čas: ${formattedTime}</span>
+                            <span>•</span>
+                            <span class="text-festivalRed font-bold">Celkem: ${sub.totalScore}b / 25b</span>
+                        </div>
+                    </div>
+                    <button onclick="deleteSubmission('${sub.id}')" class="text-zinc-600 hover:text-red-500 p-2 transition-colors">
+                        <i class="fa-regular fa-trash-can text-sm"></i>
+                    </button>
+                `;
+                list.appendChild(item);
+            });
+        }
+
+        function deleteSubmission(id) {
+            state.storedSubmissions = state.storedSubmissions.filter(sub => sub.id !== id);
+            localStorage.setItem('mbf2026_submissions', JSON.stringify(state.storedSubmissions));
+            
+            showToast("Záznam byl vymazán", "success");
+            
+            initVendorsUI();
+            renderRecentJurors();
+            updateBadgeCount();
+            calculateAndRenderResults();
+            renderStoredSubmissions();
+        }
+
+        function confirmReset() {
+            document.getElementById('confirmResetBox').classList.remove('hidden');
+        }
+
+        function cancelReset() {
+            document.getElementById('confirmResetBox').classList.add('hidden');
+        }
+
+        function resetAllData() {
+            state.storedSubmissions = [];
+            localStorage.setItem('mbf2026_submissions', JSON.stringify(state.storedSubmissions));
+            localStorage.removeItem('mbf2026_current_juror_name');
+            state.selectedJurorName = "";
+            
+            const input = document.getElementById('jurorNameInput');
+            if (input) input.value = "";
+
+            cancelReset();
+            showToast("Veškerá data byla smazána.", "success");
+            
+            initVendorsUI();
+            renderRecentJurors();
+            updateBadgeCount();
+            calculateAndRenderResults();
+            renderStoredSubmissions();
+            updateStepView();
+        }
+
+        function simulateRatings() {
+            const fakeJurors = ["Zdeněk P.", "Jan P.", "Lucie K.", "Martin M."];
+            const fakeRatings = [];
+            
+            // Loop through mock jurors
+            for (let j = 0; j < fakeJurors.length; j++) {
+                VENDORS.forEach(v => {
+                    const scores = {};
+                    let total = 0;
+                    CRITERIA.forEach(c => {
+                        const randomScore = Math.floor(Math.random() * 3) + 3; // 3, 4, or 5 stars
+                        scores[c.id] = randomScore;
+                        total += randomScore;
+                    });
+
+                    fakeRatings.push({
+                        id: 'sim_' + Math.random().toString(36).substr(2, 9),
+                        timestamp: new Date(Date.now() - Math.random() * 3600000).toISOString(),
+                        jurorIndex: j,
+                        jurorName: fakeJurors[j],
+                        vendorId: v.id,
+                        vendorName: v.name,
+                        scores: scores,
+                        totalScore: total,
+                        notes: ""
+                    });
+                });
+            }
+
+            state.storedSubmissions = fakeRatings;
+            localStorage.setItem('mbf2026_submissions', JSON.stringify(state.storedSubmissions));
+            
+            showToast("Testovací data úspěšně nahrána!", "success");
+
+            initVendorsUI();
+            renderRecentJurors();
+            updateBadgeCount();
+            calculateAndRenderResults();
+            renderStoredSubmissions();
+            switchTab('results');
+        }
+
+        function switchTab(tabId) {
+            // Guard check for locked tabs
+            if ((tabId === 'results' || tabId === 'admin') && !state.isUnlocked) {
+                state.targetTabAfterUnlock = tabId;
+                state.currentPinInput = "";
+                updatePinDots();
+                
+                // Switch visually to the Pin Pad view instead of target
+                showTabSection('tab-lock');
+                highlightTabButton('tab-lock'); // Highlight nothing or locked
+                return;
+            }
+
+            showTabSection('tab-' + tabId);
+            highlightTabButton('tabBtn-' + tabId);
+
+            if (tabId === 'evaluation') {
+                updateStepView();
+            } else if (tabId === 'results') {
+                calculateAndRenderResults();
+            } else if (tabId === 'admin') {
+                renderStoredSubmissions();
+            }
+        }
+
+        function showTabSection(activeSectionId) {
+            const sections = ['tab-evaluation', 'tab-results', 'tab-admin', 'tab-lock'];
+            sections.forEach(sId => {
+                const el = document.getElementById(sId);
+                if (el) {
+                    if (sId === activeSectionId) {
+                        el.classList.remove('hidden');
+                    } else {
+                        el.classList.add('hidden');
+                    }
+                }
+            });
+        }
+
+        function highlightTabButton(activeBtnId) {
+            const buttons = [
+                { id: 'tabBtn-evaluation', label: '<i class="fa-solid fa-star"></i> Hodnotit' },
+                { id: 'tabBtn-results', label: `<i class="fa-solid ${state.isUnlocked ? 'fa-trophy' : 'fa-lock text-[10px]'}"></i> Výsledky` },
+                { id: 'tabBtn-admin', label: `<i class="fa-solid ${state.isUnlocked ? 'fa-sliders' : 'fa-lock text-[10px]'}"></i> Správa` }
+            ];
+
+            buttons.forEach(btnObj => {
+                const btn = document.getElementById(btnObj.id);
+                if (!btn) return;
+
+                if (btnObj.id === activeBtnId) {
+                    btn.className = "bg-festivalRed text-white text-xs py-2.5 font-bold rounded-lg transition-all flex items-center justify-center gap-1.5 shadow-[0_4px_12px_rgba(223,31,38,0.2)]";
+                } else {
+                    btn.className = "text-xs py-2.5 font-bold rounded-lg text-zinc-400 hover:text-zinc-200 transition-all flex items-center justify-center gap-1.5";
+                }
+                btn.innerHTML = btnObj.label;
+            });
+        }
+
+        function updateBadgeCount() {
+            const badge = document.getElementById('badgeCount');
+            const count = state.storedSubmissions.length;
+            if (count > 0) {
+                badge.textContent = count;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
+
+        function copyTextReport() {
+            if (state.storedSubmissions.length === 0) return;
+
+            const results = VENDORS.map(vendor => {
+                const vendorRatings = state.storedSubmissions.filter(sub => sub.vendorId === vendor.id);
+                const totalCount = vendorRatings.length;
+                let sum = 0;
+                
+                vendorRatings.forEach(r => {
+                    CRITERIA.forEach(c => { sum += r.scores[c.id] || 0; });
+                });
+
+                const average = totalCount > 0 ? (sum / (totalCount * CRITERIA.length)).toFixed(2) : "0.00";
+                return { name: vendor.name, votes: totalCount, avg: parseFloat(average), total: sum };
+            });
+
+            // Sort
+            results.sort((a, b) => b.avg - a.avg || b.total - a.total);
+
+            // Compose output string
+            let text = `🍔 VÝSLEDKY - MALÍNSKÝ BURGERFESTIVAL 2026 🍔\n`;
+            text += `----------------------------------------------\n`;
+            results.forEach((res, index) => {
+                text += `${index + 1}. ${res.name} — průměr: ${res.avg.toFixed(2)} ★ (hlasovalo: ${res.votes}x, celkem: ${res.total} bodů)\n`;
+            });
+            text += `----------------------------------------------\n`;
+            text += `Celkem odeslaných hodnocení od poroty: ${state.storedSubmissions.length}\n`;
+            text += `Vygenerováno automaticky z porotcovské aplikace.`;
+
+            // Textarea copy fallback
+            const tempTextArea = document.createElement("textarea");
+            tempTextArea.value = text;
+            tempTextArea.style.position = "fixed";
+            document.body.appendChild(tempTextArea);
+            tempTextArea.focus();
+            tempTextArea.select();
+
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    showToast("Report byl zkopírován do schránky!", "success");
+                } else {
+                    showToast("Zkopírování se nezdařilo.", "error");
+                }
+            } catch (err) {
+                showToast("Zkopírování selhalo.", "error");
+            }
+
+            document.body.removeChild(tempTextArea);
+        }
+
+        function exportCSV() {
+            if (state.storedSubmissions.length === 0) return;
+
+            let csvContent = "data:text/csv;charset=utf-8,";
+            csvContent += "ID;Cas;Porotce;Soutezici;Vzhled;Chut;Suroviny;Originalita;Celkovy;Suma\n";
+
+            state.storedSubmissions.forEach(sub => {
+                const row = [
+                    sub.id,
+                    sub.timestamp,
+                    sub.jurorName,
+                    sub.vendorName,
+                    sub.scores.vzhled,
+                    sub.scores.chut,
+                    sub.scores.suroviny,
+                    sub.scores.originalita,
+                    sub.scores.celkovy,
+                    sub.totalScore
+                ];
+                csvContent += row.join(";") + "\n";
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `malinsky_burgerfestival_vysledky_2026.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Custom snackbar toast notification helper
+        function showToast(message, type = "success") {
+            const box = document.getElementById('alertBox');
+            const content = document.getElementById('alertContent');
+            const icon = document.getElementById('alertIcon');
+            const msg = document.getElementById('alertMessage');
+
+            msg.textContent = message;
+
+            if (type === "success") {
+                icon.className = "flex-shrink-0 w-6 h-6 rounded-full bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-xs";
+                icon.innerHTML = `<i class="fa-solid fa-check"></i>`;
+                content.className = "bg-zinc-900 border border-emerald-500/30 shadow-2xl rounded-xl p-3 flex items-center gap-2.5";
+            } else {
+                icon.className = "flex-shrink-0 w-6 h-6 rounded-full bg-red-500/10 text-red-400 flex items-center justify-center text-xs";
+                icon.innerHTML = `<i class="fa-solid fa-exclamation"></i>`;
+                content.className = "bg-zinc-900 border border-red-500/30 shadow-2xl rounded-xl p-3 flex items-center gap-2.5";
+            }
+
+            box.classList.remove('hidden');
+            setTimeout(() => {
+                box.classList.remove('translate-y-2', 'opacity-0');
+            }, 10);
+
+            setTimeout(() => {
+                box.classList.add('translate-y-2', 'opacity-0');
+                setTimeout(() => {
+                    box.classList.add('hidden');
+                }, 300);
+            }, 3500);
+        }
+    </script>
 </body>
 </html>
