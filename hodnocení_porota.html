@@ -225,7 +225,7 @@
                 </div>
                 <div>
                     <h3 class="font-bold text-white text-base">Zatím žádná data</h3>
-                    <p class="text-xs text-zinc-400 max-w-xs mx-auto mt-1">Odešlete první hodnocení v záložce "Hodnotit" nebo jděte do záložky "Správa" pro simulaci testovacích dat.</p>
+                    <p class="text-xs text-zinc-400 max-w-xs mx-auto mt-1">Odešlete první hodnocení v záložce "Hodnotit" nebo jdete do záložky "Správa" pro simulaci testovacích dat.</p>
                 </div>
                 <button onclick="switchTab('evaluation')" class="bg-festivalRed text-white text-xs font-bold px-4 py-2 rounded-lg">
                     Zadat první hodnocení
@@ -241,7 +241,7 @@
                     Můžete snadno vygenerovat kompletní textovou zprávu o dosavadním pořadí a výsledcích, kterou stačí zkopírovat a poslat na WhatsApp nebo e-mail hlavnímu pořadateli.
                 </p>
                 <div class="grid grid-cols-2 gap-2">
-                    <button onclick="copyTextReport()" class="bg-zinc-900 hover:bg-zinc-800 text-white font-bold py-2.5 px-3 rounded-xl border border-zinc-800 transition-all text-xs flex items-center justify-center gap-1.5">
+                    <button onclick="copyTextReport()" class="bg-zinc-900 hover:bg-zinc-850 text-white font-bold py-2.5 px-3 rounded-xl border border-zinc-800 transition-all text-xs flex items-center justify-center gap-1.5">
                         <i class="fa-regular fa-copy"></i> Kopírovat report
                     </button>
                     <button onclick="exportCSV()" class="bg-zinc-900 hover:bg-zinc-800 text-white font-bold py-2.5 px-3 rounded-xl border border-zinc-800 transition-all text-xs flex items-center justify-center gap-1.5">
@@ -251,11 +251,22 @@
             </div>
         </section>
 
-        <!-- ================= TAB 3: SPRÁVA & SIMULACE DAT (POD PINEM) ================= -->
+        <!-- ================= TAB 3: SPRÁVA & DIAGNOSTIKA (POD PINEM) ================= -->
         <section id="tab-admin" class="hidden space-y-4">
             <div class="text-center py-2">
                 <h2 class="text-xl font-black text-white uppercase tracking-tight font-black">NASTAVENÍ A DATA</h2>
-                <p class="text-xs text-zinc-400">Správa uložených hodnocení a testování aplikace</p>
+                <p class="text-xs text-zinc-400">Správa uložených hodnocení a diagnostika cloudu</p>
+            </div>
+
+            <!-- LIVE SÍŤOVÁ DIAGNOSTIKA -->
+            <div class="bg-cardBg border border-cardBorder rounded-2xl p-4 shadow-xl space-y-2">
+                <h3 class="text-xs font-extrabold uppercase text-white tracking-wider flex items-center gap-1.5">
+                    <i class="fa-solid fa-terminal text-emerald-400"></i> Síťový diagnostický log (Live)
+                </h3>
+                <p class="text-[10px] text-zinc-400">Zde hned uvidíš, zda se tento mobil či PC úspěšně propojily s cloudem.</p>
+                <div id="debugLog" class="bg-zinc-950 p-3 rounded-xl border border-zinc-900 text-[10px] font-mono text-zinc-400 h-28 overflow-y-auto space-y-1">
+                    <!-- Logy se zapisují přes JS -->
+                </div>
             </div>
 
             <!-- Pomocník pro simulaci (super pro odzkoušení nanečisto před akcí) -->
@@ -264,7 +275,7 @@
                     <i class="fa-solid fa-vial text-amber-500"></i> Generátor testovacích dat
                 </h3>
                 <p class="text-[11px] text-zinc-400 leading-relaxed">
-                    Chcete si okamžitě vyzkoušet, jak bude vypadat žebříček a výsledný report? Jedním tlačítkem nasimulujete náhodné hlasy od fiktivních porotců pro všechny soutěžící.
+                    Jedním tlačítkem nasimulujete náhodné hlasy od fiktivních porotců pro všechny soutěžící do cloudu pro rychlý test.
                 </p>
                 <button onclick="simulateRatings()" class="w-full bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 font-bold py-2.5 px-3 rounded-xl transition-all text-xs flex items-center justify-center gap-1.5">
                     <i class="fa-solid fa-wand-magic-sparkles"></i> Vygenerovat náhodné hlasy (nanečisto)
@@ -338,7 +349,7 @@
         </section>
     </main>
 
-    <!-- TOAST NOTIFIKACE (Nenápadné stylové hlášky ve spodní části) -->
+    <!-- TOAST NOTIFIKACE -->
     <div id="alertBox" class="fixed bottom-20 left-4 right-4 z-[99] hidden transform translate-y-2 opacity-0 transition-all duration-300">
         <div id="alertContent" class="bg-zinc-900 border border-zinc-800 shadow-2xl rounded-xl p-3 flex items-center gap-2.5">
             <span id="alertIcon" class="flex-shrink-0 w-6 h-6 rounded-full bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-xs">
@@ -358,7 +369,6 @@
     <script>
         // ====================================================================
         //  NASTAVENÍ ONLINE CLOUDU (BEZ REGISTRACE, BEZ KARET, ZDARMA!)
-        //  Používáme bezpečný veřejný bucket kvdb.io s unikátní podskupinou klíčů.
         // ====================================================================
         const CLOUD_URL = "https://kvdb.io/Fd55uogXyxYdnXJvnyN8Xo/malinsky_festival_2026_database_secure_a78f23b";
 
@@ -371,7 +381,7 @@
             { id: 'ezra', name: "Ezra & Friends" }
         ];
 
-        // 5 Masterchef kritérií (přesně podle zadání)
+        // 5 Masterchef kritérií
         const CRITERIA = [
             { id: 'vzhled', title: "Vzhled & Prezentace", desc: "Aranžování, čistota, vizuální lákavost burgeru" },
             { id: 'chut', title: "Chuť burgeru", desc: "Kvalita a šťavnatost masa, vyváženost základního dochucení" },
@@ -382,21 +392,20 @@
 
         // Lokální stav aplikace
         let state = {
-            currentStep: 1, // Krok 1 (Jméno) -> Krok 2 (Výběr stánku) -> Krok 3 (Hvězdičky)
+            currentStep: 1, 
             selectedJurorName: "", 
             selectedVendor: null, 
-            ratings: {}, // Aktuálně naklikané skóre
-            storedSubmissions: [], // Všechny hlasy stažené z cloudu
-            isUnlocked: false, // Je odemčený admin/výsledky PINem?
-            currentPinInput: "", // Dočasný zápis PINu
-            targetTabAfterUnlock: "results" // Kam chce uživatel po odemčení skočit
+            ratings: {}, 
+            storedSubmissions: [], 
+            isUnlocked: false, 
+            currentPinInput: "", 
+            targetTabAfterUnlock: "results" 
         };
 
         const SECURE_PIN = "1234";
 
         // Spuštění při načtení
         window.addEventListener('load', async () => {
-            // Kontrola jestli už byl PIN zadán dříve během této session
             if (sessionStorage.getItem('mbf2026_unlocked') === 'true') {
                 state.isUnlocked = true;
                 removeLockIcons();
@@ -409,14 +418,29 @@
             updateStepView();
             updateBadgeCount();
 
+            // Prvotní logy
+            addLog("Aplikace spuštěna. Inicializace rozhraní.");
+
             // Prvotní načtení dat z Cloudu
             await pullDataFromCloud();
             
-            // Okamžité nastavení automatického obnovování každých 5 sekund (živé výsledky!)
+            // Automatické stahování každých 5 sekund (živé výsledky!)
             setInterval(async () => {
-                await pullDataFromCloud(true); // Tichý refresh bez vyskakujících spinnerů
+                await pullDataFromCloud(true); 
             }, 5000);
         });
+
+        // Pomocná funkce pro zápis do diagnostického terminálu
+        function addLog(message) {
+            const logContainer = document.getElementById('debugLog');
+            if (!logContainer) return;
+            const time = new Date().toLocaleTimeString('cs-CZ');
+            const logEntry = document.createElement('div');
+            logEntry.innerHTML = `<span class="text-zinc-650">[${time}]</span> ${message}`;
+            logContainer.appendChild(logEntry);
+            // Automatický scroll dolů
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
 
         // Pomocná metoda pro načtení všech hodnocení z on-line databáze s automatickým offline fallbackem
         async function pullDataFromCloud(isSilent = false) {
@@ -428,14 +452,15 @@
                 txt.textContent = "Stahování...";
             }
 
+            if (!isSilent) addLog("Pokus o stažení dat z cloudu...");
+
             try {
-                // Přidáváme časový otisk k URL (?_nocache=...), což donutí PC prohlížeče 
-                // ignorovat mezipaměť a stáhnout vždy nejaktuálnější stav databáze!
+                // Přidáváme časový otisk k URL (?_nocache=...), což donutí PC i mobil stáhnout vždy nejaktuálnější data ze serveru
                 const response = await fetch(`${CLOUD_URL}?_nocache=${Date.now()}`);
                 if (response.status === 404) {
-                    // Databáze je zatím prázdná, což je v pořádku při prvním spuštění
                     state.storedSubmissions = [];
                     updateSyncStatus(true);
+                    if (!isSilent) addLog("Cloud úspěšně kontaktován. Databáze je zatím prázdná.");
                 } else if (response.ok) {
                     const rawData = await response.text();
                     state.storedSubmissions = JSON.parse(rawData) || [];
@@ -443,11 +468,13 @@
                     // Bezpečně uložíme nejnovější data do lokálního cache úložiště telefonu
                     localStorage.setItem('mbf2026_submissions', JSON.stringify(state.storedSubmissions));
                     updateSyncStatus(true);
+                    if (!isSilent) addLog(`Data úspěšně stažena z cloudu. Načteno ${state.storedSubmissions.length} hodnocení.`);
                 } else {
-                    throw new Error("Nepodařilo se úspěšně načíst data z cloudu");
+                    throw new Error(`Server vrátil stav ${response.status}`);
                 }
             } catch (err) {
-                console.error("Chyba při komunikaci s cloudem, přepínám na místní paměť:", err);
+                if (!isSilent) addLog(`Chyba stahování: ${err.message}. Načítám záložní data z telefonu.`);
+                console.error("Chyba při komunikaci s cloudem:", err);
                 updateSyncStatus(false);
                 
                 // FALLBACK: Při výpadku sítě ihned vytáhneme lokálně uložená data z cache telefonu
@@ -467,15 +494,27 @@
 
         // Pomocná metoda pro odeslání všech dat zpět do on-line databáze
         async function pushDataToCloud(newSubmissionsList) {
+            addLog("Ukládám aktualizovaný seznam do cloudu...");
             try {
-                // Nepoužíváme custom hlavičky (Content-Type: application/json),
-                // abychom zabránili CORS preflight OPTIONS blokaci na PC prohlížečích!
+                // Nepoužíváme custom hlavičky (Content-Type: application/json), ani metodu PUT.
+                // Posíláme metodu POST s obyčejným textem, abychom 100% obešli CORS OPTIONS preflight na PC!
                 const response = await fetch(CLOUD_URL, {
-                    method: 'PUT',
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'text/plain'
+                    },
                     body: JSON.stringify(newSubmissionsList)
                 });
-                return response.ok;
+                
+                if (response.ok) {
+                    addLog("Cloud potvrdil úspěšné uložení dat.");
+                    return true;
+                } else {
+                    addLog(`Chyba uložení: Server vrátil status ${response.status}`);
+                    return false;
+                }
             } catch (err) {
+                addLog(`Chyba uložení: ${err.message}`);
                 console.error("Chyba při nahrávání dat do cloudu:", err);
                 return false;
             }
@@ -526,7 +565,6 @@
             const list = document.getElementById('recentJurorsList');
             if (!container || !list) return;
 
-            // Získáme unikátní jména porotců z cloudu
             const uniqueNames = [...new Set(state.storedSubmissions.map(sub => sub.jurorName))].filter(Boolean);
 
             if (uniqueNames.length > 0) {
@@ -552,7 +590,6 @@
                 input.value = name;
             }
             updateStepView();
-            // Automatický posun dál
             setTimeout(() => {
                 nextStep();
             }, 250);
@@ -572,7 +609,6 @@
                 btn.onclick = () => selectVendor(vendor.id);
                 btn.className = `w-full text-left p-4 rounded-2xl bg-cardBg border border-cardBorder transition-all duration-200 flex items-center justify-between hover:border-zinc-750 ${isSelected ? 'border-festivalRed ring-2 ring-festivalRed-glow' : ''}`;
                 
-                // Zkontrolujeme, jestli už aktuálně zapsaný porotce prodejce hodnotil
                 const evaluatedByCurrent = state.storedSubmissions.filter(sub => sub.vendorId === vendor.id && sub.jurorName.toLowerCase() === state.selectedJurorName.toLowerCase()).length;
                 const evaluatedBadge = evaluatedByCurrent > 0 
                     ? `<span class="text-[9px] bg-emerald-950 border border-emerald-900/50 text-emerald-400 px-2 py-0.5 rounded-full font-bold flex items-center gap-1"><i class="fa-solid fa-check text-emerald-400"></i> Vámi ohodnoceno</span>` 
@@ -606,7 +642,6 @@
             container.innerHTML = '';
 
             CRITERIA.forEach(crit => {
-                // Výchozí hodnota je 5 hvězd
                 state.ratings[crit.id] = 5;
 
                 const wrapper = document.createElement('div');
@@ -712,7 +747,6 @@
             document.getElementById('currentSelectedVendorName').textContent = vendorName;
             document.getElementById('currentActiveJurorName').textContent = state.selectedJurorName || "Nezadáno";
 
-            // Automatický skok na krok 3 (hodnocení)
             setTimeout(() => {
                 nextStep();
             }, 250);
@@ -761,7 +795,7 @@
                 stepProgressBar.style.width = "66.6%";
                 
                 prevBtn.classList.remove('hidden');
-                nextBtn.className = "w-full bg-zinc-900 hover:bg-zinc-800 text-zinc-400 font-bold py-3.5 px-4 rounded-xl border border-zinc-800 transition-all text-xs uppercase tracking-widest flex items-center justify-center gap-1.5 cursor-not-allowed";
+                nextBtn.className = "w-full bg-zinc-900 hover:bg-zinc-850 text-zinc-400 font-bold py-3.5 px-4 rounded-xl border border-zinc-800 transition-all text-xs uppercase tracking-widest flex items-center justify-center gap-1.5 cursor-not-allowed";
                 nextBtn.innerHTML = `Vyberte prodejce <i class="fa-solid fa-arrow-right"></i>`;
                 nextBtn.disabled = true;
 
@@ -820,7 +854,6 @@
                 scores: { ...state.ratings }
             };
 
-            // Součet bodů za všechna kritéria (max 25 bodů)
             let total = 0;
             CRITERIA.forEach(c => {
                 total += submission.scores[c.id];
@@ -842,7 +875,7 @@
                         currentSubmissions = JSON.parse(raw) || [];
                     }
                 } catch (e) {
-                    console.log("První zápis nebo chyba stažení cloudu, vytvářím novou databázi.");
+                    addLog("Vytvářím novou databázi v cloudu.");
                 }
 
                 currentSubmissions.push(submission);
@@ -850,23 +883,20 @@
                 const pushSuccess = await pushDataToCloud(currentSubmissions);
                 if (pushSuccess) {
                     state.storedSubmissions = currentSubmissions;
-                    
-                    // Bezpečně uložíme i do lokální zálohy
                     localStorage.setItem('mbf2026_submissions', JSON.stringify(state.storedSubmissions));
                     showToast(`Hodnocení pro ${submission.vendorName} úspěšně uloženo!`, "success");
                 } else {
-                    // Fallback do lokální paměti při poruše sítě
+                    // Fallback do lokální paměti
                     state.storedSubmissions.push(submission);
                     localStorage.setItem('mbf2026_submissions', JSON.stringify(state.storedSubmissions));
-                    showToast("Uloženo pouze lokálně v mobilu (výpadek internetu)", "success");
+                    showToast("Uloženo pouze lokálně v telefonu (vynucený offline režim)", "success");
                 }
 
-                // Uložení jména pro rychlou příští volbu
                 localStorage.setItem('mbf2026_current_juror_name', state.selectedJurorName);
 
                 // Reset formuláře pro dalšího soutěžícího
                 state.selectedVendor = null;
-                state.currentStep = 2; // Vrátíme se na krok 2 (výběr prodejce)
+                state.currentStep = 2; 
                 
                 initVendorsUI();
                 renderRecentJurors();
@@ -930,7 +960,7 @@
             });
         }
 
-        // PROPOČET MATEMATIKY A ŽEBŘÍČKU
+        // PROPOČET ŽEBŘÍČKU
         function calculateAndRenderResults() {
             const list = document.getElementById('leaderboardList');
             const emptyState = document.getElementById('emptyResultsState');
@@ -987,7 +1017,6 @@
                 };
             });
 
-            // Řazení: primárně dle nejvyššího průměrného skóre, sekundárně dle celkového počtu bodů
             results.sort((a, b) => b.averageScore - a.averageScore || b.totalScore - a.totalScore);
 
             list.innerHTML = '';
@@ -996,16 +1025,12 @@
                 row.className = "bg-cardBg border border-cardBorder rounded-2xl p-4 shadow-xl space-y-3 relative overflow-hidden";
                 
                 let medalBg = "bg-zinc-800 text-zinc-300";
-                let badgeBorder = "border-zinc-700";
                 if (rank === 0) {
                     medalBg = "bg-amber-500 text-black";
-                    badgeBorder = "border-amber-400 shadow-[0_0_8px_rgba(245,158,11,0.2)]";
                 } else if (rank === 1) {
                     medalBg = "bg-zinc-300 text-black";
-                    badgeBorder = "border-zinc-200";
                 } else if (rank === 2) {
                     medalBg = "bg-amber-700 text-white";
-                    badgeBorder = "border-amber-800";
                 }
 
                 const percentage = (res.averageScore / 5) * 100;
@@ -1027,12 +1052,10 @@
                         </div>
                     </div>
 
-                    <!-- Progress bar procentuálního hodnocení -->
                     <div class="w-full bg-zinc-950 rounded-full h-2 overflow-hidden border border-zinc-900">
                         <div class="bg-festivalRed h-2 rounded-full transition-all duration-300" style="width: ${percentage}%"></div>
                     </div>
 
-                    <!-- Rozklikávací detaily jednotlivých kritérií pro Masterchefa -->
                     <details class="group">
                         <summary class="list-none flex items-center justify-center gap-1 text-[10px] text-zinc-400 hover:text-white font-bold cursor-pointer py-1 uppercase select-none tracking-wider">
                             <span>Podrobná kritéria</span>
@@ -1066,7 +1089,6 @@
                 return;
             }
 
-            // Seřadit od nejnovějšího
             const sorted = [...state.storedSubmissions].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
             sorted.forEach((sub) => {
@@ -1095,7 +1117,6 @@
             });
         }
 
-        // Smazání jednoho záznamu z cloudu
         async function deleteSubmission(id) {
             if (confirm("Opravdu chcete smazat tento konkrétní hlas porotce?")) {
                 const originalList = [...state.storedSubmissions];
@@ -1119,7 +1140,6 @@
             }
         }
 
-        // RESET DATABÁZE
         function confirmReset() {
             const el = document.getElementById('confirmResetBox');
             if (el) el.classList.remove('hidden');
@@ -1155,7 +1175,6 @@
             updateStepView();
         }
 
-        // GENERÁTOR NÁHODNÝCH DAT PRO PŘEDVEDENÍ
         async function simulateRatings() {
             const fakeJurors = ["Porotce Pavel", "Porotce Milan", "Porotce Katka", "Porotce Honza"];
             const fakeRatings = [];
@@ -1165,7 +1184,6 @@
                     const scores = {};
                     let total = 0;
                     CRITERIA.forEach(c => {
-                        // Generujeme realistické skóre 3 až 5 hvězd
                         const randomScore = Math.floor(Math.random() * 3) + 3; 
                         scores[c.id] = randomScore;
                         total += randomScore;
@@ -1201,7 +1219,6 @@
             switchTab('results');
         }
 
-        // PŘEPÍNÁNÍ TABŮ A PIN OCHRANA
         function switchTab(tabId) {
             if ((tabId === 'results' || tabId === 'admin') && !state.isUnlocked) {
                 state.targetTabAfterUnlock = tabId;
@@ -1271,7 +1288,6 @@
             }
         }
 
-        // EXPORTY PRO HLAVNÍHO ORGANIZÁTORA (WHATSAPP / CSV)
         function copyTextReport() {
             if (state.storedSubmissions.length === 0) return;
 
@@ -1299,7 +1315,6 @@
             text += `Celkem odeslaných hodnocení od poroty: ${state.storedSubmissions.length}\n`;
             text += `Vygenerováno automaticky z porotcovské aplikace.`;
 
-            // Použití moderní a bezpečné metody kopírování pro iFrame sandbox
             const tempTextArea = document.createElement("textarea");
             tempTextArea.value = text;
             tempTextArea.style.position = "fixed";
@@ -1325,7 +1340,6 @@
             if (state.storedSubmissions.length === 0) return;
 
             let csvContent = "data:text/csv;charset=utf-8,";
-            // Oprava: sloupce a diakritika hlavičky zarovnané se zbytkem struktury
             csvContent += "ID;Cas;Porotce;Soutezici;Vzhled;Chut;Suroviny;Originalita;Celkovy;Suma\n";
 
             state.storedSubmissions.forEach(sub => {
@@ -1353,7 +1367,6 @@
             document.body.removeChild(link);
         }
 
-        // Registrace window metod pro onclick handlery
         window.switchTab = switchTab;
         window.nextStep = nextStep;
         window.prevStep = prevStep;
@@ -1399,7 +1412,6 @@
                 box.classList.remove('translate-y-2', 'opacity-0');
             }, 10);
 
-            // Skrytí za 3.5 sekundy
             setTimeout(() => {
                 box.classList.add('translate-y-2', 'opacity-0');
                 setTimeout(() => {
