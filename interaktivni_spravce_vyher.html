@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sdružený Seznam Výher - Tombola</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            html, body {
+                height: auto !important;
+                min-height: 0 !important;
+                overflow: visible !important;
+                background-color: white !important;
+                color: black !important;
+                font-size: 11px;
+            }
+            div, table, tbody, tr, td {
+                overflow: visible !important;
+                height: auto !important;
+            }
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            .print-card {
+                border: 1px solid #e2e8f0 !important;
+                box-shadow: none !important;
+                background-color: #f8fafc !important;
+                page-break-inside: avoid;
+            }
+            table {
+                page-break-inside: auto;
+                width: 100% !important;
+            }
+            tr {
+                page-break-inside: avoid;
+                page-break-after: auto;
+            }
+            thead {
+                display: table-header-group;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen">
+
+    <div class="max-w-6xl mx-auto px-4 py-8">
+        
+        <header class="mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-200 pb-6">
+            <div>
+                <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Sdružený seznam výher</h1>
+                <p class="text-slate-500 mt-1">Přehledný, zkrácený seznam se sloučenými duplicitními cenami pro snadný tisk.</p>
+            </div>
+            <div class="flex gap-3 no-print w-full md:w-auto">
+                <button onclick="exportToCSV()" class="flex-1 md:flex-initial flex items-center justify-center gap-2 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 px-4 py-2.5 rounded-lg text-sm font-semibold transition shadow-sm">
+                    <i data-lucide="download" class="w-4 h-4"></i>
+                    Export (CSV)
+                </button>
+                <button onclick="window.print()" class="flex-1 md:flex-initial flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2.5 rounded-lg text-sm font-semibold transition shadow-sm">
+                    <i data-lucide="printer" class="w-4 h-4"></i>
+                    Vytisknout (PDF)
+                </button>
+            </div>
+        </header>
+
+        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm print-card">
+                <p class="text-sm font-medium text-slate-500 uppercase tracking-wider">Celkový počet kusů</p>
+                <p class="text-3xl font-bold text-indigo-600 mt-2">170 ks</p>
+            </div>
+            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm print-card">
+                <p class="text-sm font-medium text-slate-500 uppercase tracking-wider">Řádků k tisku</p>
+                <p class="text-3xl font-bold text-slate-900 mt-2" id="stat-rows">65</p>
+            </div>
+            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm print-card">
+                <p class="text-sm font-medium text-slate-500 uppercase tracking-wider">Unikátní dárci</p>
+                <p class="text-3xl font-bold text-slate-900 mt-2" id="stat-donors">48</p>
+            </div>
+            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm print-card">
+                <p class="text-sm font-medium text-slate-500 uppercase tracking-wider">Úspora papíru</p>
+                <p class="text-lg font-bold text-emerald-600 mt-2">Více než 60 %</p>
+                <p class="text-xs text-slate-400 mt-0.5">Sloučeno ze 170 na 65 řádků</p>
+            </div>
+        </section>
+
+        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm mb-6 no-print flex flex-col sm:flex-row gap-4">
+            <div class="relative flex-1">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                    <i data-lucide="search" class="w-5 h-5"></i>
+                </div>
+                <input type="text" id="searchInput" oninput="filterPrizes()" placeholder="Vyhledat dárce nebo název výhry..." class="w-full pl-10 pr-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm">
+            </div>
+            <div class="w-full sm:w-64">
+                <select id="donorFilter" onchange="filterPrizes()" class="w-full px-3 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm bg-white">
+                    <option value="">Všichni dárci</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden print-card">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-50 border-b border-slate-200 text-xs font-bold uppercase tracking-wider text-slate-500">
+                            <th class="py-4 px-6 w-16 text-center">Počet</th>
+                            <th class="py-4 px-6">Dárce (Kdo věnoval)</th>
+                            <th class="py-4 px-6">Výhra (Cena)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="prizesTableBody" class="divide-y divide-slate-100 text-sm">
+                        <!-- Generováno skriptem -->
+                    </tbody>
+                </table>
+            </div>
+            <div id="noResults" class="hidden p-8 text-center text-slate-500">
+                <i data-lucide="info" class="w-8 h-8 mx-auto mb-2 text-slate-400"></i>
+                Nebyly nalezeny žádné výhry odpovídající vyhledávání.
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const prizes = [
+            { donor: "2K Republic", prize: "Tankovací karta 1500,-", count: 1 },
+            { donor: "AMC Kašpar s.r.o.", prize: "Zapůjčení vozu Kia K4 na den", count: 1 },
+            { donor: "Autodílna Zajíc", prize: "Poukaz 1000,-", count: 3 },
+            { donor: "BAR&BAR", prize: "Poukaz 500,-", count: 2 },
+            { donor: "Bertold", prize: "Poukaz na šperk", count: 2 },
+            { donor: "Bistro JJ", prize: "Poukaz v hodnotě 500,-", count: 3 },
+            { donor: "Bistro na golfu", prize: "Poukaz 300,-", count: 4 },
+            { donor: "Bistro na golfu Rapotín", prize: "Poukaz v hodnotě 300,-", count: 1 },
+            { donor: "Blue Star", prize: "Poukaz 200,-", count: 3 },
+            { donor: "Coconut Djs", prize: "Slivovice", count: 2 },
+            { donor: "DEK Trade", prize: "Nářadí", count: 1 },
+            { donor: "Dobroty z hor", prize: "Překvapení z hor", count: 3 },
+            { donor: "FURTFRESH SALON", prize: "Freshcut", count: 4 },
+            { donor: "Grekos greek gril", prize: "Poukaz 400,-", count: 1 },
+            { donor: "GRUNO s.r.o.", prize: "Tablet", count: 1 },
+            { donor: "GRUNO s.r.o.", prize: "Dárková taška", count: 3 },
+            { donor: "Hasiči Svébohov", prize: "Dárkový koš", count: 1 },
+            { donor: "Hotel Koruna", prize: "Poukaz 500,-", count: 1 },
+            { donor: "Hudebniny Nový Malín", prize: "Akustická kytara v hodnotě 4000,-", count: 1 },
+            { donor: "Jakub Huf", prize: "Captain Morgan", count: 1 },
+            { donor: "Jakub Huf", prize: "Diplomatico", count: 1 },
+            { donor: "Jakub Huf", prize: "Legendario", count: 1 },
+            { donor: "Jakub Huf", prize: "Pink Gin", count: 1 },
+            { donor: "Jindřich Axmann", prize: "Jízda v závodní buggy", count: 1 },
+            { donor: "Kadeřnictví Martina Vohralíková", prize: "Dárková taška", count: 1 },
+            { donor: "Krako Welding", prize: "Dárková taška", count: 1 },
+            { donor: "Krako Welding", prize: "Poukaz 500,-", count: 2 },
+            { donor: "Křup", prize: "Poukaz 500,-", count: 1 },
+            { donor: "Křup", prize: "Poukaz 350,-", count: 2 },
+            { donor: "Level Game Zone", prize: "Dvě hodiny hraní", count: 4 },
+            { donor: "Macte", prize: "Mikina Milwaukee", count: 1 },
+            { donor: "Malínský Burger Festival", prize: "Beer Pass", count: 5 },
+            { donor: "Malínský Burger Festival", prize: "Burger pass", count: 1 },
+            { donor: "Malínský Burger Festival", prize: "Drink pass", count: 9 },
+            { donor: "Malínský Burger Festival", prize: "Jízda pro dva na koni", count: 1 },
+            { donor: "Malínský Burger Festival", prize: "Webové stránky za 10 000,-", count: 1 },
+            { donor: "Malínský Burger Festival", prize: "Zážitková střelba", count: 1 },
+            { donor: "Marek Mach", prize: "Poukaz na focení v hodnotě 1500,-", count: 3 },
+            { donor: "MUDr. Lendelová", prize: "Zubní Kartáček", count: 35 },
+            { donor: "Můj Sendvič", prize: "Poukaz na 4 toasty", count: 3 },
+            { donor: "Obec Nový Malín", prize: "Dárková taška", count: 2 },
+            { donor: "Obec Nový Malín", prize: "Poukaz na štípané dříví v hodnotě 1500,-", count: 1 },
+            { donor: "Palírna Hraběšice", prize: "Destilát", count: 3 },
+            { donor: "Palírna Hraběšice", prize: "Mošt 5l", count: 4 },
+            { donor: "Parní Myčka Detailing Šumperk", prize: "Čistič kol a rzi", count: 3 },
+            { donor: "Pavel Mikulík - Voda Topení Plyn", prize: "Láhev vína", count: 2 },
+            { donor: "Pavel Mikulík - Voda Topení Plyn", prize: "Sekt", count: 1 },
+            { donor: "RebEli", prize: "Poukaz 1000,-", count: 1 },
+            { donor: "RebEli", prize: "Poukaz na kecky 500,-", count: 1 },
+            { donor: "RebEli", prize: "Poukaz na kecky v hodnotě 1500,-", count: 1 },
+            { donor: "Resort Sobotín", prize: "Poukaz na privátní spa", count: 1 },
+            { donor: "Restaurace Na Krásném", prize: "Poukaz 1000,-", count: 1 },
+            { donor: "Richards burger", prize: "Poukaz 1000,-", count: 1 },
+            { donor: "Richards burger", prize: "Poukaz 500,-", count: 1 },
+            { donor: "Statek Winter", prize: "Poukaz 500,-", count: 3 },
+            { donor: "Stolařství Rosa", prize: "2x Vstup do Energylandia", count: 1 },
+            { donor: "Šumperská Špajzka", prize: "Poukaz v hodnotě 200,-", count: 1 },
+            { donor: "Therme Losiny", prize: "Vstup na 4 hod.", count: 9 },
+            { donor: "Upfood", prize: "Týdenní stravování", count: 1 },
+            { donor: "Vagus", prize: "Poukaz na 432,-", count: 5 },
+            { donor: "Velkolosinské pralinky", prize: "Čokoláda", count: 7 },
+            { donor: "Via Delicia", prize: "Exkurze s ochutnávkou", count: 3 },
+            { donor: "Vodník Promat s.r.o.", prize: "Hadice na sprchu", count: 1 },
+            { donor: "Vosíme", prize: "Poukaz 500,-", count: 2 },
+            { donor: "Zubní Ordinace", prize: "Zubní Kartáček", count: 1 }
+        ];
+
+        // Abecední seřazení
+        prizes.sort((a, b) => a.donor.localeCompare(b.donor, 'cs'));
+
+        // Naplnění výběru dárců a tabulky
+        window.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            
+            // Unikátní seznam dárců
+            const uniqueDonors = [...new Set(prizes.map(p => p.donor))].sort((a, b) => a.localeCompare(b, 'cs'));
+            const filterSelect = document.getElementById('donorFilter');
+            
+            uniqueDonors.forEach(donor => {
+                const option = document.createElement('option');
+                option.value = donor;
+                option.textContent = donor;
+                filterSelect.appendChild(option);
+            });
+
+            document.getElementById('stat-donors').textContent = uniqueDonors.length;
+            document.getElementById('stat-rows').textContent = prizes.length;
+
+            renderTable(prizes);
+        });
+
+        // Vykreslení dat do tabulky
+        function renderTable(data) {
+            const tbody = document.getElementById('prizesTableBody');
+            const noResults = document.getElementById('noResults');
+            tbody.innerHTML = '';
+
+            if (data.length === 0) {
+                noResults.classList.remove('hidden');
+            } else {
+                noResults.classList.add('hidden');
+                data.forEach((item) => {
+                    const row = document.createElement('tr');
+                    row.className = "hover:bg-slate-50 transition border-b border-slate-100";
+                    row.innerHTML = `
+                        <td class="py-3 px-6 text-center text-slate-900 font-extrabold bg-slate-100/50 w-16">${item.count}x</td>
+                        <td class="py-3 px-6 font-bold text-slate-900">${item.donor}</td>
+                        <td class="py-3 px-6 text-slate-600">${item.prize}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            }
+        }
+
+        // Filtrování tabulky
+        function filterPrizes() {
+            const searchVal = document.getElementById('searchInput').value.toLowerCase().trim();
+            const donorVal = document.getElementById('donorFilter').value;
+
+            const filtered = prizes.filter(item => {
+                const matchesSearch = item.donor.toLowerCase().includes(searchVal) || item.prize.toLowerCase().includes(searchVal);
+                const matchesDonor = donorVal === "" || item.donor === donorVal;
+                return matchesSearch && matchesDonor;
+            });
+
+            renderTable(filtered);
+        }
+
+        // CSV Export se sloučeným množstvím
+        function exportToCSV() {
+            let csvContent = "data:text/csv;charset=utf-8,\uFEFF"; 
+            csvContent += "Množství;Dárce;Výhra\n";
+
+            prizes.forEach((item) => {
+                csvContent += `${item.count};"${item.donor.replace(/"/g, '""')}";"${item.prize.replace(/"/g, '""')}"\n`;
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "slouceny_seznam_vyher.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html>
